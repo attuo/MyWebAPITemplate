@@ -5,5 +5,14 @@
     <RootNamespace>AspNetCoreWebApiTemplate</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Mappings\ToDto\" />
+    <Folder Include="Models\RequestModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
+  </ItemGroup>
+
 
 </Project>
