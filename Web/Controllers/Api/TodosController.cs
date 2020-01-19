@@ -20,6 +20,10 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
         }
 
         // GET: api/Todos
+        /// <summary>
+        /// Get Todos
+        /// </summary>
+        /// <returns>Todos</returns>
         [HttpGet]
         public IEnumerable<TodoResponseModel> Get()
         {
