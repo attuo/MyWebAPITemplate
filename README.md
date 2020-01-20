@@ -12,3 +12,8 @@ The architectural preferences, library selections and other choices are made bas
 
 * [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 * [Microsoft eShopOnWeb reference application](https://github.com/dotnet-architecture/eShopOnWeb)
+
+
+## Contributing
+
+Suggestions and help are welcomed.
