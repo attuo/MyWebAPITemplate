@@ -1,12 +1,15 @@
 ﻿using ApplicationCore.Interfaces;
 using ApplicationCore.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
-namespace AspNetCoreWebApiTemplate.Extensions
+namespace Web.Extensions
 {
     public static class ServiceCollectionExtensions
     {
@@ -38,5 +41,32 @@ namespace AspNetCoreWebApiTemplate.Extensions
         }
 
         #endregion
+
+        #region Configure Swagger
+
+        public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
+        {
+            // Read more https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.1&tabs=visual-studio
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Template API",
+                    Description = "This is a template for dotnet.",
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+            });
+            return services;
+        }
+
+        #endregion
+
+
     }
 }
