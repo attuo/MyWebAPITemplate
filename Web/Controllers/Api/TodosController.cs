@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.InternalServices;
 using AspNetCoreWebApiTemplate.Mappings.ToModel;
 using AspNetCoreWebApiTemplate.Models.ResponseModels;
 using Microsoft.AspNetCore.Mvc;

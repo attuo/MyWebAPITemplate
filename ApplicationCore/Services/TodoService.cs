@@ -1,5 +1,5 @@
 ﻿using ApplicationCore.Dtos;
-using ApplicationCore.Interfaces;
+using ApplicationCore.Interfaces.InternalServices;
 using System;
 using System.Collections.Generic;
 using System.Text;
