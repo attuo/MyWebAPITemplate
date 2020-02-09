@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Database
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext //, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -13,6 +13,7 @@ namespace Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
             builder.Entity<TodoEntity>(ConfigureTodoEntity);
         }
 
