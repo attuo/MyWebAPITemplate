@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Controllers.Api
+namespace AspNetCoreWebApiTemplate.Web.Controllers.Api
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    [Produces("application/json")] // Sets endpoints to produce json on default 
-    [ApiConventionType(typeof(DefaultApiConventions))] // Sets default conventions for every controller endpoint
-    public class BaseApiController : Controller
+    public class BaseApiController : ControllerBase
     { }
 }

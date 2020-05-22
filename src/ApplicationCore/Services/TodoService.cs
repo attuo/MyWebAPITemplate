@@ -1,10 +1,8 @@
-﻿using ApplicationCore.Dtos;
-using ApplicationCore.Interfaces.InternalServices;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using AspNetCoreWebApiTemplate.ApplicationCore.Dtos;
+using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces;
 
-namespace ApplicationCore.Services
+namespace AspNetCoreWebApiTemplate.ApplicationCore.Services
 {
     public class TodoService : ITodoService
     {
@@ -16,9 +14,9 @@ namespace ApplicationCore.Services
 
         public IEnumerable<TodoDto> GetTodos()
         {
-            var todos = new List<TodoDto> 
-            { 
-                new TodoDto { Id = 1, Text = "Todo text", IsDone = false } 
+            var todos = new List<TodoDto>
+            {
+                new TodoDto { Id = 1, Text = "Todo text", IsDone = false }
             };
             return todos;
         }

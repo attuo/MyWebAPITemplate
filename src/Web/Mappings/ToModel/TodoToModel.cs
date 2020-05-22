@@ -1,9 +1,7 @@
-﻿using ApplicationCore.Dtos;
-using AspNetCoreWebApiTemplate.Models.ResponseModels;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using AspNetCoreWebApiTemplate.ApplicationCore.Dtos;
+using AspNetCoreWebApiTemplate.Models.ResponseModels;
 
 namespace AspNetCoreWebApiTemplate.Mappings.ToModel
 {

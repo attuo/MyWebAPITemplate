@@ -1,8 +1,8 @@
-﻿using ApplicationCore.Entities;
+﻿using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Database
+namespace AspNetCoreWebApiTemplate.Infrastructure.Database
 {
     public class ApplicationDbContext : DbContext //, IApplicationDbContext
     {

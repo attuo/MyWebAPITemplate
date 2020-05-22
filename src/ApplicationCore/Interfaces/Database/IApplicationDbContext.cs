@@ -3,7 +3,7 @@
 //using System.Collections.Generic;
 //using System.Text;
 
-//namespace ApplicationCore.Interfaces.Database
+//namespace AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Database
 //{
 //    public class IApplicationDbContext : IDbContext
 //    {

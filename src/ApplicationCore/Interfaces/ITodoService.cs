@@ -1,9 +1,7 @@
-﻿using ApplicationCore.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using AspNetCoreWebApiTemplate.ApplicationCore.Dtos;
 
-namespace ApplicationCore.Interfaces
+namespace AspNetCoreWebApiTemplate.ApplicationCore.Interfaces
 {
     public interface ITodoService
     {

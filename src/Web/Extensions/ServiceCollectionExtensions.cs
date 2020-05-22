@@ -1,15 +1,12 @@
-﻿using ApplicationCore.Interfaces.InternalServices;
-using ApplicationCore.Services;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces;
+using AspNetCoreWebApiTemplate.ApplicationCore.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 
-namespace Web.Extensions
+namespace AspNetCoreWebApiTemplate.Web.Extensions
 {
     public static class ServiceCollectionExtensions
     {

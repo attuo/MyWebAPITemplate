@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ApplicationCore.Interfaces.InternalServices;
+﻿using System.Collections.Generic;
+using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces;
 using AspNetCoreWebApiTemplate.Mappings.ToModel;
 using AspNetCoreWebApiTemplate.Models.ResponseModels;
+using AspNetCoreWebApiTemplate.Web.Controllers.Api;
 using Microsoft.AspNetCore.Mvc;
-using Web.Controllers.Api;
+
 
 namespace AspNetCoreWebApiTemplate.Controllers.Api
 {

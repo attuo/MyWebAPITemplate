@@ -5,7 +5,7 @@
 //using System.Threading;
 //using System.Threading.Tasks;
 
-//namespace ApplicationCore.Interfaces.Database
+//namespace AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Database
 //{
 //    /// <summary>
 //    /// Subset interface for Microsoft.EntityFrameworkCore.DbContext. If missing members are required, copy from there..

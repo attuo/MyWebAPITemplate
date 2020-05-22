@@ -1,19 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+using AspNetCoreWebApiTemplate.Extensions;
+using AspNetCoreWebApiTemplate.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using AspNetCoreWebApiTemplate.Extensions;
 
-using Web.Extensions;
-
-namespace Web
+namespace AspNetCoreWebApiTemplate.Web
 {
     public class Startup
     {

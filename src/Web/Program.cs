@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Infrastructure.Database;
+using AspNetCoreWebApiTemplate.Infrastructure.Database;
+using AspNetCoreWebApiTemplate.Web;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Web;
 
 namespace AspNetCoreWebApiTemplate
 {
@@ -30,7 +26,7 @@ namespace AspNetCoreWebApiTemplate
 
             try
             {
-                
+
             }
             catch (Exception ex)
             {
