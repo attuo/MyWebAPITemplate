@@ -20,8 +20,8 @@ namespace AspNetCoreWebApiTemplate.Infrastructure.Database
             {
                 var todo = new TodoEntity()
                 {
-                    TodoText = "TestTodo",
-                    Done = false
+                    Description = "Description for seeded todo",
+                    IsDone = false
                 };
 
                 await context.Todos.AddAsync(todo);

@@ -16,7 +16,7 @@ namespace AspNetCoreWebApiTemplate.ApplicationCore.Services
         {
             var todos = new List<TodoDto>
             {
-                new TodoDto { Id = 1, Text = "Todo text", IsDone = false }
+                new TodoDto { Id = 1, Description = "Todo text", IsDone = false }
             };
             return todos;
         }

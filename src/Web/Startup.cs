@@ -22,6 +22,7 @@ namespace AspNetCoreWebApiTemplate.Web
             services
                 .ConfigureSwagger()
                 .AddApplicationServices()
+                .AddApplicationConverters()
                 .AddControllers();
         }
 

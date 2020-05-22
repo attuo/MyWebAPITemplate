@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using AspNetCoreWebApiTemplate.ApplicationCore.Dtos;
 using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces;
-using AspNetCoreWebApiTemplate.Mappings.ToModel;
 using AspNetCoreWebApiTemplate.Models.ResponseModels;
 using AspNetCoreWebApiTemplate.Web.Controllers.Api;
+using AspNetCoreWebApiTemplate.Web.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -11,10 +13,12 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
     public class TodosController : BaseApiController
     {
         private readonly ITodoService _todoService;
+        private readonly ITodoModelDtoConverter _converter;
 
-        public TodosController(ITodoService todoService)
+        public TodosController(ITodoService todoService, ITodoModelDtoConverter converter)
         {
             _todoService = todoService;
+            _converter = converter;
         }
 
         // GET: api/Todos
@@ -23,14 +27,17 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
         /// </summary>
         /// <returns>Todos</returns>
         [HttpGet]
-        public IEnumerable<TodoResponseModel> Get()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<TodoResponseModel>> Get()
         {
-            return _todoService.GetTodos().ToResponseModels();
+            IEnumerable<TodoDto> todoDtos = _todoService.GetTodos();
+            IEnumerable<TodoResponseModel> todoModels = _converter.Convert(todoDtos);
+            return Ok(todoModels);
         }
 
         // GET api/Todos/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string Get([FromRoute]int id)
         {
             return "value";
         }
@@ -43,13 +50,13 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
 
         // PUT api/Todos/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put([FromRoute]int id, [FromBody]string value)
         {
         }
 
         // DELETE api/Todos/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete([FromRoute]int id)
         {
         }
     }
