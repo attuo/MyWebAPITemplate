@@ -36,7 +36,7 @@ namespace AspNetCoreWebApiTemplate.Infrastructure.Database
         /// <returns></returns>
         public static async Task SeedAsync(ApplicationDbContext context)
         {
-            await Task.CompletedTask;
+            await SeedDevelopAsync(context);
         }
     }
 }

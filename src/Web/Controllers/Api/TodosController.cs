@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AspNetCoreWebApiTemplate.ApplicationCore.Dtos;
-using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces;
+using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.InternalServices;
 using AspNetCoreWebApiTemplate.Models.ResponseModels;
 using AspNetCoreWebApiTemplate.Web.Controllers.Api;
 using AspNetCoreWebApiTemplate.Web.Interfaces;
+using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,12 +15,12 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
     public class TodosController : BaseApiController
     {
         private readonly ITodoService _todoService;
-        private readonly ITodoModelDtoConverter _converter;
+        private readonly ITodoModelDtoConverter _todoConverter;
 
-        public TodosController(ITodoService todoService, ITodoModelDtoConverter converter)
+        public TodosController(ITodoService todoService, ITodoModelDtoConverter todoConverter)
         {
             _todoService = todoService;
-            _converter = converter;
+            _todoConverter = todoConverter;
         }
 
         // GET: api/Todos
@@ -28,36 +30,52 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
         /// <returns>Todos</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<TodoResponseModel>> Get()
+        public async Task<ActionResult<IEnumerable<TodoResponseModel>>> Get()
         {
-            IEnumerable<TodoDto> todoDtos = _todoService.GetTodos();
-            IEnumerable<TodoResponseModel> todoModels = _converter.Convert(todoDtos);
+            IEnumerable<TodoDto> todoDtos = await _todoService.GetTodos();
+            IEnumerable<TodoResponseModel> todoModels = _todoConverter.Convert(todoDtos);
             return Ok(todoModels);
         }
 
         // GET api/Todos/5
         [HttpGet("{id}")]
-        public string Get([FromRoute]int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<TodoResponseModel>> Get([FromRoute]int id)
         {
-            return "value";
+            TodoDto todoDto = await _todoService.GetTodo(id);
+            TodoResponseModel todoModel = _todoConverter.Convert(todoDto);
+            return Ok(todoModel);
         }
 
         // POST api/Todos
         [HttpPost]
-        public void Post([FromBody]string value)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<TodoResponseModel>> Post([FromBody] TodoRequestModel model)
         {
+            TodoDto newTodoDto = _todoConverter.Convert(model);
+            TodoDto createdTodoDto = await _todoService.CreateTodo(newTodoDto);
+            TodoResponseModel createdTodoModel = _todoConverter.Convert(createdTodoDto);
+            return Ok(createdTodoModel);
         }
 
         // PUT api/Todos/5
         [HttpPut("{id}")]
-        public void Put([FromRoute]int id, [FromBody]string value)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<TodoResponseModel>> Put([FromRoute]int id, [FromBody]TodoRequestModel model)
         {
+            TodoDto updatableTodoDto = _todoConverter.Convert(model);
+            TodoDto updatedTodoDto = await _todoService.UpdateTodo(id, updatableTodoDto);
+            TodoResponseModel updatedTodoModel = _todoConverter.Convert(updatedTodoDto);
+            return Ok(updatedTodoModel);
         }
 
         // DELETE api/Todos/5
         [HttpDelete("{id}")]
-        public void Delete([FromRoute]int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> Delete([FromRoute]int id)
         {
+            bool result = await _todoService.DeleteTodo(id);
+            return Ok(result);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Ardalis.ListStartupServices;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -18,7 +19,10 @@ namespace AspNetCoreWebApiTemplate.Extensions
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app
+                    .UseDeveloperExceptionPage()
+                    .UseShowAllServicesMiddleware()
+                    .UseDatabaseErrorPage();
             }
 
             return app;

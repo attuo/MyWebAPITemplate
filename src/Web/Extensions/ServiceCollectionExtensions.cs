@@ -1,12 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Ardalis.ListStartupServices;
 using AspNetCoreWebApiTemplate.ApplicationCore.Converter;
 using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces;
 using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Converters;
+using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Database;
+using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.InternalServices;
 using AspNetCoreWebApiTemplate.ApplicationCore.Services;
+using AspNetCoreWebApiTemplate.Infrastructure.Database;
+using AspNetCoreWebApiTemplate.Infrastructure.Database.Repositories;
 using AspNetCoreWebApiTemplate.Web.Converters;
 using AspNetCoreWebApiTemplate.Web.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -74,6 +82,42 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
 
         #endregion
 
+        #region Dependency Injection for Repositories
+
+        public static IServiceCollection AddApplicationRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<ITodoRepository, TodoRepository>();
+
+            return services;
+        }
+
+        #endregion
+
+        #region Configure Database
+
+        public static IServiceCollection ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
+        {
+            //ConfigureInMemoryDatabase(services);
+            ConfigureSQLServerDatabase(services, configuration);
+            return services;
+        }
+
+        private static void ConfigureInMemoryDatabase(IServiceCollection services)
+        {
+            services.AddDbContext<ApplicationDbContext>(builder => builder.UseInMemoryDatabase("APITemplateDatabase"));
+        }
+
+        private static void ConfigureSQLServerDatabase(IServiceCollection services, IConfiguration configuration)
+        {
+            // Requires LocalDB which can be installed with SQL Server Express
+            // https://www.microsoft.com/en-us/download/details.aspx?id=54284
+            services.AddDbContext<ApplicationDbContext>(c =>
+                c.UseSqlServer(configuration.GetConnectionString("SQLServerConnection")));
+        }
+        #endregion
+
+
+
         #endregion
 
         #region Configure Swagger
@@ -102,6 +146,26 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
                 options.IncludeXmlComments(xmlPath);
             });
             return services;
+        }
+
+        #region Configure Development Settings
+
+        #endregion
+
+        public static IServiceCollection ConfigureDevelopmentSettings(this IServiceCollection services)
+        {
+            // TODO: Environment checking here
+            ConfigureListStartupServicesMiddleware(services);
+            return services;
+        }
+
+        private static void ConfigureListStartupServicesMiddleware(IServiceCollection services)
+        {
+            services.Configure<ServiceConfig>(config =>
+            {
+                config.Services = new List<ServiceDescriptor>(services);
+                config.Path = "/listservices";
+            });
         }
 
         #endregion

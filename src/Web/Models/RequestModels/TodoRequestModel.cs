@@ -9,9 +9,10 @@ namespace AspNetCoreWebApiTemplate.Web.Models.RequestModels
 {
     public class TodoRequestModel
     {
-        [DefaultValue(false)]
-        public bool IsDone { get; set; }
         [Required]
         public string Description { get; set; }
+        [DefaultValue(false)]
+        public bool IsDone { get; set; }
+
     }
 }

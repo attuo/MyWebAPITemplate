@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AspNetCoreWebApiTemplate.ApplicationCore.Dtos;
 using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
@@ -14,10 +15,17 @@ namespace AspNetCoreWebApiTemplate.ApplicationCore.Converter
             if (dto == null) return null;
             return new TodoEntity
             {
-                //Id = dto.Id,
                 Description = dto.Description,
                 IsDone = dto.IsDone,
             };
+        }
+
+        public TodoEntity Convert(TodoDto dto, TodoEntity entity)
+        {
+            if (dto == null || entity == null) return null;
+            entity.Description = dto.Description;
+            entity.IsDone = dto.IsDone;
+            return entity;
         }
 
         public TodoDto Convert(TodoEntity entity)
@@ -31,6 +39,10 @@ namespace AspNetCoreWebApiTemplate.ApplicationCore.Converter
             };
         }
 
-        
+        public IEnumerable<TodoDto> Convert(IReadOnlyList<TodoEntity> entities)
+        {
+            if (entities == null) return null;
+            return entities.Select(entity => Convert(entity));
+        }
     }
 }

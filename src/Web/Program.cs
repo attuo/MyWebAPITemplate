@@ -17,6 +17,7 @@ namespace AspNetCoreWebApiTemplate
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
 
+            // Checking environments
             var env = services.GetRequiredService<IWebHostEnvironment>();
             if (!env.IsDevelopment() && !env.IsStaging() && !env.IsProduction())
             {
@@ -24,14 +25,16 @@ namespace AspNetCoreWebApiTemplate
                 Environment.Exit(1);
             }
 
+            // Database seeding
             try
             {
-
+                var context = services.GetRequiredService<ApplicationDbContext>();
+                ApplicationDbContextSeed.SeedAsync(context).Wait();
             }
             catch (Exception ex)
             {
-
-                throw;
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred seeding the DB.");
             }
 
             host.Run();
@@ -45,21 +48,6 @@ namespace AspNetCoreWebApiTemplate
                     webBuilder.UseStartup<Startup>();
                 });
 
-        public static void CreateDbIfNotExists(IHost host)
-        {
-            using var scope = host.Services.CreateScope();
-            var services = scope.ServiceProvider;
-
-            try
-            {
-                var context = services.GetRequiredService<ApplicationDbContext>();
-                ApplicationDbContextSeed.SeedAsync(context).Wait();
-            }
-            catch (Exception ex)
-            {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occurred creating the DB.");
-            }
-        }
+        
     }
 }
