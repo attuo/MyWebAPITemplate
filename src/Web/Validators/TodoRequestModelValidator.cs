@@ -13,10 +13,8 @@ namespace AspNetCoreWebApiTemplate.Web.Validators
         {
             RuleFor(model => model.Description)
                 .NotEmpty()
-                .MaximumLength(2);
+                .MaximumLength(100);
 
-            RuleFor(model => model.IsDone)
-                .NotEmpty();
         }
     }
 }
