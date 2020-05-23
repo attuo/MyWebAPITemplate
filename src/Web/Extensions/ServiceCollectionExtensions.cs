@@ -13,6 +13,10 @@ using AspNetCoreWebApiTemplate.Infrastructure.Database;
 using AspNetCoreWebApiTemplate.Infrastructure.Database.Repositories;
 using AspNetCoreWebApiTemplate.Web.Converters;
 using AspNetCoreWebApiTemplate.Web.Interfaces;
+using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
+using AspNetCoreWebApiTemplate.Web.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +26,7 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        #region Dependency Injection for Application Services and Options
+        #region Dependency Injection for Application Services
 
         /// <summary>
         /// Dependency injections for Application Services
@@ -53,6 +57,8 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
         {
 
         }
+
+        #endregion
 
         #region Dependency Injection for Converters 
 
@@ -93,6 +99,18 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
 
         #endregion
 
+        #region Dependency Injection for Validators (FluentValidation)
+
+        public static IServiceCollection AddModelValidators(this IServiceCollection services)
+        {   
+            // Register the validators here
+            services.AddTransient<IValidator<TodoRequestModel>, TodoRequestModelValidator>();
+
+            return services;
+        }
+
+        #endregion
+
         #region Configure Database
 
         public static IServiceCollection ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -114,10 +132,6 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
             services.AddDbContext<ApplicationDbContext>(c =>
                 c.UseSqlServer(configuration.GetConnectionString("SQLServerConnection")));
         }
-        #endregion
-
-
-
         #endregion
 
         #region Configure Swagger
@@ -169,7 +183,6 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
         }
 
         #endregion
-
 
     }
 }
