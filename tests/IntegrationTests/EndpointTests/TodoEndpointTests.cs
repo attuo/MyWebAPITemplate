@@ -1,0 +1,122 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using AspNetCoreWebApiTemplate.IntegrationTests.Builders.Models;
+using AspNetCoreWebApiTemplate.Models.ResponseModels;
+using AspNetCoreWebApiTemplate.Web;
+using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Newtonsoft.Json;
+using Xunit;
+
+namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
+{
+    public class TodoEndpointTests : IClassFixture<WebApplicationFactory<Startup>>
+    {
+        private const string BASE_ADDRESS = "https://localhost:5001/";
+        private const string ENDPOINT_NAME = "api/Todos";
+        private readonly HttpClient _client;
+
+        public TodoEndpointTests(WebApplicationFactory<Startup> factory)
+        {
+            _client = factory.CreateClient(new WebApplicationFactoryClientOptions
+            {
+                BaseAddress = new Uri(BASE_ADDRESS)
+            });
+        }
+
+        [Fact]
+        public async Task Get_All_Successful()
+        {
+            // Arrange
+            
+
+            // Act
+            var response = await _client.GetAsync(ENDPOINT_NAME);
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var responseTodos = JsonConvert.DeserializeObject<List<TodoResponseModel>>(responseBody);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseTodos.Should().HaveCountGreaterThan(0);
+            
+        }
+
+        [Fact]
+        public async Task Get_One_Successful()
+        {
+            // Arrange
+            int todoId = 1;
+
+            // Act
+            var response = await _client.GetAsync(ENDPOINT_NAME + "/" + todoId);
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseTodo.Should().NotBeNull();
+            responseTodo.Id.Should().Be(todoId);
+        }
+
+        [Fact]
+        public async Task Create_One_Successful()
+        {
+            // Arrange
+            var model = TodoRequestModelBuilder.CreateValid();
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PostAsync(ENDPOINT_NAME, content);
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseTodo.Should().NotBeNull();
+            responseTodo.Id.Should().BeGreaterThan(1);
+        }
+
+        [Fact]
+        public async Task Update_One_Successful()
+        {
+            // Arrange
+            int todoId = 1;
+            var model = new TodoRequestModel
+            {
+                Description = "Changed description",
+                IsDone = true
+            };
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PutAsync(ENDPOINT_NAME + "/" + todoId, content);
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseTodo.Should().NotBeNull();
+            responseTodo.Id.Should().Be(todoId);
+            responseTodo.Description.Should().Be(model.Description);
+            responseTodo.IsDone.Should().Be(model.IsDone);
+        }
+
+        [Fact]
+        public async Task Delete_One_Successful()
+        {
+            // Arrange
+            int todoId = 1;
+
+            // Act
+            var response = await _client.GetAsync(ENDPOINT_NAME + "/" + todoId);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+    }
+}
