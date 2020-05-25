@@ -40,9 +40,11 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
         // GET api/Todos/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<TodoResponseModel>> Get([FromRoute]int id)
         {
             TodoDto todoDto = await _todoService.GetTodo(id);
+            if (todoDto == null) return NotFound(id);
             TodoResponseModel todoModel = _todoConverter.Convert(todoDto);
             return Ok(todoModel);
         }
@@ -61,10 +63,12 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
         // PUT api/Todos/5
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<TodoResponseModel>> Put([FromRoute]int id, [FromBody]TodoRequestModel model)
         {
             TodoDto updatableTodoDto = _todoConverter.Convert(model);
             TodoDto updatedTodoDto = await _todoService.UpdateTodo(id, updatableTodoDto);
+            if (updatableTodoDto == null) return NotFound(id);
             TodoResponseModel updatedTodoModel = _todoConverter.Convert(updatedTodoDto);
             return Ok(updatedTodoModel);
         }
