@@ -30,7 +30,7 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
         }
 
         [Fact]
-        public async Task Get_All_Successful()
+        public async Task Get_All_OK()
         {
             // Arrange
             
@@ -47,7 +47,7 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
         }
 
         [Fact]
-        public async Task Get_One_Successful()
+        public async Task Get_One_OK()
         {
             // Arrange
             int todoId = 1;
@@ -64,7 +64,21 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
         }
 
         [Fact]
-        public async Task Create_One_Successful()
+        public async Task Get_One_NotFound()
+        {
+            // Arrange
+            int todoId = 1000;
+
+            // Act
+            var response = await _client.GetAsync(ENDPOINT_NAME + "/" + todoId);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+
+        [Fact]
+        public async Task Create_One_OK()
         {
             // Arrange
             var model = TodoRequestModelBuilder.CreateValid();
@@ -82,7 +96,7 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
         }
 
         [Fact]
-        public async Task Update_One_Successful()
+        public async Task Update_One_OK()
         {
             // Arrange
             int todoId = 1;
@@ -107,16 +121,48 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
         }
 
         [Fact]
-        public async Task Delete_One_Successful()
+        public async Task Update_One_NotFound()
         {
             // Arrange
-            int todoId = 1;
+            int todoId = 1000;
+            var model = new TodoRequestModel
+            {
+                Description = "Changed description",
+                IsDone = true
+            };
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _client.GetAsync(ENDPOINT_NAME + "/" + todoId);
+            var response = await _client.PutAsync(ENDPOINT_NAME + "/" + todoId, content);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Delete_One_OK()
+        {
+            // Arrange
+            int todoId = 2;
+
+            // Act
+            var response = await _client.DeleteAsync(ENDPOINT_NAME + "/" + todoId);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task Delete_One_NotFound()
+        {
+            // Arrange
+            int todoId = 1000;
+
+            // Act
+            var response = await _client.DeleteAsync(ENDPOINT_NAME + "/" + todoId);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

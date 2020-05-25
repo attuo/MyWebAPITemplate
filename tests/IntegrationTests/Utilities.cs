@@ -24,7 +24,8 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests
         {
             return new List<TodoEntity>()
             {
-                new TodoEntity { Description = "Test Todo", IsDone = false },
+                new TodoEntity { Description = "Test Todo 1", IsDone = false },
+                new TodoEntity { Description = "Test Todo 2", IsDone = false },
             };
         }
     }

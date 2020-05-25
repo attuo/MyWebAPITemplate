@@ -29,6 +29,7 @@ namespace AspNetCoreWebApiTemplate.ApplicationCore.Services
         public async Task<TodoDto> GetTodo(int id)
         {
             TodoEntity todoEntity = await _todoRepository.GetByIdAsync(id);
+            if (todoEntity == null) return null;
             TodoDto todoDto = _todoConverter.Convert(todoEntity);
             return todoDto;
         }
