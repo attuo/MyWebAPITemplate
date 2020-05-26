@@ -8,55 +8,63 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using AspNetCoreWebApiTemplate.Web;
+using Microsoft.AspNetCore.TestHost;
 
 namespace AspNetCoreWebApiTemplate.IntegrationTests
 {
-    public class CustomWebApplicationFactory<TStartup>
-    : WebApplicationFactory<TStartup> where TStartup : class
+    public class WebTestFixture : WebApplicationFactory<Startup>
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureServices(services =>
+            builder.UseEnvironment("Testing");
+
+            builder.ConfigureTestServices(services =>
             {
-                // Remove the app's ApplicationDbContext registration.
-                var descriptor = services.SingleOrDefault(
-                    d => d.ServiceType ==
-                        typeof(DbContextOptions<ApplicationDbContext>));
+                services.AddEntityFrameworkSqlite();
 
-                if (descriptor != null)
-                {
-                    services.Remove(descriptor);
-                }
+                // Create a new service provider.
+                var provider = services
+                    .AddEntityFrameworkSqlite()
+                    .BuildServiceProvider();
 
-                // Add ApplicationDbContext using an in-memory database for testing.
+                // Add a database context (ApplicationDbContext) using an in-memory 
+                // database for testing.
                 services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.UseSqlite("Data Source=:memory:");
+                    options.UseInternalServiceProvider(provider);
                 });
+
 
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();
 
                 // Create a scope to obtain a reference to the database
                 // context (ApplicationDbContext).
-                using var scope = sp.CreateScope();
-                var scopedServices = scope.ServiceProvider;
-                var db = scopedServices.GetRequiredService<ApplicationDbContext>();
-                var logger = scopedServices
-                    .GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
-
-                // Ensure the database is created.
-                db.Database.EnsureCreated();
-
-                try
+                using (var scope = sp.CreateScope())
                 {
-                    // Seed the database with test data.
-                    Utilities.InitializeDbForTests(db);
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "An error occurred seeding the " +
-                        "database with test messages. Error: {Message}", ex.Message);
+                    var scopedServices = scope.ServiceProvider;
+                    var db = scopedServices.GetRequiredService<ApplicationDbContext>();
+                    var loggerFactory = scopedServices.GetRequiredService<ILoggerFactory>();
+
+                    var logger = scopedServices
+                        .GetRequiredService<ILogger<WebTestFixture>>();
+
+                    // Ensure the database is created.
+                    db.Database.EnsureCreated();
+
+                    try
+                    {
+                        // Seed the database with test data.
+                        Utilities.InitializeDbForTests(db);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, $"An error occurred seeding the " +
+                            "database with test messages. Error: {ex.Message}");
+                    }
                 }
             });
         }
