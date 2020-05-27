@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
 using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Database;

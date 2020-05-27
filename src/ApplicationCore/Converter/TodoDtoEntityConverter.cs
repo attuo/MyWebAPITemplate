@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AspNetCoreWebApiTemplate.ApplicationCore.Dtos;
 using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
 using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Converters;

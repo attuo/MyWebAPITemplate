@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using AspNetCoreWebApiTemplate.Infrastructure.Database;
+using AspNetCoreWebApiTemplate.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Logging;
-using System.Linq;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using AspNetCoreWebApiTemplate.Web;
-using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Logging;
 
 namespace AspNetCoreWebApiTemplate.IntegrationTests
 {

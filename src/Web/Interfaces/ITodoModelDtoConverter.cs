@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AspNetCoreWebApiTemplate.ApplicationCore.Dtos;
 using AspNetCoreWebApiTemplate.Models.ResponseModels;
 using AspNetCoreWebApiTemplate.Web.Models.RequestModels;

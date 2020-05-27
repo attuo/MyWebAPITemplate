@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
+﻿using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
 
 namespace AspNetCoreWebApiTemplate.IntegrationTests.Builders.Models
 {

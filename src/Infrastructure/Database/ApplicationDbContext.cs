@@ -1,14 +1,13 @@
 ﻿using System.Reflection;
 using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AspNetCoreWebApiTemplate.Infrastructure.Database
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) 
-        { 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
         }
 
         // DB sets
@@ -22,9 +21,5 @@ namespace AspNetCoreWebApiTemplate.Infrastructure.Database
             //builder.Entity<TodoEntity>(ConfigureTodoEntity);
         }
 
-        //protected void ConfigureTodoEntity(EntityTypeBuilder<TodoEntity> builder)
-        //{
-        //    builder.ToTable("Todo");
-        //}
     }
 }

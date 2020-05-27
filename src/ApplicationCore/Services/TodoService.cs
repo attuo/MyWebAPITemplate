@@ -49,7 +49,7 @@ namespace AspNetCoreWebApiTemplate.ApplicationCore.Services
 
             TodoEntity updatableTodoEntity = _todoConverter.Convert(updatableTodoDto, existingTodoEntity);
             await _todoRepository.UpdateAsync(updatableTodoEntity);
-            
+
             TodoDto updatedTodo = _todoConverter.Convert(updatableTodoEntity);
             return updatedTodo;
         }

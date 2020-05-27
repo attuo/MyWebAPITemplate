@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AspNetCoreWebApiTemplate.IntegrationTests.Builders.Models;
 using AspNetCoreWebApiTemplate.Models.ResponseModels;
-using AspNetCoreWebApiTemplate.Web;
 using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -33,7 +32,7 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
         public async Task Get_All_OK()
         {
             // Arrange
-            
+
 
             // Act
             var response = await _client.GetAsync(ENDPOINT_NAME);
@@ -43,7 +42,7 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             responseTodos.Should().HaveCountGreaterThan(1).And.HaveCountLessThan(3);
-            
+
         }
 
         [Fact]

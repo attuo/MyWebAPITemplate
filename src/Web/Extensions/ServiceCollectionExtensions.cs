@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using Ardalis.ListStartupServices;
 using AspNetCoreWebApiTemplate.ApplicationCore.Converter;
-using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces;
 using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Converters;
 using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Database;
 using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.InternalServices;
@@ -16,7 +15,6 @@ using AspNetCoreWebApiTemplate.Web.Interfaces;
 using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
 using AspNetCoreWebApiTemplate.Web.Validators;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -102,7 +100,7 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
         #region Dependency Injection for Validators (FluentValidation)
 
         public static IServiceCollection AddModelValidators(this IServiceCollection services)
-        {   
+        {
             // Register the validators here
             services.AddTransient<IValidator<TodoRequestModel>, TodoRequestModelValidator>();
 

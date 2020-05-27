@@ -34,7 +34,7 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
         {
             IEnumerable<TodoDto> todoDtos = await _todoService.GetTodos();
             IEnumerable<TodoResponseModel> todoModels = _todoConverter.Convert(todoDtos);
-            
+
             return Ok(todoModels);
         }
 
@@ -42,12 +42,12 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TodoResponseModel>> Get([FromRoute]int id)
+        public async Task<ActionResult<TodoResponseModel>> Get([FromRoute] int id)
         {
             TodoDto todoDto = await _todoService.GetTodo(id);
             if (todoDto == null) return NotFound(id);
             TodoResponseModel todoModel = _todoConverter.Convert(todoDto);
-            
+
             return Ok(todoModel);
         }
 
@@ -59,7 +59,7 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
             TodoDto newTodoDto = _todoConverter.Convert(model);
             TodoDto createdTodoDto = await _todoService.CreateTodo(newTodoDto);
             TodoResponseModel createdTodoModel = _todoConverter.Convert(createdTodoDto);
-            
+
             return Ok(createdTodoModel);
         }
 
@@ -67,13 +67,13 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TodoResponseModel>> Put([FromRoute]int id, [FromBody]TodoRequestModel model)
+        public async Task<ActionResult<TodoResponseModel>> Put([FromRoute] int id, [FromBody] TodoRequestModel model)
         {
             TodoDto updatableTodoDto = _todoConverter.Convert(model);
             TodoDto updatedTodoDto = await _todoService.UpdateTodo(id, updatableTodoDto);
             if (updatedTodoDto == null) return NotFound(id);
             TodoResponseModel updatedTodoModel = _todoConverter.Convert(updatedTodoDto);
-            
+
             return Ok(updatedTodoModel);
         }
 
@@ -81,7 +81,7 @@ namespace AspNetCoreWebApiTemplate.Controllers.Api
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Delete([FromRoute]int id)
+        public async Task<ActionResult> Delete([FromRoute] int id)
         {
             bool result = await _todoService.DeleteTodo(id);
             if (result == false) return NotFound(id);

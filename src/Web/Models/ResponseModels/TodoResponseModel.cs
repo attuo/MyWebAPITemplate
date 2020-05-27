@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-
-namespace AspNetCoreWebApiTemplate.Models.ResponseModels
+﻿namespace AspNetCoreWebApiTemplate.Models.ResponseModels
 {
     public class TodoResponseModel
     {

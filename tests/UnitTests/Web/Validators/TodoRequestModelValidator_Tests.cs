@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AspNetCoreWebApiTemplate.UnitTests.Builders.Models;
+﻿using AspNetCoreWebApiTemplate.UnitTests.Builders.Models;
 using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
 using AspNetCoreWebApiTemplate.Web.Validators;
 using FluentAssertions;

@@ -48,6 +48,6 @@ namespace AspNetCoreWebApiTemplate
                     webBuilder.UseStartup<Startup>();
                 });
 
-        
+
     }
 }
