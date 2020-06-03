@@ -24,6 +24,7 @@ namespace AspNetCoreWebApiTemplate.Web
                 .ConfigureDatabase(Configuration)
                 .ConfigureDevelopmentSettings()
                 .ConfigureSwagger()
+                .ConfigureHealthChecks(Configuration)
                 .AddApplicationServices()
                 .AddApplicationConverters()
                 .AddApplicationRepositories()
