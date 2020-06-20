@@ -1,4 +1,5 @@
 ﻿using Ardalis.ListStartupServices;
+using AspNetCoreWebApiTemplate.Web.Middlewares;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -48,6 +49,21 @@ namespace AspNetCoreWebApiTemplate.Extensions
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Template API V1");
             });
+
+            return app;
+        }
+
+        /// <summary>
+        /// Middleware usings
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseCustomMiddlewares(this IApplicationBuilder app, IWebHostEnvironment env)
+        {
+
+            // Global error handling
+            app.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
             return app;
         }

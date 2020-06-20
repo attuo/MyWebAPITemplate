@@ -183,7 +183,7 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
         #endregion
 
         #region Configure HealthChecks
-        
+
         public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddHealthChecks();
