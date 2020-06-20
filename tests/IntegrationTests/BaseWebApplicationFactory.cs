@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AspNetCoreWebApiTemplate.IntegrationTests
 {
-    public class WebTestFixture : WebApplicationFactory<Startup>
+    public class BaseWebApplicationFactory : WebApplicationFactory<Startup>
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -18,16 +18,16 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests
 
             builder.ConfigureTestServices(services =>
             {
-                services.AddEntityFrameworkSqlite();
 
                 // Create a new service provider.
                 var provider = services
-                    .AddEntityFrameworkSqlite()
                     .BuildServiceProvider();
 
                 // Add a database context (ApplicationDbContext) using an in-memory 
                 // database for testing.
-                services.AddDbContext<ApplicationDbContext>(options =>
+                services
+                .AddEntityFrameworkSqlite()
+                .AddDbContext<ApplicationDbContext>(options =>
                 {
                     options.UseSqlite("Data Source=:memory:");
                     options.UseInternalServiceProvider(provider);
@@ -46,7 +46,7 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests
                     var loggerFactory = scopedServices.GetRequiredService<ILoggerFactory>();
 
                     var logger = scopedServices
-                        .GetRequiredService<ILogger<WebTestFixture>>();
+                        .GetRequiredService<ILogger<BaseWebApplicationFactory>>();
 
                     // Ensure the database is created.
                     db.Database.EnsureCreated();

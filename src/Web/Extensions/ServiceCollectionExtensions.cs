@@ -186,9 +186,13 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
         
         public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
-            services
-                .AddHealthChecks();
-                //.AddSqlServer(configuration.GetConnectionString("SQLServerConnection"));
+            services.AddHealthChecks();
+            services.AddHealthChecksUI(setup =>
+            {
+                setup.AddHealthCheckEndpoint("Health", "https://localhost:5001/health");
+            })
+                .AddSqlServerStorage(configuration.GetConnectionString("SQLServerConnection"));
+
             return services;
         }
 

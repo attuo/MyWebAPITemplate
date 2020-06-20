@@ -14,13 +14,13 @@ using Xunit;
 
 namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
 {
-    public class TodoEndpointTests : IClassFixture<WebTestFixture>
+    public class TodoEndpointTests : IClassFixture<BaseWebApplicationFactory>
     {
         private const string BASE_ADDRESS = "https://localhost:5001/";
         private const string ENDPOINT_NAME = "api/Todos";
         private readonly HttpClient _client;
 
-        public TodoEndpointTests(WebTestFixture factory)
+        public TodoEndpointTests(BaseWebApplicationFactory factory)
         {
             _client = factory.CreateClient(new WebApplicationFactoryClientOptions
             {

@@ -1,6 +1,9 @@
 ﻿using Ardalis.ListStartupServices;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 
 namespace AspNetCoreWebApiTemplate.Extensions
@@ -61,13 +64,23 @@ namespace AspNetCoreWebApiTemplate.Extensions
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(routeBuilder =>
             {
-                endpoints.MapHealthChecks("/health");
-                endpoints.MapControllers();
+                routeBuilder.MapAllHealthChecks();
+                routeBuilder.MapControllers();
             });
 
             return app;
+        }
+
+        private static void MapAllHealthChecks(this IEndpointRouteBuilder routeBuilder)
+        {
+            routeBuilder.MapHealthChecks("/health", new HealthCheckOptions
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+            routeBuilder.MapHealthChecksUI();
         }
 
     }
