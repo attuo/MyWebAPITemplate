@@ -1,6 +1,6 @@
 # ASP.NET Core WebApi Template
 
-### This is a work in progress opinionated starter template for building Web APIs with ASP.NET Core. 
+### This is a work in progress opinionated starter template for building a monolithic Web APIs with ASP.NET Core. 
 
 ## Description
 
