@@ -160,18 +160,19 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
             return services;
         }
 
-        #region Configure Development Settings
-
         #endregion
+
+        #region Configure Development Settings
 
         public static IServiceCollection ConfigureDevelopmentSettings(this IServiceCollection services)
         {
             // TODO: Environment checking here
-            ConfigureListStartupServicesMiddleware(services);
+            ConfigureListStartupServices(services);
+            services.AddDatabaseDeveloperPageExceptionFilter(); // https://github.com/aspnet/Announcements/issues/432
             return services;
         }
 
-        private static void ConfigureListStartupServicesMiddleware(IServiceCollection services)
+        private static void ConfigureListStartupServices(IServiceCollection services)
         {
             services.Configure<ServiceConfig>(config =>
             {
@@ -187,16 +188,15 @@ namespace AspNetCoreWebApiTemplate.Web.Extensions
         public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddHealthChecks();
-            services.AddHealthChecksUI(setup =>
-            {
-                setup.AddHealthCheckEndpoint("Health", "https://localhost:5001/health");
-            })
-                .AddSqlServerStorage(configuration.GetConnectionString("SQLServerConnection"));
+            //services.AddHealthChecksUI(setup =>
+            //{
+            //    setup.AddHealthCheckEndpoint("Health", "https://localhost:5001/health");
+            //})
+            //    .AddSqlServerStorage(configuration.GetConnectionString("SQLServerConnection"));
 
             return services;
         }
 
         #endregion
-
     }
 }

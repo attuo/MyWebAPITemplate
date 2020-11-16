@@ -1,6 +1,6 @@
 ﻿using Ardalis.ListStartupServices;
 using AspNetCoreWebApiTemplate.Web.Middlewares;
-using HealthChecks.UI.Client;
+//using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +11,6 @@ namespace AspNetCoreWebApiTemplate.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
-
         /// <summary>
         /// Development tools and other development related settings
         /// Should be run first
@@ -25,8 +24,9 @@ namespace AspNetCoreWebApiTemplate.Extensions
             {
                 app
                     .UseDeveloperExceptionPage()
-                    .UseShowAllServicesMiddleware()
-                    .UseDatabaseErrorPage();
+                    .UseMigrationsEndPoint();
+                    //.UseShowAllServicesMiddleware()
+                    //.UseDatabaseErrorPage();
             }
 
             return app;
@@ -82,22 +82,22 @@ namespace AspNetCoreWebApiTemplate.Extensions
 
             app.UseEndpoints(routeBuilder =>
             {
-                routeBuilder.MapAllHealthChecks();
+                //routeBuilder.MapAllHealthChecks();
                 routeBuilder.MapControllers();
             });
 
             return app;
         }
 
-        private static void MapAllHealthChecks(this IEndpointRouteBuilder routeBuilder)
-        {
-            routeBuilder.MapHealthChecks("/health", new HealthCheckOptions
-            {
-                Predicate = _ => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });
-            routeBuilder.MapHealthChecksUI();
-        }
+        //private static void MapAllHealthChecks(this IEndpointRouteBuilder routeBuilder)
+        //{
+        //    routeBuilder.MapHealthChecks("/health", new HealthCheckOptions
+        //    {
+        //        Predicate = _ => true,
+        //        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        //    });
+        //    routeBuilder.MapHealthChecksUI();
+        //}
 
     }
 }

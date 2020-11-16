@@ -39,29 +39,26 @@ namespace AspNetCoreWebApiTemplate.IntegrationTests
 
                 // Create a scope to obtain a reference to the database
                 // context (ApplicationDbContext).
-                using (var scope = sp.CreateScope())
+                using var scope = sp.CreateScope();
+                var scopedServices = scope.ServiceProvider;
+                var db = scopedServices.GetRequiredService<ApplicationDbContext>();
+                var loggerFactory = scopedServices.GetRequiredService<ILoggerFactory>();
+
+                var logger = scopedServices
+                    .GetRequiredService<ILogger<BaseWebApplicationFactory>>();
+
+                // Ensure the database is created.
+                db.Database.EnsureCreated();
+
+                try
                 {
-                    var scopedServices = scope.ServiceProvider;
-                    var db = scopedServices.GetRequiredService<ApplicationDbContext>();
-                    var loggerFactory = scopedServices.GetRequiredService<ILoggerFactory>();
-
-                    var logger = scopedServices
-                        .GetRequiredService<ILogger<BaseWebApplicationFactory>>();
-
-                    // Ensure the database is created.
-                    db.Database.EnsureCreated();
-
-                    try
-                    {
-                        // Seed the database with test data.
-                        Utilities.InitializeDbForTests(db);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, $"An error occurred seeding the " +
-                            "database with test messages. Error: {ex.Message}");
-                    }
+                    // Seed the database with test data.
+                    Utilities.ReinitializeDbForTests(db); // TODO: Not working, fix.
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, $"An error occurred seeding the " +
+                        "database with test messages. Error: {ex.Message}");
                 }
             });
         }
