@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreWebApiTemplate.ApplicationCore.Dtos
+﻿namespace MyWebAPITemplate.ApplicationCore.Dtos
 {
     public class TodoDto
     {

@@ -1,7 +1,7 @@
-﻿using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
-using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Database;
+﻿using MyWebAPITemplate.ApplicationCore.Entities;
+using MyWebAPITemplate.ApplicationCore.Interfaces.Database;
 
-namespace AspNetCoreWebApiTemplate.Infrastructure.Database.Repositories
+namespace MyWebAPITemplate.Infrastructure.Database.Repositories
 {
     public class TodoRepository : EfRepository<TodoEntity>, ITodoRepository
     {

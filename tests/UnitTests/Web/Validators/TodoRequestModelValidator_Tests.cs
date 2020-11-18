@@ -1,11 +1,11 @@
-﻿using AspNetCoreWebApiTemplate.UnitTests.Builders.Models;
-using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
-using AspNetCoreWebApiTemplate.Web.Validators;
+﻿using MyWebAPITemplate.UnitTests.Builders.Models;
+using MyWebAPITemplate.Web.Models.RequestModels;
+using MyWebAPITemplate.Web.Validators;
 using FluentAssertions;
 using FluentValidation.Results;
 using Xunit;
 
-namespace AspNetCoreWebApiTemplate.UnitTests.Web.Validators
+namespace MyWebAPITemplate.UnitTests.Web.Validators
 {
     public class TodoRequestModelValidator_Tests
     {

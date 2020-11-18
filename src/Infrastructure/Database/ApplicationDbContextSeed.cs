@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
+using MyWebAPITemplate.ApplicationCore.Entities;
 
-namespace AspNetCoreWebApiTemplate.Infrastructure.Database
+namespace MyWebAPITemplate.Infrastructure.Database
 {
     public class ApplicationDbContextSeed
     {

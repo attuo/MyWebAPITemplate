@@ -4,15 +4,15 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using AspNetCoreWebApiTemplate.IntegrationTests.Builders.Models;
-using AspNetCoreWebApiTemplate.Models.ResponseModels;
-using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
+using MyWebAPITemplate.IntegrationTests.Builders.Models;
+using MyWebAPITemplate.Models.ResponseModels;
+using MyWebAPITemplate.Web.Models.RequestModels;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
+namespace MyWebAPITemplate.IntegrationTests.EndpointTests
 {
     public class TodoEndpointTests : IClassFixture<BaseWebApplicationFactory>
     {

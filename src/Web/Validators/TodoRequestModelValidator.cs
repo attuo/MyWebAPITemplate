@@ -1,7 +1,7 @@
-﻿using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
+﻿using MyWebAPITemplate.Web.Models.RequestModels;
 using FluentValidation;
 
-namespace AspNetCoreWebApiTemplate.Web.Validators
+namespace MyWebAPITemplate.Web.Validators
 {
     public class TodoRequestModelValidator : AbstractValidator<TodoRequestModel>
     {

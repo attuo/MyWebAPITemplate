@@ -1,12 +1,12 @@
 using System;
-using AspNetCoreWebApiTemplate.Infrastructure.Database;
-using AspNetCoreWebApiTemplate.Web;
+using MyWebAPITemplate.Infrastructure.Database;
+using MyWebAPITemplate.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace AspNetCoreWebApiTemplate
+namespace MyWebAPITemplate
 {
     public class Program
     {

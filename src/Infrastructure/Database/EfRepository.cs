@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
-using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Database;
+using MyWebAPITemplate.ApplicationCore.Entities;
+using MyWebAPITemplate.ApplicationCore.Interfaces.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace AspNetCoreWebApiTemplate.Infrastructure.Database
+namespace MyWebAPITemplate.Infrastructure.Database
 {
     /// <summary>
     /// "There's some repetition here - couldn't we have some the sync methods call the async?"

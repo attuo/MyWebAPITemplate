@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>AspNetCoreWebApiTemplate.Web</RootNamespace>
+    <RootNamespace>MyWebAPITemplate.Web</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>

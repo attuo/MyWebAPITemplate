@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreWebApiTemplate.Models.ResponseModels
+﻿namespace MyWebAPITemplate.Models.ResponseModels
 {
     public class TodoResponseModel
     {

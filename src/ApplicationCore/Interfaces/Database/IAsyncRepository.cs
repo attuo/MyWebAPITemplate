@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
+using MyWebAPITemplate.ApplicationCore.Entities;
 
-namespace AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Database
+namespace MyWebAPITemplate.ApplicationCore.Interfaces.Database
 {
     public interface IAsyncRepository<T> where T : BaseEntity
     {

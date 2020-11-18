@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AspNetCoreWebApiTemplate.ApplicationCore.Dtos;
-using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
-using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Converters;
-using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.Database;
-using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.InternalServices;
+using MyWebAPITemplate.ApplicationCore.Dtos;
+using MyWebAPITemplate.ApplicationCore.Entities;
+using MyWebAPITemplate.ApplicationCore.Interfaces.Converters;
+using MyWebAPITemplate.ApplicationCore.Interfaces.Database;
+using MyWebAPITemplate.ApplicationCore.Interfaces.InternalServices;
 
-namespace AspNetCoreWebApiTemplate.ApplicationCore.Services
+namespace MyWebAPITemplate.ApplicationCore.Services
 {
     public class TodoService : ITodoService
     {

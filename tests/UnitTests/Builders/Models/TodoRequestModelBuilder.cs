@@ -1,6 +1,6 @@
-﻿using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
+﻿using MyWebAPITemplate.Web.Models.RequestModels;
 
-namespace AspNetCoreWebApiTemplate.UnitTests.Builders.Models
+namespace MyWebAPITemplate.UnitTests.Builders.Models
 {
     public static class TodoRequestModelBuilder
     {

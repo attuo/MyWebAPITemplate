@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AspNetCoreWebApiTemplate.Infrastructure.Database.Migrations
+namespace MyWebAPITemplate.Infrastructure.Database.Migrations
 {
     public partial class InitialModel : Migration
     {

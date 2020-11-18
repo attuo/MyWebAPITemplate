@@ -3,12 +3,12 @@
 //using System.Net;
 //using System.Text;
 //using System.Threading.Tasks;
-//using AspNetCoreWebApiTemplate.Web;
+//using MyWebAPITemplate.Web;
 //using FluentAssertions;
 //using Microsoft.AspNetCore.Mvc.Testing;
 //using Xunit;
 
-//namespace AspNetCoreWebApiTemplate.IntegrationTests.EndpointTests
+//namespace MyWebAPITemplate.IntegrationTests.EndpointTests
 //{
 //    public class EndpointTests : IClassFixture<WebApplicationFactory<Startup>>
 //    {

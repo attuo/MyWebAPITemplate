@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
-using AspNetCoreWebApiTemplate.Infrastructure.Database;
+using MyWebAPITemplate.ApplicationCore.Entities;
+using MyWebAPITemplate.Infrastructure.Database;
 
-namespace AspNetCoreWebApiTemplate.IntegrationTests
+namespace MyWebAPITemplate.IntegrationTests
 {
     public static class Utilities
     {

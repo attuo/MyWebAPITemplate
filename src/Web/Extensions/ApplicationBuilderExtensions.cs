@@ -1,5 +1,5 @@
 ﻿using Ardalis.ListStartupServices;
-using AspNetCoreWebApiTemplate.Web.Middlewares;
+using MyWebAPITemplate.Web.Middlewares;
 //using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 
-namespace AspNetCoreWebApiTemplate.Extensions
+namespace MyWebAPITemplate.Extensions
 {
     public static class ApplicationBuilderExtensions
     {

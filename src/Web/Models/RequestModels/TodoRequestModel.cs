@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreWebApiTemplate.Web.Models.RequestModels
+﻿namespace MyWebAPITemplate.Web.Models.RequestModels
 {
     public class TodoRequestModel
     {

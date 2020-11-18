@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AspNetCoreWebApiTemplate.ApplicationCore.Dtos;
-using AspNetCoreWebApiTemplate.ApplicationCore.Interfaces.InternalServices;
-using AspNetCoreWebApiTemplate.Models.ResponseModels;
-using AspNetCoreWebApiTemplate.Web.Controllers.Api;
-using AspNetCoreWebApiTemplate.Web.Interfaces;
-using AspNetCoreWebApiTemplate.Web.Models.RequestModels;
+using MyWebAPITemplate.ApplicationCore.Dtos;
+using MyWebAPITemplate.ApplicationCore.Interfaces.InternalServices;
+using MyWebAPITemplate.Models.ResponseModels;
+using MyWebAPITemplate.Web.Controllers.Api;
+using MyWebAPITemplate.Web.Interfaces;
+using MyWebAPITemplate.Web.Models.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace AspNetCoreWebApiTemplate.Controllers.Api
+namespace MyWebAPITemplate.Controllers.Api
 {
     public class TodosController : BaseApiController
     {

@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreWebApiTemplate.ApplicationCore.Entities
+﻿namespace MyWebAPITemplate.ApplicationCore.Entities
 {
     public class TodoEntity : BaseEntity
     {

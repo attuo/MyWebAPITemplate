@@ -1,8 +1,8 @@
-﻿using AspNetCoreWebApiTemplate.ApplicationCore.Entities;
+﻿using MyWebAPITemplate.ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AspNetCoreWebApiTemplate.Infrastructure.Database.Configurations
+namespace MyWebAPITemplate.Infrastructure.Database.Configurations
 {
     public class TodoEntityConfiguration : IEntityTypeConfiguration<TodoEntity>
     {
