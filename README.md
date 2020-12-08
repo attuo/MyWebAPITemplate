@@ -6,7 +6,7 @@ In this template, I have collected my knowledge of API building in a practical f
 
 **This template is for you if** you just want to get started with coding, want a already thought out project structure, that is quite simple and fast to learn, and works on smaller and bigger projects just fine.
 
-## 🤓 Motivation
+## Motivation
 
 This project started as my way to handle the information flow of everything that needs to be done when building APIs with single monolithic manner. There are so many things to remember and there are vast amount of choices to be made. Therefore, I made this template, for myself, to store all the practices that I have found practical and I hope this template might also help someone else to learn a thing or two.
 
@@ -17,7 +17,7 @@ This project started as my way to handle the information flow of everything that
 - To only use concepts or technologies that I have already used in some of my previous projects, so I know if those are worth it. This project is not for tinkering experimental stuff. (I have other plans to do experimental stuff)
 - To have opinions, but to be ready to change anything if there is better way of doing
 
-## 🛠️ Details
+## Details
 
 ### Technologies, frameworks and libraries
   - Programming language: C#
@@ -40,10 +40,11 @@ This project started as my way to handle the information flow of everything that
   - Validations
   - Integration and unit tests
   - Model Converters
-## 🚀 Usage
+
+## Usage
 
   - TODO!
 
-## 📝 Contributing and license
+## Contributing and license
 This project is [MIT](https://choosealicense.com/licenses/mit/) licensed - So feel free to use it anyway you like. Suggestions and help are welcomed. 🙂
 
