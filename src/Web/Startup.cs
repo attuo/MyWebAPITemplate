@@ -23,6 +23,7 @@ namespace MyWebAPITemplate.Web
             services
                 .ConfigureDatabase(Configuration)
                 .ConfigureDevelopmentSettings()
+                .ConfigureCors()
                 .ConfigureSwagger()
                 .ConfigureHealthChecks(Configuration)
                 .AddApplicationServices()

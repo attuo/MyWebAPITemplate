@@ -132,6 +132,26 @@ namespace MyWebAPITemplate.Web.Extensions
         }
         #endregion
 
+        #region Configure Cors
+
+        public static IServiceCollection ConfigureCors(this IServiceCollection services)
+        {
+            // TODO: Change the Allow Any for more strict
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AnyOrigin", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+            return services;
+        }
+
+        #endregion
+
         #region Configure Swagger
 
         public static IServiceCollection ConfigureSwagger(this IServiceCollection services)

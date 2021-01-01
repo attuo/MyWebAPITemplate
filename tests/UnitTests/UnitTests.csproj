@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="Core\" />
     <Folder Include="Infrastructure\" />
-    <Folder Include="src\" />
   </ItemGroup>
 
   <ItemGroup>

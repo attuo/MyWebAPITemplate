@@ -24,7 +24,8 @@ namespace MyWebAPITemplate.Extensions
             {
                 app
                     .UseDeveloperExceptionPage()
-                    .UseMigrationsEndPoint();
+                    .UseMigrationsEndPoint()
+                    .UseCors();
                     //.UseShowAllServicesMiddleware()
                     //.UseDatabaseErrorPage();
             }
@@ -65,6 +66,13 @@ namespace MyWebAPITemplate.Extensions
             // Global error handling
             app.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
+            return app;
+        }
+
+        public static IApplicationBuilder UseCors(this IApplicationBuilder app)
+        {
+            app.UseCors("AnyOrigin");
+            
             return app;
         }
 
