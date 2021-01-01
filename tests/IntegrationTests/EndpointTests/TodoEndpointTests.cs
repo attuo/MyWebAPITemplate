@@ -59,7 +59,7 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             responseTodo.Should().NotBeNull();
-            responseTodo.Id.Should().Be(todoId);
+            
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             responseTodo.Should().NotBeNull();
-            responseTodo.Id.Should().BeGreaterThan(1);
+            
         }
 
         [Fact]
@@ -114,7 +114,7 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             responseTodo.Should().NotBeNull();
-            responseTodo.Id.Should().Be(todoId);
+            
             responseTodo.Description.Should().Be(model.Description);
             responseTodo.IsDone.Should().Be(model.IsDone);
         }

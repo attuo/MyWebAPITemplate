@@ -2,8 +2,8 @@
 {
     public class TodoRequestModel
     {
-        public string Description { get; init; }
-        public bool IsDone { get; init; }
+        public string Description { get; set; }
+        public bool IsDone { get; set; }
 
     }
 }

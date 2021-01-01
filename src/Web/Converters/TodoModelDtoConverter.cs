@@ -24,7 +24,7 @@ namespace MyWebAPITemplate.Web.Converters
             if (dto == null) return null;
             return new TodoResponseModel
             {
-                Id = dto.Id,
+                Id = dto.Id.GetValueOrDefault(),
                 Description = dto.Description,
                 IsDone = dto.IsDone
             };

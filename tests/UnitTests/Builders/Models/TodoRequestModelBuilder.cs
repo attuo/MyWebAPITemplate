@@ -9,7 +9,7 @@ namespace MyWebAPITemplate.UnitTests.Builders.Models
             return new TodoRequestModel
             {
                 Description = "This is a valid todo",
-                IsDone = false
+                IsDone = true
             };
         }
     }
