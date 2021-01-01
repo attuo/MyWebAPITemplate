@@ -1,6 +1,6 @@
-﻿namespace MyWebAPITemplate.Models.ResponseModels
+﻿namespace MyWebAPITemplate.Core.Dtos
 {
-    public class TodoResponseModel
+    public class TodoDto
     {
         public int Id { get; init; }
         public string Description { get; init; }

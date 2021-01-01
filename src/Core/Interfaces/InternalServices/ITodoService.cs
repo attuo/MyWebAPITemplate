@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyWebAPITemplate.ApplicationCore.Dtos;
+using MyWebAPITemplate.Core.Dtos;
 
-namespace MyWebAPITemplate.ApplicationCore.Interfaces.InternalServices
+namespace MyWebAPITemplate.Core.Interfaces.InternalServices
 {
     public interface ITodoService
     {

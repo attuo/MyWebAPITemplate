@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyWebAPITemplate.ApplicationCore.Entities;
-using MyWebAPITemplate.ApplicationCore.Interfaces.Database;
+using MyWebAPITemplate.Core.Entities;
+using MyWebAPITemplate.Core.Interfaces.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace MyWebAPITemplate.Infrastructure.Database

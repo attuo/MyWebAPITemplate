@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using MyWebAPITemplate.ApplicationCore.Entities;
+using MyWebAPITemplate.Core.Entities;
 using MyWebAPITemplate.Infrastructure.Database;
 
 namespace MyWebAPITemplate.IntegrationTests

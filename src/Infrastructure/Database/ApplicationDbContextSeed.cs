@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using MyWebAPITemplate.ApplicationCore.Entities;
+using MyWebAPITemplate.Core.Entities;
 
 namespace MyWebAPITemplate.Infrastructure.Database
 {

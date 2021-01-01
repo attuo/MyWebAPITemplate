@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using MyWebAPITemplate.ApplicationCore.Entities;
+using MyWebAPITemplate.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MyWebAPITemplate.Infrastructure.Database

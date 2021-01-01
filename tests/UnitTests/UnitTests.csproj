@@ -23,8 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApplicationCore\" />
+    <Folder Include="Core\" />
     <Folder Include="Infrastructure\" />
+    <Folder Include="src\" />
   </ItemGroup>
 
   <ItemGroup>

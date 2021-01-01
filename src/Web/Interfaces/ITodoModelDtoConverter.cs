@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using MyWebAPITemplate.ApplicationCore.Dtos;
+using MyWebAPITemplate.Core.Dtos;
 using MyWebAPITemplate.Models.ResponseModels;
 using MyWebAPITemplate.Web.Models.RequestModels;
 

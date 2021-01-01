@@ -20,7 +20,7 @@ namespace MyWebAPITemplate.Infrastructure.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MyWebAPITemplate.ApplicationCore.Entities.TodoEntity", b =>
+            modelBuilder.Entity("MyWebAPITemplate.Core.Entities.TodoEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

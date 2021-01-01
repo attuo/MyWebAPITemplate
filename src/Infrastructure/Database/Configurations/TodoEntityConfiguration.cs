@@ -1,4 +1,4 @@
-﻿using MyWebAPITemplate.ApplicationCore.Entities;
+﻿using MyWebAPITemplate.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

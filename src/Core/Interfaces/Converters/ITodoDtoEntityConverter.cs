@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using MyWebAPITemplate.ApplicationCore.Dtos;
-using MyWebAPITemplate.ApplicationCore.Entities;
+using MyWebAPITemplate.Core.Dtos;
+using MyWebAPITemplate.Core.Entities;
 
-namespace MyWebAPITemplate.ApplicationCore.Interfaces.Converters
+namespace MyWebAPITemplate.Core.Interfaces.Converters
 {
     public interface ITodoDtoEntityConverter
     {

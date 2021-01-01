@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyWebAPITemplate.ApplicationCore.Dtos;
-using MyWebAPITemplate.ApplicationCore.Interfaces.InternalServices;
+using MyWebAPITemplate.Core.Dtos;
+using MyWebAPITemplate.Core.Interfaces.InternalServices;
 using MyWebAPITemplate.Models.ResponseModels;
 using MyWebAPITemplate.Web.Controllers.Api;
 using MyWebAPITemplate.Web.Interfaces;

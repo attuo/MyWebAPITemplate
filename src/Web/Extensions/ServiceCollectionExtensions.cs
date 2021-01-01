@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Ardalis.ListStartupServices;
-using MyWebAPITemplate.ApplicationCore.Converter;
-using MyWebAPITemplate.ApplicationCore.Interfaces.Converters;
-using MyWebAPITemplate.ApplicationCore.Interfaces.Database;
-using MyWebAPITemplate.ApplicationCore.Interfaces.InternalServices;
-using MyWebAPITemplate.ApplicationCore.Services;
+using MyWebAPITemplate.Core.Converters;
+using MyWebAPITemplate.Core.Interfaces.Converters;
+using MyWebAPITemplate.Core.Interfaces.Database;
+using MyWebAPITemplate.Core.Interfaces.InternalServices;
+using MyWebAPITemplate.Core.Services;
 using MyWebAPITemplate.Infrastructure.Database;
 using MyWebAPITemplate.Infrastructure.Database.Repositories;
 using MyWebAPITemplate.Web.Converters;
@@ -39,7 +39,7 @@ namespace MyWebAPITemplate.Web.Extensions
         }
 
         /// <summary>
-        /// Services from ApplicationCore/Services 
+        /// Services from Core/Services 
         /// </summary>
         /// <param name="services"></param>
         private static void AddInternalServices(IServiceCollection services)

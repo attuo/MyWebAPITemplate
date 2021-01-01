@@ -1,5 +1,7 @@
-﻿using MyWebAPITemplate.ApplicationCore.Entities;
-using MyWebAPITemplate.ApplicationCore.Interfaces.Database;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MyWebAPITemplate.Core.Entities;
+using MyWebAPITemplate.Core.Interfaces.Database;
 
 namespace MyWebAPITemplate.Infrastructure.Database.Repositories
 {
@@ -13,7 +15,6 @@ namespace MyWebAPITemplate.Infrastructure.Database.Repositories
         //{
         //    return _dbContext.Todos
         //        .Include(o => o.TodoItems)
-        //        .Include($"{nameof(Todo.TodoItems)}.{nameof(TodoItem.ItemOrdered)}")
         //        .FirstOrDefaultAsync(x => x.Id == id);
         //}
     }
