@@ -8,7 +8,8 @@ using MyWebAPITemplate.Web.Interfaces;
 using MyWebAPITemplate.Web.Models.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using AutoMapper;
+using System.Linq;
 
 namespace MyWebAPITemplate.Controllers.Api
 {
@@ -16,11 +17,13 @@ namespace MyWebAPITemplate.Controllers.Api
     {
         private readonly ITodoService _todoService;
         private readonly ITodoModelDtoConverter _todoConverter;
+        private readonly IMapper _mapper;
 
-        public TodosController(ITodoService todoService, ITodoModelDtoConverter todoConverter)
+        public TodosController(ITodoService todoService, ITodoModelDtoConverter todoConverter, IMapper mapper)
         {
             _todoService = todoService;
             _todoConverter = todoConverter;
+            _mapper = mapper;
         }
 
         // GET: api/Todos
@@ -33,7 +36,8 @@ namespace MyWebAPITemplate.Controllers.Api
         public async Task<ActionResult<IEnumerable<TodoResponseModel>>> Get()
         {
             IEnumerable<TodoDto> todoDtos = await _todoService.GetTodos();
-            IEnumerable<TodoResponseModel> todoModels = _todoConverter.Convert(todoDtos);
+            IEnumerable<TodoResponseModel> todoModels = _mapper.Map<IEnumerable<TodoResponseModel>>(todoDtos);
+            //IEnumerable<TodoResponseModel> todoModels = _todoConverter.Convert(todoDtos);
 
             return Ok(todoModels);
         }
@@ -56,9 +60,9 @@ namespace MyWebAPITemplate.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<TodoResponseModel>> Post([FromBody] TodoRequestModel model)
         {
-            TodoDto newTodoDto = _todoConverter.Convert(model);
+            TodoDto newTodoDto = _mapper.Map<TodoDto>(model);
             TodoDto createdTodoDto = await _todoService.CreateTodo(newTodoDto);
-            TodoResponseModel createdTodoModel = _todoConverter.Convert(createdTodoDto);
+            TodoResponseModel createdTodoModel = _mapper.Map<TodoResponseModel>(createdTodoDto);
 
             return Ok(createdTodoModel);
         }

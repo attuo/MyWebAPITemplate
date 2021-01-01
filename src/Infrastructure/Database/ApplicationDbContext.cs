@@ -18,7 +18,6 @@ namespace MyWebAPITemplate.Infrastructure.Database
             base.OnModelCreating(builder);
             // Taken from https://github.com/dotnet-architecture/eShopOnWeb/blob/master/src/Infrastructure/Data/CatalogContext.cs
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            //builder.Entity<TodoEntity>(ConfigureTodoEntity);
         }
 
     }

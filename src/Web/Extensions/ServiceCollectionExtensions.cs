@@ -19,6 +19,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using AutoMapper;
+using MyWebAPITemplate.Web.Mappings;
 
 namespace MyWebAPITemplate.Web.Extensions
 {
@@ -103,7 +105,17 @@ namespace MyWebAPITemplate.Web.Extensions
         {
             // Register the validators here
             services.AddTransient<IValidator<TodoRequestModel>, TodoRequestModelValidator>();
+            return services;
+        }
 
+        #endregion
+
+        #region Configure AutoMapper
+
+        public static IServiceCollection AddAutoMapper(this IServiceCollection services)
+        {
+            
+            services.AddAutoMapper(typeof(Startup));
             return services;
         }
 
