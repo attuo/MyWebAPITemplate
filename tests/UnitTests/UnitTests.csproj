@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
     <Folder Include="Infrastructure\" />
+    <Folder Include="Web\Middlewares\" />
   </ItemGroup>
 
   <ItemGroup>
