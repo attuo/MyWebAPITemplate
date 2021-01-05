@@ -42,6 +42,10 @@ This project started as my way to handle the information flow of everything that
   - Model Converters
 
 ## Usage
+  Initialize database (from Web folder CLI)
+  > dotnet ef database update -c ApplicationDbContext -p ../Infrastructure/Infrastructure.csproj -s Web.csproj
+  Migrate database (from Web folder CLI)
+  dotnet ef migrations add InitialModel --context ApplicationDbContext -p ../Infrastructure/Infrastructure.csproj -s Web.csproj -o Database/Migrations
 
   - TODO!
 
