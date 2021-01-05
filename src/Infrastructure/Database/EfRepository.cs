@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MyWebAPITemplate.Core.Entities;
 using MyWebAPITemplate.Core.Interfaces.Database;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace MyWebAPITemplate.Infrastructure.Database
 {
@@ -21,7 +22,7 @@ namespace MyWebAPITemplate.Infrastructure.Database
             _dbContext = dbContext;
         }
 
-        public virtual async Task<T> GetByIdAsync(int id)
+        public virtual async Task<T> GetByIdAsync(Guid id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }

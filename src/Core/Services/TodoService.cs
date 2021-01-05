@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyWebAPITemplate.Core.Dtos;
 using MyWebAPITemplate.Core.Entities;
@@ -26,7 +27,7 @@ namespace MyWebAPITemplate.Core.Services
             return todoDtos;
         }
 
-        public async Task<TodoDto> GetTodo(int id)
+        public async Task<TodoDto> GetTodo(Guid id)
         {
             TodoEntity todoEntity = await _todoRepository.GetByIdAsync(id);
             if (todoEntity == null) return null;
@@ -42,7 +43,7 @@ namespace MyWebAPITemplate.Core.Services
             return createdTodoDto;
         }
 
-        public async Task<TodoDto> UpdateTodo(int id, TodoDto updatableTodoDto)
+        public async Task<TodoDto> UpdateTodo(Guid id, TodoDto updatableTodoDto)
         {
             TodoEntity existingTodoEntity = await _todoRepository.GetByIdAsync(id);
             if (existingTodoEntity == null) return null;
@@ -54,10 +55,10 @@ namespace MyWebAPITemplate.Core.Services
             return updatedTodo;
         }
 
-        public async Task<bool> DeleteTodo(int id)
+        public async Task<bool?> DeleteTodo(Guid id)
         {
             TodoEntity existingTodoEntity = await _todoRepository.GetByIdAsync(id);
-            if (existingTodoEntity == null) return false;
+            if (existingTodoEntity == null) return null;
 
             await _todoRepository.DeleteAsync(existingTodoEntity);
             return true;
