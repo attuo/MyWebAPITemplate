@@ -28,7 +28,8 @@ namespace MyWebAPITemplate.UnitTests.Core.Converters
             TodoEntity result = converter.Convert(dto);
 
             // 3.
-            result.Should().BeEquivalentTo(dto);
+            result.Should().BeEquivalentTo(dto, options => options.Excluding(o => o.Id));
+            result.Id.Should().Be(Guid.Empty);
         }
 
         [Fact]
@@ -36,7 +37,7 @@ namespace MyWebAPITemplate.UnitTests.Core.Converters
         {
             // 1.
             var converter = new TodoDtoEntityConverter();
-            TodoDto dto = TodoDtoBuilder.CreateValid();
+            TodoDto dto = null;
 
             // 2.
             TodoEntity result = converter.Convert(dto);
@@ -61,16 +62,16 @@ namespace MyWebAPITemplate.UnitTests.Core.Converters
             TodoEntity result = converter.Convert(dto, entity);
 
             // 3.
-            result.Should().BeEquivalentTo(dto);
+            result.Should().BeEquivalentTo(dto, options => options.Excluding(o => o.Id));
+            result.Id.Should().Be(entity.Id);
         }
 
-        [Fact]
-        public void Convert_EntityDtoToEntity_Is_Null()
+        [Theory]
+        [MemberData(nameof(NullParameterData))]
+        public void Convert_EntityDtoToEntity_Is_Null(TodoDto dto, TodoEntity entity)
         {
             // 1.
             var converter = new TodoDtoEntityConverter();
-            TodoEntity entity = TodoEntityBuilder.CreateValid();
-            TodoDto dto = TodoDtoBuilder.CreateValid();
 
             // 2.
             TodoEntity result = converter.Convert(dto, entity);
@@ -134,7 +135,7 @@ namespace MyWebAPITemplate.UnitTests.Core.Converters
         {
             // 1.
             var converter = new TodoDtoEntityConverter();
-            IReadOnlyList<TodoEntity> entities = new List<TodoEntity> { TodoEntityBuilder.CreateValid() };
+            IReadOnlyList<TodoEntity> entities = null;
 
             // 2.
             IEnumerable<TodoDto> result = converter.Convert(entities);
@@ -144,5 +145,17 @@ namespace MyWebAPITemplate.UnitTests.Core.Converters
         }
 
         #endregion
+
+        #region Utils
+
+        public static IEnumerable<object[]> NullParameterData => new List<object[]>
+        {
+            new object[] { TodoDtoBuilder.CreateValid(), null },
+            new object[] { null, TodoEntityBuilder.CreateValid() } ,
+            new object[] { null, null },
+        };
+
+        #endregion
+
     }
 }

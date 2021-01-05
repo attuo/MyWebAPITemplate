@@ -8,6 +8,11 @@ namespace MyWebAPITemplate.Core.Converters
 {
     public class TodoDtoEntityConverter : ITodoDtoEntityConverter
     {
+        /// <summary>
+        /// Conversion from dto to entity does not include ID. It is always Guid.Empty on Entity when converted
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public TodoEntity Convert(TodoDto dto)
         {
             if (dto == null) return null;
