@@ -8,6 +8,7 @@ using MyWebAPITemplate.Web.Interfaces;
 using MyWebAPITemplate.Web.Models.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace MyWebAPITemplate.Controllers.Api
 {
@@ -41,7 +42,7 @@ namespace MyWebAPITemplate.Controllers.Api
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TodoResponseModel>> Get([FromRoute] int id)
+        public async Task<ActionResult<TodoResponseModel>> Get([FromRoute] Guid id)
         {
             TodoDto todoDto = await _todoService.GetTodo(id);
             if (todoDto == null) return NotFound(id);
@@ -66,7 +67,7 @@ namespace MyWebAPITemplate.Controllers.Api
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TodoResponseModel>> Put([FromRoute] int id, [FromBody] TodoRequestModel model)
+        public async Task<ActionResult<TodoResponseModel>> Put([FromRoute] Guid id, [FromBody] TodoRequestModel model)
         {
             TodoDto updatableTodoDto = _todoConverter.Convert(model);
             TodoDto updatedTodoDto = await _todoService.UpdateTodo(id, updatableTodoDto);
@@ -80,10 +81,10 @@ namespace MyWebAPITemplate.Controllers.Api
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Delete([FromRoute] int id)
+        public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
-            bool result = await _todoService.DeleteTodo(id);
-            if (result == false) return NotFound(id);
+            bool? result = await _todoService.DeleteTodo(id);
+            if (result == null) return NotFound(id);
 
             return NoContent();
         }
