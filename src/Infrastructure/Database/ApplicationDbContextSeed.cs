@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MyWebAPITemplate.Core.Entities;
 
@@ -15,11 +16,14 @@ namespace MyWebAPITemplate.Infrastructure.Database
         {
             // TODO Seeding could also be done in OnModelCreating?
             // https://www.learnentityframeworkcore.com/migrations/seeding
+            Guid todoId = Guid.Parse("10000000-0000-0000-0000-000000000000");
+            TodoEntity existingTodo = await context.Todos.FindAsync(todoId);
 
-            if (context.Todos.FirstOrDefault() == null)
+            if (existingTodo == null)
             {
                 var todo = new TodoEntity()
                 {
+                    Id = todoId,
                     Description = "Description for seeded todo",
                     IsDone = false
                 };

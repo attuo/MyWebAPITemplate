@@ -4,23 +4,26 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using MyWebAPITemplate.IntegrationTests.Builders.Models;
+using MyWebAPITemplate.FunctionalTests.Builders.Models;
 using MyWebAPITemplate.Models.ResponseModels;
 using MyWebAPITemplate.Web.Models.RequestModels;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Xunit;
+using MyWebAPITemplate.Web;
+using System.Linq;
 
-namespace MyWebAPITemplate.IntegrationTests.EndpointTests
+namespace MyWebAPITemplate.FunctionalTests.EndpointTests
 {
-    public class TodoEndpointTests : IClassFixture<BaseWebApplicationFactory>
+    [Collection("Sequential")]
+    public class TodoEndpointTests : IClassFixture<WebTestFixture<Startup>>
     {
         private const string BASE_ADDRESS = "https://localhost:5001/";
-        private const string ENDPOINT_NAME = "api/Todos";
+        private const string ENDPOINT_NAME = "api/Todos/";
         private readonly HttpClient _client;
 
-        public TodoEndpointTests(BaseWebApplicationFactory factory)
+        public TodoEndpointTests(WebTestFixture<Startup> factory)
         {
             _client = factory.CreateClient(new WebApplicationFactoryClientOptions
             {
@@ -41,7 +44,7 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            responseTodos.Should().HaveCountGreaterThan(1).And.HaveCountLessThan(3);
+            responseTodos.Should().HaveCount(2);
 
         }
 
@@ -49,10 +52,10 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
         public async Task Get_One_OK()
         {
             // Arrange
-            int todoId = 1;
+            Guid todoId = Guid.Parse(TestDatabaseSeed.TodoId1);
 
             // Act
-            var response = await _client.GetAsync(ENDPOINT_NAME + "/" + todoId);
+            var response = await _client.GetAsync(ENDPOINT_NAME + todoId);
             var responseBody = await response.Content.ReadAsStringAsync();
             var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
 
@@ -66,10 +69,10 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
         public async Task Get_One_NotFound()
         {
             // Arrange
-            int todoId = 1000;
+            Guid todoId = Guid.Parse("99999999-9999-9999-9999-999999999999");
 
             // Act
-            var response = await _client.GetAsync(ENDPOINT_NAME + "/" + todoId);
+            var response = await _client.GetAsync(ENDPOINT_NAME + todoId);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -91,6 +94,7 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             responseTodo.Should().NotBeNull();
+            responseTodo.Id.Should().NotBeEmpty();
             
         }
 
@@ -98,7 +102,7 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
         public async Task Update_One_OK()
         {
             // Arrange
-            int todoId = 1;
+            Guid todoId = Guid.Parse(TestDatabaseSeed.TodoId1);
             var model = new TodoRequestModel
             {
                 Description = "Changed description",
@@ -107,7 +111,7 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
             var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _client.PutAsync(ENDPOINT_NAME + "/" + todoId, content);
+            var response = await _client.PutAsync(ENDPOINT_NAME + todoId, content);
             var responseBody = await response.Content.ReadAsStringAsync();
             var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
 
@@ -123,7 +127,7 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
         public async Task Update_One_NotFound()
         {
             // Arrange
-            int todoId = 1000;
+            Guid todoId = Guid.Parse("99999999-9999-9999-9999-999999999999");
             var model = new TodoRequestModel
             {
                 Description = "Changed description",
@@ -132,7 +136,7 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
             var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _client.PutAsync(ENDPOINT_NAME + "/" + todoId, content);
+            var response = await _client.PutAsync(ENDPOINT_NAME + todoId, content);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -142,10 +146,10 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
         public async Task Delete_One_OK()
         {
             // Arrange
-            int todoId = 2;
+            Guid todoId = Guid.Parse(TestDatabaseSeed.TodoId2);
 
             // Act
-            var response = await _client.DeleteAsync(ENDPOINT_NAME + "/" + todoId);
+            var response = await _client.DeleteAsync(ENDPOINT_NAME + todoId);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -155,7 +159,7 @@ namespace MyWebAPITemplate.IntegrationTests.EndpointTests
         public async Task Delete_One_NotFound()
         {
             // Arrange
-            int todoId = 1000;
+            Guid todoId = Guid.Parse("99999999-9999-9999-9999-999999999999");
 
             // Act
             var response = await _client.DeleteAsync(ENDPOINT_NAME + "/" + todoId);

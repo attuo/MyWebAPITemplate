@@ -108,7 +108,6 @@ namespace MyWebAPITemplate.Web.Extensions
 
         #endregion
 
-
         #region Configure Database
 
         public static IServiceCollection ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)

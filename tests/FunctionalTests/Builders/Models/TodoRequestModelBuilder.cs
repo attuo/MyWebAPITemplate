@@ -1,6 +1,6 @@
 ﻿using MyWebAPITemplate.Web.Models.RequestModels;
 
-namespace MyWebAPITemplate.IntegrationTests.Builders.Models
+namespace MyWebAPITemplate.FunctionalTests.Builders.Models
 {
     public static class TodoRequestModelBuilder
     {

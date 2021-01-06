@@ -150,7 +150,7 @@ namespace MyWebAPITemplate.UnitTests.Core.Services
             // Assert
             result.Should().BeOfType<TodoDto>();
             mockTodoRepository.Verify(c => c.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
-            mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoDto>()), Times.Once);
+            mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoDto>(), It.IsAny<TodoEntity>()), Times.Once);
             mockTodoRepository.Verify(c => c.UpdateAsync(It.IsAny<TodoEntity>()), Times.Once);
             mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoEntity>()), Times.Once);
         }
