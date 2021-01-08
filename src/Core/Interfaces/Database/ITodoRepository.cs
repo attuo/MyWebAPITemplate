@@ -1,6 +1,6 @@
-﻿using MyWebAPITemplate.Core.Entities;
+﻿using MyWebAPITemplate.Source.Core.Entities;
 
-namespace MyWebAPITemplate.Core.Interfaces.Database
+namespace MyWebAPITemplate.Source.Core.Interfaces.Database
 {
     public interface ITodoRepository : IAsyncRepository<TodoEntity>
     {

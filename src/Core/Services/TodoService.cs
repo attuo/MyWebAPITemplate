@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyWebAPITemplate.Core.Dtos;
-using MyWebAPITemplate.Core.Entities;
-using MyWebAPITemplate.Core.Interfaces.Converters;
-using MyWebAPITemplate.Core.Interfaces.Database;
-using MyWebAPITemplate.Core.Interfaces.InternalServices;
+using MyWebAPITemplate.Source.Core.Dtos;
+using MyWebAPITemplate.Source.Core.Entities;
+using MyWebAPITemplate.Source.Core.Interfaces.Converters;
+using MyWebAPITemplate.Source.Core.Interfaces.Database;
+using MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
 
-namespace MyWebAPITemplate.Core.Services
+namespace MyWebAPITemplate.Source.Core.Services
 {
     public class TodoService : ITodoService
     {

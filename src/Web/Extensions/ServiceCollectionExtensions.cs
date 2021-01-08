@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Ardalis.ListStartupServices;
-using MyWebAPITemplate.Core.Converters;
-using MyWebAPITemplate.Core.Interfaces.Converters;
-using MyWebAPITemplate.Core.Interfaces.Database;
-using MyWebAPITemplate.Core.Interfaces.InternalServices;
-using MyWebAPITemplate.Core.Services;
-using MyWebAPITemplate.Infrastructure.Database;
-using MyWebAPITemplate.Infrastructure.Database.Repositories;
-using MyWebAPITemplate.Web.Converters;
-using MyWebAPITemplate.Web.Interfaces;
-using MyWebAPITemplate.Web.Models.RequestModels;
-using MyWebAPITemplate.Web.Validators;
+using MyWebAPITemplate.Source.Core.Converters;
+using MyWebAPITemplate.Source.Core.Interfaces.Converters;
+using MyWebAPITemplate.Source.Core.Interfaces.Database;
+using MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
+using MyWebAPITemplate.Source.Core.Services;
+using MyWebAPITemplate.Source.Infrastructure.Database;
+using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
+using MyWebAPITemplate.Source.Web.Converters;
+using MyWebAPITemplate.Source.Web.Interfaces;
+using MyWebAPITemplate.Source.Web.Models.RequestModels;
+using MyWebAPITemplate.Source.Web.Validators;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace MyWebAPITemplate.Web.Extensions
+namespace MyWebAPITemplate.Source.Web.Extensions
 {
     public static class ServiceCollectionExtensions
     {

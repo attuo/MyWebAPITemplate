@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyWebAPITemplate.Core.Dtos
+namespace MyWebAPITemplate.Source.Core.Dtos
 {
     public class TodoDto
     {

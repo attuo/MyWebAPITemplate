@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace MyWebAPITemplate.Web.Middlewares
+namespace MyWebAPITemplate.Source.Web.Middlewares
 {
     public class GlobalErrorHandlingMiddleware
     {

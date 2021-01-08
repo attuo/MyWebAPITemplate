@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MyWebAPITemplate.Infrastructure.Database;
+using MyWebAPITemplate.Source.Infrastructure.Database;
 
-namespace MyWebAPITemplate.Infrastructure.Database.Migrations
+namespace MyWebAPITemplate.Source.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -19,7 +19,7 @@ namespace MyWebAPITemplate.Infrastructure.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
-            modelBuilder.Entity("MyWebAPITemplate.Core.Entities.TodoEntity", b =>
+            modelBuilder.Entity("MyWebAPITemplate.Source.Core.Entities.TodoEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

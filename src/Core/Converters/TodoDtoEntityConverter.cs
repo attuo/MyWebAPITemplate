@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MyWebAPITemplate.Core.Dtos;
-using MyWebAPITemplate.Core.Entities;
-using MyWebAPITemplate.Core.Interfaces.Converters;
+using MyWebAPITemplate.Source.Core.Dtos;
+using MyWebAPITemplate.Source.Core.Entities;
+using MyWebAPITemplate.Source.Core.Interfaces.Converters;
 
-namespace MyWebAPITemplate.Core.Converters
+namespace MyWebAPITemplate.Source.Core.Converters
 {
     public class TodoDtoEntityConverter : ITodoDtoEntityConverter
     {

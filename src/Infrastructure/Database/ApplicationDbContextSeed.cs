@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MyWebAPITemplate.Core.Entities;
+using MyWebAPITemplate.Source.Core.Entities;
 
-namespace MyWebAPITemplate.Infrastructure.Database
+namespace MyWebAPITemplate.Source.Infrastructure.Database
 {
     public class ApplicationDbContextSeed
     {

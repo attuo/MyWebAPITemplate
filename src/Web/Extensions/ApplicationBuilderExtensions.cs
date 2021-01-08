@@ -1,5 +1,5 @@
 ﻿using Ardalis.ListStartupServices;
-using MyWebAPITemplate.Web.Middlewares;
+using MyWebAPITemplate.Source.Web.Middlewares;
 //using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;

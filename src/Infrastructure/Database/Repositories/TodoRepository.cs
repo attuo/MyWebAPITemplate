@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using MyWebAPITemplate.Core.Entities;
-using MyWebAPITemplate.Core.Interfaces.Database;
+using MyWebAPITemplate.Source.Core.Entities;
+using MyWebAPITemplate.Source.Core.Interfaces.Database;
 
-namespace MyWebAPITemplate.Infrastructure.Database.Repositories
+namespace MyWebAPITemplate.Source.Infrastructure.Database.Repositories
 {
     public class TodoRepository : EfRepository<TodoEntity>, ITodoRepository
     {

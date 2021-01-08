@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MyWebAPITemplate.UnitTests.Utils
+namespace MyWebAPITemplate.Tests.UnitTests.Utils
 {
     public static class ActionResultUtils
     {

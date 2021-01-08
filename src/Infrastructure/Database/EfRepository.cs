@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyWebAPITemplate.Core.Entities;
-using MyWebAPITemplate.Core.Interfaces.Database;
+using MyWebAPITemplate.Source.Core.Entities;
+using MyWebAPITemplate.Source.Core.Interfaces.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace MyWebAPITemplate.Infrastructure.Database
+namespace MyWebAPITemplate.Source.Infrastructure.Database
 {
     /// <summary>
     /// "There's some repetition here - couldn't we have some the sync methods call the async?"
@@ -22,14 +22,14 @@ namespace MyWebAPITemplate.Infrastructure.Database
             _dbContext = dbContext;
         }
 
-        public virtual async Task<T> GetByIdAsync(Guid id)
-        {
-            return await _dbContext.Set<T>().FindAsync(id);
-        }
-
         public async Task<IReadOnlyList<T>> ListAllAsync()
         {
             return await _dbContext.Set<T>().ToListAsync();
+        }
+
+        public virtual async Task<T> GetByIdAsync(Guid id)
+        {
+            return await _dbContext.Set<T>().FindAsync(id);
         }
 
         //public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MyWebAPITemplate.Core.Dtos;
+using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Models.ResponseModels;
-using MyWebAPITemplate.Web.Interfaces;
-using MyWebAPITemplate.Web.Models.RequestModels;
+using MyWebAPITemplate.Source.Web.Interfaces;
+using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
-namespace MyWebAPITemplate.Web.Converters
+namespace MyWebAPITemplate.Source.Web.Converters
 {
     public class TodoModelDtoConverter : ITodoModelDtoConverter
     {

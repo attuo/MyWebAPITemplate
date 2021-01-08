@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MyWebAPITemplate.Infrastructure.Database.Migrations
+namespace MyWebAPITemplate.Source.Infrastructure.Database.Migrations
 {
     public partial class InitialModel : Migration
     {

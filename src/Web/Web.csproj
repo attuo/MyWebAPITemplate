@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>MyWebAPITemplate.Web</RootNamespace>
+    <RootNamespace>MyWebAPITemplate.Source.Web</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>

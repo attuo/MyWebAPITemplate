@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using MyWebAPITemplate.Core.Entities;
+using MyWebAPITemplate.Source.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace MyWebAPITemplate.Infrastructure.Database
+namespace MyWebAPITemplate.Source.Infrastructure.Database
 {
     public class ApplicationDbContext : DbContext
     {

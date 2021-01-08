@@ -1,12 +1,12 @@
 using MyWebAPITemplate.Extensions;
-using MyWebAPITemplate.Web.Extensions;
+using MyWebAPITemplate.Source.Web.Extensions;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MyWebAPITemplate.Web
+namespace MyWebAPITemplate.Source.Web
 {
     public class Startup
     {

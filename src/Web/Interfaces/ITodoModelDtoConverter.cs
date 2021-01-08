@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using MyWebAPITemplate.Core.Dtos;
+using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Models.ResponseModels;
-using MyWebAPITemplate.Web.Models.RequestModels;
+using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
-namespace MyWebAPITemplate.Web.Interfaces
+namespace MyWebAPITemplate.Source.Web.Interfaces
 {
     public interface ITodoModelDtoConverter
     {

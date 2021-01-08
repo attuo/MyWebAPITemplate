@@ -1,6 +1,6 @@
 using System;
-using MyWebAPITemplate.Infrastructure.Database;
-using MyWebAPITemplate.Web;
+using MyWebAPITemplate.Source.Infrastructure.Database;
+using MyWebAPITemplate.Source.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
