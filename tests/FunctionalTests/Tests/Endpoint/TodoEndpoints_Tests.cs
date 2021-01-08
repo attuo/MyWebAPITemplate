@@ -4,15 +4,15 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using MyWebAPITemplate.Tests.Shared.Builders.Models;
-using MyWebAPITemplate.Models.ResponseModels;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
+using MyWebAPITemplate.Models.ResponseModels;
+using MyWebAPITemplate.Source.Web;
+using MyWebAPITemplate.Tests.FunctionalTests.Utils;
+using MyWebAPITemplate.Tests.Shared.Builders.Models;
+using MyWebAPITemplate.Tests.UnitTests.Shared.Ids;
 using Newtonsoft.Json;
 using Xunit;
-using MyWebAPITemplate.Source.Web;
-using MyWebAPITemplate.Tests.UnitTests.Shared.Ids;
-using MyWebAPITemplate.Tests.FunctionalTests.Utils;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.Endpoint
 {
@@ -45,7 +45,7 @@ namespace MyWebAPITemplate.Tests.FunctionalTests.Endpoint
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             // TODO: Make the tests to be independent. Currently this test also get affected by the create todo test
-            responseTodos.Should().HaveCount(2); 
+            responseTodos.Should().HaveCount(2);
 
         }
 
@@ -63,7 +63,7 @@ namespace MyWebAPITemplate.Tests.FunctionalTests.Endpoint
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             responseTodo.Should().NotBeNull();
-            
+
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace MyWebAPITemplate.Tests.FunctionalTests.Endpoint
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             responseTodo.Should().NotBeNull();
             responseTodo.Id.Should().NotBeEmpty();
-            
+
         }
 
         [Fact]
@@ -117,7 +117,7 @@ namespace MyWebAPITemplate.Tests.FunctionalTests.Endpoint
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             responseTodo.Should().NotBeNull();
-            
+
             responseTodo.Description.Should().Be(model.Description);
             responseTodo.IsDone.Should().Be(model.IsDone);
         }

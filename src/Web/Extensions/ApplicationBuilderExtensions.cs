@@ -1,11 +1,8 @@
-﻿using Ardalis.ListStartupServices;
-using MyWebAPITemplate.Source.Web.Middlewares;
-//using HealthChecks.UI.Client;
+﻿//using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
+using MyWebAPITemplate.Source.Web.Middlewares;
 
 namespace MyWebAPITemplate.Extensions
 {
@@ -26,8 +23,8 @@ namespace MyWebAPITemplate.Extensions
                     .UseDeveloperExceptionPage()
                     .UseMigrationsEndPoint()
                     .UseCors();
-                    //.UseShowAllServicesMiddleware()
-                    //.UseDatabaseErrorPage();
+                //.UseShowAllServicesMiddleware()
+                //.UseDatabaseErrorPage();
             }
 
             return app;
@@ -72,7 +69,7 @@ namespace MyWebAPITemplate.Extensions
         public static IApplicationBuilder UseCors(this IApplicationBuilder app)
         {
             app.UseCors("AnyOrigin");
-            
+
             return app;
         }
 

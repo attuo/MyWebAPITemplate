@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using MyWebAPITemplate.Controllers.Api;
+using MyWebAPITemplate.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
-using MyWebAPITemplate.Models.ResponseModels;
 using MyWebAPITemplate.Source.Web.Interfaces;
-using Xunit;
-using MyWebAPITemplate.Tests.UnitTests.Utils;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
+using MyWebAPITemplate.Tests.UnitTests.Utils;
+using Xunit;
 
 namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
 {

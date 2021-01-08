@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using MyWebAPITemplate.Source.Core.Entities;
+﻿using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Core.Interfaces.Database;
 
 namespace MyWebAPITemplate.Source.Infrastructure.Database.Repositories

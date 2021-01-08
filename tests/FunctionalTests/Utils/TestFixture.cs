@@ -1,14 +1,14 @@
 ﻿using System;
-using MyWebAPITemplate.Source.Infrastructure.Database;
-using MyWebAPITemplate.Source.Web;
+using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System.Linq;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Logging;
+using MyWebAPITemplate.Source.Infrastructure.Database;
+using MyWebAPITemplate.Source.Web;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.Utils
 {

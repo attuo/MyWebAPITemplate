@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using MyWebAPITemplate.Source.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using MyWebAPITemplate.Source.Core.Entities;
 
 namespace MyWebAPITemplate.Source.Infrastructure.Database
 {

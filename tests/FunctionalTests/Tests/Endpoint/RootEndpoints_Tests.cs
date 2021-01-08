@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
-using MyWebAPITemplate.Source.Web;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Xunit;
+using MyWebAPITemplate.Source.Web;
 using MyWebAPITemplate.Tests.FunctionalTests.Utils;
-using System.Net.Http;
+using Xunit;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.EndpointTests
 {

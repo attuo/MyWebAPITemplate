@@ -1,6 +1,6 @@
-﻿using MyWebAPITemplate.Source.Core.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using MyWebAPITemplate.Source.Core.Entities;
 
 namespace MyWebAPITemplate.Source.Infrastructure.Database.Configurations
 {

@@ -1,5 +1,5 @@
-﻿using MyWebAPITemplate.Source.Web.Models.RequestModels;
-using FluentValidation;
+﻿using FluentValidation;
+using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
 namespace MyWebAPITemplate.Source.Web.Validators
 {

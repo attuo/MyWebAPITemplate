@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Infrastructure.Database;
@@ -31,7 +30,7 @@ namespace MyWebAPITemplate.Tests.FunctionalTests.Utils
 
         // TODO: Change this to be a generic method
         public static List<TodoEntity> CreateTestTodos()
-        { 
+        {
             return new List<TodoEntity>()
             {
                 TodoEntityBuilder.CreateValid(TestIds.NormalUsageId),

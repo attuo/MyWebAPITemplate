@@ -1,8 +1,8 @@
-﻿using MyWebAPITemplate.Tests.Shared.Builders.Models;
+﻿using FluentAssertions;
+using FluentValidation.Results;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
 using MyWebAPITemplate.Source.Web.Validators;
-using FluentAssertions;
-using FluentValidation.Results;
+using MyWebAPITemplate.Tests.Shared.Builders.Models;
 using Xunit;
 
 namespace MyWebAPITemplate.Tests.UnitTests.Web.Validators

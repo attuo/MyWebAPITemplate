@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MyWebAPITemplate.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
-using MyWebAPITemplate.Models.ResponseModels;
 using MyWebAPITemplate.Source.Web.Controllers.Api;
 using MyWebAPITemplate.Source.Web.Interfaces;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace MyWebAPITemplate.Controllers.Api
 {

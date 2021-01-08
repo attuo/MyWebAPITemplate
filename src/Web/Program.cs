@@ -1,10 +1,10 @@
 using System;
-using MyWebAPITemplate.Source.Infrastructure.Database;
-using MyWebAPITemplate.Source.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MyWebAPITemplate.Source.Infrastructure.Database;
+using MyWebAPITemplate.Source.Web;
 
 namespace MyWebAPITemplate
 {

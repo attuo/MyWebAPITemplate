@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Ardalis.ListStartupServices;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using MyWebAPITemplate.Source.Core.Converters;
 using MyWebAPITemplate.Source.Core.Interfaces.Converters;
 using MyWebAPITemplate.Source.Core.Interfaces.Database;
@@ -14,11 +19,6 @@ using MyWebAPITemplate.Source.Web.Converters;
 using MyWebAPITemplate.Source.Web.Interfaces;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
 using MyWebAPITemplate.Source.Web.Validators;
-using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 
 namespace MyWebAPITemplate.Source.Web.Extensions
 {

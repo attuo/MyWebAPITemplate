@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -27,7 +25,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Core.Services
             var mockTodoConverter = new Mock<ITodoDtoEntityConverter>();
 
             mockTodoRepository.Setup(s => s.ListAllAsync())
-                .ReturnsAsync(new List<TodoEntity> { new TodoEntity() } );
+                .ReturnsAsync(new List<TodoEntity> { new TodoEntity() });
             mockTodoConverter.Setup(s => s.Convert(It.IsAny<List<TodoEntity>>()))
                 .Returns(new List<TodoDto> { new TodoDto() });
 

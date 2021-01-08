@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Core.Interfaces.Database;
-using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace MyWebAPITemplate.Source.Infrastructure.Database
 {

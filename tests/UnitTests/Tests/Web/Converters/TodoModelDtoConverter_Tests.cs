@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Models.ResponseModels;
-using MyWebAPITemplate.Tests.Shared.Builders.Dtos;
-using MyWebAPITemplate.Tests.Shared.Builders.Models;
+using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Web.Converters;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
-using Xunit;
+using MyWebAPITemplate.Tests.Shared.Builders.Dtos;
+using MyWebAPITemplate.Tests.Shared.Builders.Models;
 using MyWebAPITemplate.Tests.UnitTests.Shared.Ids;
+using Xunit;
 
 namespace MyWebAPITemplate.Tests.UnitTests.Web.Converters
 {
@@ -22,7 +22,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Converters
             // 1.
             var converter = new TodoModelDtoConverter();
             TodoRequestModel model = TodoRequestModelBuilder.CreateValid();
-            
+
             // 2.
             TodoDto result = converter.Convert(model);
 

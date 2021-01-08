@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Models.ResponseModels;
+using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Web.Interfaces;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
