@@ -7,7 +7,7 @@ using MyWebAPITemplate.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
 using MyWebAPITemplate.Source.Web.Controllers.Api;
-using MyWebAPITemplate.Source.Web.Interfaces;
+using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
 namespace MyWebAPITemplate.Controllers.Api
@@ -15,12 +15,12 @@ namespace MyWebAPITemplate.Controllers.Api
     public class TodosController : BaseApiController
     {
         private readonly ITodoService _todoService;
-        private readonly ITodoModelDtoConverter _todoConverter;
+        private readonly ITodoModelDtoMapper _todoMapper;
 
-        public TodosController(ITodoService todoService, ITodoModelDtoConverter todoConverter)
+        public TodosController(ITodoService todoService, ITodoModelDtoMapper todoMapper)
         {
             _todoService = todoService;
-            _todoConverter = todoConverter;
+            _todoMapper = todoMapper;
         }
 
         // GET: api/Todos
@@ -33,7 +33,7 @@ namespace MyWebAPITemplate.Controllers.Api
         public async Task<ActionResult<IEnumerable<TodoResponseModel>>> Get()
         {
             IEnumerable<TodoDto> todoDtos = await _todoService.GetTodos();
-            IEnumerable<TodoResponseModel> todoModels = _todoConverter.Convert(todoDtos);
+            IEnumerable<TodoResponseModel> todoModels = _todoMapper.Map(todoDtos);
 
             return Ok(todoModels);
         }
@@ -46,7 +46,7 @@ namespace MyWebAPITemplate.Controllers.Api
         {
             TodoDto todoDto = await _todoService.GetTodo(id);
             if (todoDto == null) return NotFound(id);
-            TodoResponseModel todoModel = _todoConverter.Convert(todoDto);
+            TodoResponseModel todoModel = _todoMapper.Map(todoDto);
 
             return Ok(todoModel);
         }
@@ -56,9 +56,9 @@ namespace MyWebAPITemplate.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<TodoResponseModel>> Post([FromBody] TodoRequestModel model)
         {
-            TodoDto newTodoDto = _todoConverter.Convert(model);
+            TodoDto newTodoDto = _todoMapper.Map(model);
             TodoDto createdTodoDto = await _todoService.CreateTodo(newTodoDto);
-            TodoResponseModel createdTodoModel = _todoConverter.Convert(createdTodoDto);
+            TodoResponseModel createdTodoModel = _todoMapper.Map(createdTodoDto);
 
             return Ok(createdTodoModel);
         }
@@ -69,10 +69,10 @@ namespace MyWebAPITemplate.Controllers.Api
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<TodoResponseModel>> Put([FromRoute] Guid id, [FromBody] TodoRequestModel model)
         {
-            TodoDto updatableTodoDto = _todoConverter.Convert(model);
+            TodoDto updatableTodoDto = _todoMapper.Map(model);
             TodoDto updatedTodoDto = await _todoService.UpdateTodo(id, updatableTodoDto);
             if (updatedTodoDto == null) return NotFound(id);
-            TodoResponseModel updatedTodoModel = _todoConverter.Convert(updatedTodoDto);
+            TodoResponseModel updatedTodoModel = _todoMapper.Map(updatedTodoDto);
 
             return Ok(updatedTodoModel);
         }

@@ -9,7 +9,7 @@ using MyWebAPITemplate.Controllers.Api;
 using MyWebAPITemplate.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
-using MyWebAPITemplate.Source.Web.Interfaces;
+using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
 using MyWebAPITemplate.Tests.UnitTests.Utils;
 using Xunit;
@@ -25,14 +25,14 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
-            var mockTodoConverter = new Mock<ITodoModelDtoConverter>();
+            var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
 
             mockTodoService.Setup(s => s.GetTodos())
                 .ReturnsAsync(new List<TodoDto> { new TodoDto() }.AsEnumerable());
-            mockTodoConverter.Setup(s => s.Convert(It.IsAny<List<TodoDto>>()))
+            mockTodoMapper.Setup(s => s.Map(It.IsAny<List<TodoDto>>()))
                 .Returns(new List<TodoResponseModel> { new TodoResponseModel() }.AsEnumerable());
 
-            var controller = new TodosController(mockTodoService.Object, mockTodoConverter.Object);
+            var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
             var result = await controller.Get();
@@ -44,7 +44,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
             resultObject.Should().HaveCount(1);
 
             mockTodoService.Verify(c => c.GetTodos(), Times.Once);
-            mockTodoConverter.Verify(c => c.Convert(It.IsAny<List<TodoDto>>()), Times.Once);
+            mockTodoMapper.Verify(c => c.Map(It.IsAny<List<TodoDto>>()), Times.Once);
         }
 
         #endregion
@@ -56,14 +56,14 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
-            var mockTodoConverter = new Mock<ITodoModelDtoConverter>();
+            var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
 
             mockTodoService.Setup(s => s.GetTodo(It.IsAny<Guid>()))
                 .ReturnsAsync(new TodoDto());
-            mockTodoConverter.Setup(s => s.Convert(It.IsAny<TodoDto>()))
+            mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>()))
                 .Returns(new TodoResponseModel());
 
-            var controller = new TodosController(mockTodoService.Object, mockTodoConverter.Object);
+            var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
             var result = await controller.Get(It.IsAny<Guid>());
@@ -74,7 +74,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
             resultObject.Should().BeOfType<TodoResponseModel>();
             resultObject.Should().NotBeNull();
             mockTodoService.Verify(c => c.GetTodo(It.IsAny<Guid>()), Times.Once);
-            mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoDto>()), Times.Once);
+            mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Once);
         }
 
         [Fact]
@@ -82,14 +82,14 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
-            var mockTodoConverter = new Mock<ITodoModelDtoConverter>();
+            var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
 
             mockTodoService.Setup(s => s.GetTodo(It.IsAny<Guid>()))
                 .ReturnsAsync((TodoDto)null);
-            mockTodoConverter.Setup(s => s.Convert(It.IsAny<TodoDto>()))
+            mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>()))
                 .Returns(new TodoResponseModel());
 
-            var controller = new TodosController(mockTodoService.Object, mockTodoConverter.Object);
+            var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
             var result = await controller.Get(It.IsAny<Guid>());
@@ -97,7 +97,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
             // Assert
             result.Result.Should().BeOfType<NotFoundObjectResult>();
             mockTodoService.Verify(c => c.GetTodo(It.IsAny<Guid>()), Times.Once);
-            mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoDto>()), Times.Never);
+            mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Never);
         }
 
         #endregion
@@ -109,16 +109,16 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
-            var mockTodoConverter = new Mock<ITodoModelDtoConverter>();
+            var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
 
             mockTodoService.Setup(s => s.CreateTodo(It.IsAny<TodoDto>()))
                 .ReturnsAsync(new TodoDto());
-            mockTodoConverter.Setup(s => s.Convert(It.IsAny<TodoRequestModel>()))
+            mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoRequestModel>()))
                 .Returns(new TodoDto());
-            mockTodoConverter.Setup(s => s.Convert(It.IsAny<TodoDto>()))
+            mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>()))
                 .Returns(new TodoResponseModel());
 
-            var controller = new TodosController(mockTodoService.Object, mockTodoConverter.Object);
+            var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
             var result = await controller.Post(It.IsAny<TodoRequestModel>());
@@ -128,9 +128,9 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
             var resultObject = result.GetObjectResult();
             resultObject.Should().BeOfType<TodoResponseModel>();
             resultObject.Should().NotBeNull();
-            mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoRequestModel>()), Times.Once);
+            mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoRequestModel>()), Times.Once);
             mockTodoService.Verify(c => c.CreateTodo(It.IsAny<TodoDto>()), Times.Once);
-            mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoDto>()), Times.Once);
+            mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Once);
         }
 
         #endregion
@@ -142,16 +142,16 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
-            var mockTodoConverter = new Mock<ITodoModelDtoConverter>();
+            var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
 
             mockTodoService.Setup(s => s.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>()))
                 .ReturnsAsync(new TodoDto());
-            mockTodoConverter.Setup(s => s.Convert(It.IsAny<TodoRequestModel>()))
+            mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoRequestModel>()))
                 .Returns(new TodoDto());
-            mockTodoConverter.Setup(s => s.Convert(It.IsAny<TodoDto>()))
+            mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>()))
                 .Returns(new TodoResponseModel());
 
-            var controller = new TodosController(mockTodoService.Object, mockTodoConverter.Object);
+            var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
             var result = await controller.Put(It.IsAny<Guid>(), It.IsAny<TodoRequestModel>());
@@ -161,9 +161,9 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
             var resultObject = result.GetObjectResult();
             resultObject.Should().BeOfType<TodoResponseModel>();
             resultObject.Should().NotBeNull();
-            mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoRequestModel>()), Times.Once);
+            mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoRequestModel>()), Times.Once);
             mockTodoService.Verify(c => c.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>()), Times.Once); ;
-            mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoDto>()), Times.Once);
+            mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Once);
         }
 
         [Fact]
@@ -171,25 +171,25 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
-            var mockTodoConverter = new Mock<ITodoModelDtoConverter>();
+            var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
 
             mockTodoService.Setup(s => s.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>()))
                 .ReturnsAsync((TodoDto)null);
-            mockTodoConverter.Setup(s => s.Convert(It.IsAny<TodoRequestModel>()))
+            mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoRequestModel>()))
                 .Returns(new TodoDto());
-            mockTodoConverter.Setup(s => s.Convert(It.IsAny<TodoDto>()))
+            mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>()))
                 .Returns(new TodoResponseModel());
 
-            var controller = new TodosController(mockTodoService.Object, mockTodoConverter.Object);
+            var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
             var result = await controller.Put(It.IsAny<Guid>(), It.IsAny<TodoRequestModel>());
 
             // Assert
             result.Result.Should().BeOfType<NotFoundObjectResult>();
-            mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoRequestModel>()), Times.Once);
+            mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoRequestModel>()), Times.Once);
             mockTodoService.Verify(c => c.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>()), Times.Once); ;
-            mockTodoConverter.Verify(c => c.Convert(It.IsAny<TodoDto>()), Times.Never);
+            mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Never);
         }
 
         #endregion
@@ -201,12 +201,12 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
-            var mockTodoConverter = new Mock<ITodoModelDtoConverter>();
+            var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
 
             mockTodoService.Setup(s => s.DeleteTodo(It.IsAny<Guid>()))
                 .ReturnsAsync(true);
 
-            var controller = new TodosController(mockTodoService.Object, mockTodoConverter.Object);
+            var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
             var result = await controller.Delete(It.IsAny<Guid>());
@@ -221,12 +221,12 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
-            var mockTodoConverter = new Mock<ITodoModelDtoConverter>();
+            var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
 
             mockTodoService.Setup(s => s.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>()))
                 .ReturnsAsync(() => null);
 
-            var controller = new TodosController(mockTodoService.Object, mockTodoConverter.Object);
+            var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
             var result = await controller.Delete(It.IsAny<Guid>());

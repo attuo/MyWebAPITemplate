@@ -65,7 +65,7 @@ namespace MyWebAPITemplate.Tests.FunctionalTests.Utils
                     // Add ApplicationDbContext using an in-memory database for testing.
                     services.AddDbContext<ApplicationDbContext>(options =>
                     {
-                        options.UseInMemoryDatabase("InMemoryDB-Functional-Tests");
+                        options.UseInMemoryDatabase("InMemoryDB-Functional-Tests"); // TODO: Config to use real database
                     });
                 });
         }

@@ -8,15 +8,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using MyWebAPITemplate.Source.Core.Converters;
-using MyWebAPITemplate.Source.Core.Interfaces.Converters;
 using MyWebAPITemplate.Source.Core.Interfaces.Database;
 using MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
+using MyWebAPITemplate.Source.Core.Interfaces.Mappers;
+using MyWebAPITemplate.Source.Core.Mappers;
 using MyWebAPITemplate.Source.Core.Services;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
-using MyWebAPITemplate.Source.Web.Converters;
-using MyWebAPITemplate.Source.Web.Interfaces;
+using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
+using MyWebAPITemplate.Source.Web.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
 using MyWebAPITemplate.Source.Web.Validators;
 
@@ -24,7 +24,7 @@ namespace MyWebAPITemplate.Source.Web.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        #region Dependency Injection for Application Services
+        #region Dependency Injection for Application's Services
 
         /// <summary>
         /// Dependency injections for Application Services
@@ -58,35 +58,43 @@ namespace MyWebAPITemplate.Source.Web.Extensions
 
         #endregion
 
-        #region Dependency Injection for Converters 
+        #region Dependency Injection for Application's Mappers 
 
         /// <summary>
-        /// Dependency Injections for Application Converters
+        /// Dependency Injections for application's model mappers
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddApplicationConverters(this IServiceCollection services)
+        public static IServiceCollection AddApplicationMappers(this IServiceCollection services)
         {
-            // The idea for converter DI methods are derived from here: 
+            // The idea for mapper DI methods are derived from here: 
             // https://softwareengineering.stackexchange.com/questions/301580/best-practices-regarding-type-mapping-and-extension-methods
-            AddModelDtoConverters(services);
-            AddDtoEntityConverters(services);
+            AddModelDtoMappers(services);
+            AddDtoEntityMappers(services);
             return services;
         }
 
-        private static void AddModelDtoConverters(IServiceCollection services)
+        /// <summary>
+        /// Mappers from Web/Mappers
+        /// </summary>
+        /// <param name="services"></param>
+        private static void AddModelDtoMappers(IServiceCollection services)
         {
-            services.AddScoped<ITodoModelDtoConverter, TodoModelDtoConverter>();
+            services.AddScoped<ITodoModelDtoMapper, TodoModelDtoMapper>();
         }
 
-        private static void AddDtoEntityConverters(IServiceCollection services)
+        /// <summary>
+        /// Mappers from Core/Mappers
+        /// </summary>
+        /// <param name="services"></param>
+        private static void AddDtoEntityMappers(IServiceCollection services)
         {
-            services.AddScoped<ITodoDtoEntityConverter, TodoDtoEntityConverter>();
+            services.AddScoped<ITodoDtoEntityMapper, TodoDtoEntityMapper>();
         }
 
         #endregion
 
-        #region Dependency Injection for Repositories
+        #region Dependency Injection for Application's Repositories
 
         public static IServiceCollection AddApplicationRepositories(this IServiceCollection services)
         {
@@ -97,7 +105,7 @@ namespace MyWebAPITemplate.Source.Web.Extensions
 
         #endregion
 
-        #region Dependency Injection for Validators (FluentValidation)
+        #region Dependency Injection for Application's Validators (FluentValidation)
 
         public static IServiceCollection AddModelValidators(this IServiceCollection services)
         {

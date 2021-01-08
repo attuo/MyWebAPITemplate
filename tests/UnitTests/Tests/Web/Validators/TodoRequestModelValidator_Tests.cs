@@ -18,27 +18,27 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Validators
         [Fact]
         public void Valid_Model()
         {
-            // 1.
+            // Arrange
             TodoRequestModel model = TodoRequestModelBuilder.CreateValid();
 
-            // 2.
+            // Act
             ValidationResult result = Validator.Validate(model);
 
-            // 3.
+            // Assert
             result.IsValid.Should().BeTrue();
         }
 
         [Fact]
         public void Invalid_Model_Description_Null()
         {
-            // 1.
+            // Arrange
             TodoRequestModel model = TodoRequestModelBuilder.CreateValid();
             model.Description = null;
 
-            // 2.
+            // Act
             ValidationResult result = Validator.Validate(model);
 
-            // 3.
+            // Assert
             result.IsValid.Should().BeFalse();
             result.Errors.Should().NotBeEmpty().And.HaveCount(1);
         }
@@ -46,14 +46,14 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Validators
         [Fact]
         public void Invalid_Model_Description_Too_Long()
         {
-            // 1.
+            // Arrange
             TodoRequestModel model = TodoRequestModelBuilder.CreateValid();
             model.Description = new string('A', 101);
 
-            // 2.
+            // Act
             ValidationResult result = Validator.Validate(model);
 
-            // 3.
+            // Assert
             result.IsValid.Should().BeFalse();
             result.Errors.Should().NotBeEmpty().And.HaveCount(1);
             //result.Errors.Should().Contain(c => c.ErrorMessage.Contains("{The length of 'Description' must be 100 characters or fewer."));

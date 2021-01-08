@@ -27,7 +27,7 @@ namespace MyWebAPITemplate.Source.Web
                 .ConfigureSwagger()
                 .ConfigureHealthChecks(Configuration)
                 .AddApplicationServices()
-                .AddApplicationConverters()
+                .AddApplicationMappers()
                 .AddApplicationRepositories()
                 .AddModelValidators()
                 .AddControllers()

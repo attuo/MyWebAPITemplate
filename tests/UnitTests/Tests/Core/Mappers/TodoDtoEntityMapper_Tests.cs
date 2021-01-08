@@ -1,46 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using MyWebAPITemplate.Source.Core.Converters;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Entities;
+using MyWebAPITemplate.Source.Core.Mappers;
 using MyWebAPITemplate.Tests.Shared.Builders.Dtos;
 using MyWebAPITemplate.Tests.Shared.Builders.Entities;
 using MyWebAPITemplate.Tests.UnitTests.Shared.Ids;
 using Xunit;
 
-namespace MyWebAPITemplate.Tests.UnitTests.Core.Converters
+namespace MyWebAPITemplate.Tests.UnitTests.Core.Mapers
 {
-    public class TodoDtoEntityConverter_Tests
+    public class TodoDtoEntityMapper_Tests
     {
         #region Dto -> Entity
 
         [Fact]
-        public void Convert_DtoToEntity_Is_Valid()
+        public void Map_DtoToEntity_Is_Valid()
         {
-            // 1.
-            var converter = new TodoDtoEntityConverter();
+            // Arrange
+            var mapper = new TodoDtoEntityMapper();
             TodoDto dto = TodoDtoBuilder.CreateValid(TestIds.NormalUsageId);
 
-            // 2.
-            TodoEntity result = converter.Convert(dto);
+            // Act
+            TodoEntity result = mapper.Map(dto);
 
-            // 3.
+            // Assert
             result.Should().BeEquivalentTo(dto, options => options.Excluding(o => o.Id));
             result.Id.Should().Be(Guid.Empty);
         }
 
         [Fact]
-        public void Convert_DtoToEntity_Is_Null()
+        public void Map_DtoToEntity_Is_Null()
         {
-            // 1.
-            var converter = new TodoDtoEntityConverter();
+            // Arrange
+            var mapper = new TodoDtoEntityMapper();
             TodoDto dto = null;
 
-            // 2.
-            TodoEntity result = converter.Convert(dto);
+            // Act
+            TodoEntity result = mapper.Map(dto);
 
-            // 3.
+            // Assert
             result.Should().BeNull();
         }
 
@@ -49,32 +49,32 @@ namespace MyWebAPITemplate.Tests.UnitTests.Core.Converters
         #region Dto, Entity -> Entity
 
         [Fact]
-        public void Convert_EntityDtoToEntity_Is_Valid()
+        public void Map_EntityDtoToEntity_Is_Valid()
         {
-            // 1.
-            var converter = new TodoDtoEntityConverter();
+            // Arrange
+            var mapper = new TodoDtoEntityMapper();
             TodoEntity entity = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
             TodoDto dto = TodoDtoBuilder.CreateValid(TestIds.OtherUsageId);
 
-            // 2.
-            TodoEntity result = converter.Convert(dto, entity);
+            // Act
+            TodoEntity result = mapper.Map(dto, entity);
 
-            // 3.
+            // Assert
             result.Should().BeEquivalentTo(dto, options => options.Excluding(o => o.Id));
             result.Id.Should().Be(entity.Id);
         }
 
         [Theory]
         [MemberData(nameof(NullParameterData))]
-        public void Convert_EntityDtoToEntity_Is_Null(TodoDto dto, TodoEntity entity)
+        public void Map_EntityDtoToEntity_Is_Null(TodoDto dto, TodoEntity entity)
         {
-            // 1.
-            var converter = new TodoDtoEntityConverter();
+            // Arrange
+            var mapper = new TodoDtoEntityMapper();
 
-            // 2.
-            TodoEntity result = converter.Convert(dto, entity);
+            // Act
+            TodoEntity result = mapper.Map(dto, entity);
 
-            // 3.
+            // Assert
             result.Should().BeNull();
         }
 
@@ -83,30 +83,30 @@ namespace MyWebAPITemplate.Tests.UnitTests.Core.Converters
         #region Entity -> Dto
 
         [Fact]
-        public void Convert_EntityToDto_Is_Valid()
+        public void Map_EntityToDto_Is_Valid()
         {
-            // 1.
-            var converter = new TodoDtoEntityConverter();
+            // Arrange
+            var mapper = new TodoDtoEntityMapper();
             TodoEntity entity = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
 
-            // 2.
-            TodoDto result = converter.Convert(entity);
+            // Act
+            TodoDto result = mapper.Map(entity);
 
-            // 3.
+            // Assert
             result.Should().BeEquivalentTo(entity);
         }
 
         [Fact]
-        public void Convert_EntityToDto_Is_Null()
+        public void Map_EntityToDto_Is_Null()
         {
-            // 1.
-            var converter = new TodoDtoEntityConverter();
+            // Arrange
+            var mapper = new TodoDtoEntityMapper();
             TodoEntity entity = null;
 
-            // 2.
-            TodoDto result = converter.Convert(entity);
+            // Act
+            TodoDto result = mapper.Map(entity);
 
-            // 3.
+            // Assert
             result.Should().BeNull();
         }
 
@@ -115,30 +115,30 @@ namespace MyWebAPITemplate.Tests.UnitTests.Core.Converters
         #region List - Dto -> ResponseModel
 
         [Fact]
-        public void Convert_List_EntityToDto_Is_Valid()
+        public void Map_List_EntityToDto_Is_Valid()
         {
-            // 1.
-            var converter = new TodoDtoEntityConverter();
+            // Arrange
+            var mapper = new TodoDtoEntityMapper();
             IReadOnlyList<TodoEntity> entities = new List<TodoEntity> { TodoEntityBuilder.CreateValid(TestIds.NormalUsageId) };
 
-            // 2.
-            IEnumerable<TodoDto> result = converter.Convert(entities);
+            // Act
+            IEnumerable<TodoDto> result = mapper.Map(entities);
 
-            // 3.
+            // Assert
             result.Should().BeEquivalentTo(result);
         }
 
         [Fact]
-        public void Convert_List_EntityToDto_Is_Null()
+        public void Map_List_EntityToDto_Is_Null()
         {
-            // 1.
-            var converter = new TodoDtoEntityConverter();
+            // Arrange
+            var mapper = new TodoDtoEntityMapper();
             IReadOnlyList<TodoEntity> entities = null;
 
-            // 2.
-            IEnumerable<TodoDto> result = converter.Convert(entities);
+            // Act
+            IEnumerable<TodoDto> result = mapper.Map(entities);
 
-            // 3.
+            // Assert
             result.Should().BeNull();
         }
 

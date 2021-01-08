@@ -2,14 +2,14 @@
 using System.Linq;
 using MyWebAPITemplate.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
-using MyWebAPITemplate.Source.Web.Interfaces;
+using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
-namespace MyWebAPITemplate.Source.Web.Converters
+namespace MyWebAPITemplate.Source.Web.Mappers
 {
-    public class TodoModelDtoConverter : ITodoModelDtoConverter
+    public class TodoModelDtoMapper : ITodoModelDtoMapper
     {
-        public TodoDto Convert(TodoRequestModel model)
+        public TodoDto Map(TodoRequestModel model)
         {
             if (model == null) return null;
             return new TodoDto
@@ -19,7 +19,7 @@ namespace MyWebAPITemplate.Source.Web.Converters
             };
         }
 
-        public TodoResponseModel Convert(TodoDto dto)
+        public TodoResponseModel Map(TodoDto dto)
         {
             if (dto == null) return null;
             return new TodoResponseModel
@@ -30,10 +30,10 @@ namespace MyWebAPITemplate.Source.Web.Converters
             };
         }
 
-        public IEnumerable<TodoResponseModel> Convert(IEnumerable<TodoDto> dtos)
+        public IEnumerable<TodoResponseModel> Map(IEnumerable<TodoDto> dtos)
         {
             if (dtos == null) return null;
-            return dtos.Select(dto => Convert(dto));
+            return dtos.Select(dto => Map(dto));
         }
     }
 }
