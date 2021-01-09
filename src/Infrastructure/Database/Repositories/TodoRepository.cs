@@ -3,6 +3,7 @@ using MyWebAPITemplate.Source.Core.Interfaces.Database;
 
 namespace MyWebAPITemplate.Source.Infrastructure.Database.Repositories
 {
+    ///<inheritdoc/>
     public class TodoRepository : EfRepository<TodoEntity>, ITodoRepository
     {
         public TodoRepository(ApplicationDbContext dbContext) : base(dbContext)

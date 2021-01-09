@@ -7,6 +7,7 @@ using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
 namespace MyWebAPITemplate.Source.Web.Mappers
 {
+    ///<inheritdoc/>
     public class TodoModelDtoMapper : ITodoModelDtoMapper
     {
         public TodoDto Map(TodoRequestModel model)

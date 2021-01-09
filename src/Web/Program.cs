@@ -10,6 +10,11 @@ namespace MyWebAPITemplate
 {
     public class Program
     {
+        /// <summary>
+        /// Starts the system and seeds the database
+        /// Runs first when the system launches
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
@@ -25,6 +30,7 @@ namespace MyWebAPITemplate
                 Environment.Exit(1);
             }
 
+            // TODO: Make enviroment specific database seeding
             // Database seeding
             try
             {
@@ -38,8 +44,8 @@ namespace MyWebAPITemplate
             }
 
             host.Run();
-
         }
+
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)

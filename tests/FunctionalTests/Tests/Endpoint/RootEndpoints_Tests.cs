@@ -10,6 +10,9 @@ using Xunit;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.EndpointTests
 {
+    /// <summary>
+    /// All the endpoint tests for root
+    /// </summary>
     public class RootEndpoints_Tests : IClassFixture<TestFixture<Startup>>
     {
         private const string BASE_ADDRESS = "https://localhost:5001/"; // TODO: This should not be hard coded

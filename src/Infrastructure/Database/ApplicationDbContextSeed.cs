@@ -33,7 +33,7 @@ namespace MyWebAPITemplate.Source.Infrastructure.Database
         }
 
         /// <summary>
-        /// Seed initial production & common data needed by the software.
+        /// Seed initial production & common data needed by the system
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>

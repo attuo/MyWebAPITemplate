@@ -7,6 +7,9 @@ using Xunit;
 
 namespace MyWebAPITemplate.Tests.IntegrationTests.Tests.Infrastructure.Database
 {
+    /// <summary>
+    /// All EfRepository tests
+    /// </summary>
     public class EfRepository_Tests : TestFixture
     {
         [Fact]

@@ -12,6 +12,9 @@ using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
 namespace MyWebAPITemplate.Controllers.Api
 {
+    /// <summary>
+    /// Endpoints for Todos
+    /// </summary>
     public class TodosController : BaseApiController
     {
         private readonly ITodoService _todoService;
@@ -23,11 +26,14 @@ namespace MyWebAPITemplate.Controllers.Api
             _todoMapper = todoMapper;
         }
 
-        // GET: api/Todos
         /// <summary>
-        /// Get Todos
+        /// Get all todos
         /// </summary>
-        /// <returns>Todos</returns>
+        /// <remarks>
+        /// Sample request:
+        ///     GET api/Todos
+        /// </remarks>
+        /// <returns>All todos</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<TodoResponseModel>>> Get()
@@ -38,7 +44,15 @@ namespace MyWebAPITemplate.Controllers.Api
             return Ok(todoModels);
         }
 
-        // GET api/Todos/5
+        /// <summary>
+        /// Get todo with given id
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     GET api/Todos/11111111-1111-1111-1111-111111111111
+        /// </remarks>
+        /// <param name="id">Todo id</param>
+        /// <returns>Found todo</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -51,7 +65,21 @@ namespace MyWebAPITemplate.Controllers.Api
             return Ok(todoModel);
         }
 
-        // POST api/Todos
+        // 
+        /// <summary>
+        /// Create new todo
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     POST api/Todos
+        ///     {
+        ///         "id": "11111111-1111-1111-1111-111111111111"
+        ///         "isDone": true"
+        ///         ...
+        ///     }
+        /// </remarks>
+        /// <param name="model">Creatable todo</param>
+        /// <returns>Created todo</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<TodoResponseModel>> Post([FromBody] TodoRequestModel model)
@@ -63,7 +91,21 @@ namespace MyWebAPITemplate.Controllers.Api
             return Ok(createdTodoModel);
         }
 
-        // PUT api/Todos/5
+        /// <summary>
+        /// Update existing todo
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     PUT api/Todos/5
+        ///     {
+        ///         "id": "11111111-1111-1111-1111-111111111111"
+        ///         "isDone": true"
+        ///         ...
+        ///     }
+        /// </remarks>
+        /// <param name="id">Existing todo Id</param>
+        /// <param name="model">Existing todo with updated values</param>
+        /// <returns>Updated todo</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -77,7 +119,15 @@ namespace MyWebAPITemplate.Controllers.Api
             return Ok(updatedTodoModel);
         }
 
-        // DELETE api/Todos/5
+        /// <summary>
+        /// Delete existing todo
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     DELETE api/Todos/11111111-1111-1111-1111-111111111111
+        /// </remarks>
+        /// <param name="id">Existing todo ids</param>
+        /// <returns>No content</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

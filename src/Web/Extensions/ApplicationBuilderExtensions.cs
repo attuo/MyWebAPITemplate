@@ -6,10 +6,15 @@ using MyWebAPITemplate.Source.Web.Middlewares;
 
 namespace MyWebAPITemplate.Extensions
 {
+    /// <summary>
+    /// Contains all the application builder extension methods for configuring the system
+    /// This is the class for all kind of registerations for IApplicationBuilder
+    /// </summary>
     public static class ApplicationBuilderExtensions
     {
         /// <summary>
-        /// Development tools and other development related settings
+        /// Configs for local development
+        /// Contains development tool and other development related settings
         /// Should be run first
         /// </summary>
         /// <param name="app"></param>
@@ -53,22 +58,27 @@ namespace MyWebAPITemplate.Extensions
 
         /// <summary>
         /// Middleware usings
+        /// All the middlewares should be registered here
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
         /// <returns></returns>
         public static IApplicationBuilder UseCustomMiddlewares(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             // Global error handling
             app.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
             return app;
         }
 
+        /// <summary>
+        /// Used for applying different cors settings
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseCors(this IApplicationBuilder app)
         {
-            app.UseCors("AnyOrigin");
+            app.UseCors("AnyOrigin"); // TODO: Remember to change this when more specific cors settings are configured
 
             return app;
         }

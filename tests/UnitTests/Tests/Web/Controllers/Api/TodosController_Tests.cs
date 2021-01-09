@@ -16,6 +16,9 @@ using Xunit;
 
 namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
 {
+    /// <summary>
+    /// All the TodosController tests
+    /// </summary>
     public class TodosController_Tests
     {
         #region Get all

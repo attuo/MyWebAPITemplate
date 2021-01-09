@@ -12,6 +12,10 @@ using MyWebAPITemplate.Source.Web;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.Utils
 {
+    /// <summary>
+    /// Sets the test environment
+    /// </summary>
+    /// <typeparam name="TStartup"></typeparam>
     public class TestFixture<TStartup> : WebApplicationFactory<Startup>
     {
         protected override IHost CreateHost(IHostBuilder builder)

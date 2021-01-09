@@ -5,6 +5,9 @@ using MyWebAPITemplate.Source.Infrastructure.Database;
 
 namespace MyWebAPITemplate.Tests.IntegrationTests.Utils
 {
+    /// <summary>
+    /// Sets the test environment
+    /// </summary>
     public abstract class TestFixture
     {
         protected ApplicationDbContext _dbContext;

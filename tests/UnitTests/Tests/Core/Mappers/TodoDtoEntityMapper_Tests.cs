@@ -11,6 +11,9 @@ using Xunit;
 
 namespace MyWebAPITemplate.Tests.UnitTests.Core.Mapers
 {
+    /// <summary>
+    /// All the TodoDtoEntityMapper tests
+    /// </summary>
     public class TodoDtoEntityMapper_Tests
     {
         #region Dto -> Entity

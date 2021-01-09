@@ -17,9 +17,15 @@ namespace MyWebAPITemplate.Source.Web
             Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets automatically called by the runtime. 
+        /// Contains configuration calls for IServiceCollection
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            // All the configurations are made with extension methods
+            // Configurations are located in Web/Extensions/ServiceCollectionExtensions
             services
                 .ConfigureDatabase(Configuration)
                 .ConfigureDevelopmentSettings()
@@ -34,7 +40,13 @@ namespace MyWebAPITemplate.Source.Web
                 .AddFluentValidation(); // this must be called directly after AddControllers
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
+        /// <summary>
+        /// This method gets automatically called by the runtime. 
+        /// Contains configuration calls for ApplicationBuilder
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app

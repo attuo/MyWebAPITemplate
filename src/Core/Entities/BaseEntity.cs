@@ -2,10 +2,14 @@
 
 namespace MyWebAPITemplate.Source.Core.Entities
 {
-    // This can easily be modified to be BaseEntity<T> and public T Id to support different key types.
-    // Using non-generic integer types for simplicity and to ease caching logic
+    /// <summary>
+    /// All entities inherit this base class
+    /// </summary>
     public abstract class BaseEntity
     {
+        /// <summary>
+        /// Entity Framework sets this as Id for each entity
+        /// </summary>
         public virtual Guid Id { get; set; }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System;
+using MyWebAPITemplate.Source.Web.Models.BaseModels;
 
 namespace MyWebAPITemplate.Models.ResponseModels
 {
-    public class TodoResponseModel
+    public class TodoResponseModel : TodoBaseModel
     {
         public Guid Id { get; init; }
-        public string Description { get; init; }
-        public bool IsDone { get; init; }
     }
 }

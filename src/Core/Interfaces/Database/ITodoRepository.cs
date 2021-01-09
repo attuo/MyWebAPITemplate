@@ -2,8 +2,12 @@
 
 namespace MyWebAPITemplate.Source.Core.Interfaces.Database
 {
-    public interface ITodoRepository : IAsyncRepository<TodoEntity>
+    /// <summary>
+    /// For repository pattern
+    /// </summary> 
+    public interface ITodoRepository : IEfRepository<TodoEntity>
     {
+        // Implement repository pattern
         //Task<TodoEntity> GetByIdWithItemsAsync(int id);
     }
 }

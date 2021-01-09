@@ -22,12 +22,16 @@ using MyWebAPITemplate.Source.Web.Validators;
 
 namespace MyWebAPITemplate.Source.Web.Extensions
 {
+    /// <summary>
+    /// Contains all the service collection extension methods for configuring the system
+    /// This is the class for all kind of registerations for IServiceCollection
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
         #region Dependency Injection for Application's Services
 
         /// <summary>
-        /// Dependency injections for Application Services
+        /// Dependency injections for all the Application Services
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
@@ -39,7 +43,8 @@ namespace MyWebAPITemplate.Source.Web.Extensions
         }
 
         /// <summary>
-        /// Services from Core/Services 
+        /// Dependency injections for services from Core/Services
+        /// When creating a new service in core project, remember to register it here
         /// </summary>
         /// <param name="services"></param>
         private static void AddInternalServices(IServiceCollection services)
@@ -48,7 +53,8 @@ namespace MyWebAPITemplate.Source.Web.Extensions
         }
 
         /// <summary>
-        /// Services from Infrastructure/Services
+        /// Dependency injections for services from Infrastructure/Services
+        /// When creating a new service in infrastructure project, remember to register it here
         /// </summary>
         /// <param name="services"></param>
         private static void AddExternalServices(IServiceCollection services)
@@ -75,7 +81,8 @@ namespace MyWebAPITemplate.Source.Web.Extensions
         }
 
         /// <summary>
-        /// Mappers from Web/Mappers
+        /// Dependency Injections for mappers from Web/Mappers
+        /// When creating a new mapper in Web project, remember to register it here
         /// </summary>
         /// <param name="services"></param>
         private static void AddModelDtoMappers(IServiceCollection services)
@@ -84,7 +91,8 @@ namespace MyWebAPITemplate.Source.Web.Extensions
         }
 
         /// <summary>
-        /// Mappers from Core/Mappers
+        /// Dependency Injections for mappers from Core/Mappers
+        /// When creating a new mapper in Core project, remember to register it here
         /// </summary>
         /// <param name="services"></param>
         private static void AddDtoEntityMappers(IServiceCollection services)
@@ -96,6 +104,12 @@ namespace MyWebAPITemplate.Source.Web.Extensions
 
         #region Dependency Injection for Application's Repositories
 
+        /// <summary>
+        /// Dependency Injections for repositories from Infrastructure/Database/Repositories
+        /// When creating a new repository, remember to register it here
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddApplicationRepositories(this IServiceCollection services)
         {
             services.AddScoped<ITodoRepository, TodoRepository>();
@@ -107,6 +121,12 @@ namespace MyWebAPITemplate.Source.Web.Extensions
 
         #region Dependency Injection for Application's Validators (FluentValidation)
 
+        /// <summary>
+        /// Dependency Injections for validators from Web/Validators
+        /// When creating a new validator, remember to register it here
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddModelValidators(this IServiceCollection services)
         {
             // Register the validators here
@@ -118,18 +138,23 @@ namespace MyWebAPITemplate.Source.Web.Extensions
 
         #region Configure Database
 
+        /// <summary>
+        /// Configurations for databases
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            //ConfigureInMemoryDatabase(services);
             ConfigureSQLServerDatabase(services, configuration);
             return services;
         }
 
-        private static void ConfigureInMemoryDatabase(IServiceCollection services)
-        {
-            services.AddDbContext<ApplicationDbContext>(builder => builder.UseInMemoryDatabase("APITemplateDatabase"));
-        }
-
+        /// <summary>
+        /// Configurations for SQL Server
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
         private static void ConfigureSQLServerDatabase(IServiceCollection services, IConfiguration configuration)
         {
             // Requires LocalDB which can be installed with SQL Server Express
@@ -137,13 +162,19 @@ namespace MyWebAPITemplate.Source.Web.Extensions
             services.AddDbContext<ApplicationDbContext>(c =>
                 c.UseSqlServer(configuration.GetConnectionString("SQLServerConnection")));
         }
+
         #endregion
 
         #region Configure Cors
 
+        /// <summary>
+        /// Configurations for CORS rules
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection ConfigureCors(this IServiceCollection services)
         {
-            // TODO: Change the Allow Any for more strict
+            // TODO: Change to be more strict
             services.AddCors(options =>
             {
                 options.AddPolicy("AnyOrigin", builder =>
@@ -161,12 +192,18 @@ namespace MyWebAPITemplate.Source.Web.Extensions
 
         #region Configure Swagger
 
+        /// <summary>
+        /// Configurations for Swagger (OpenAPI)
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
         {
             // Read more https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.1&tabs=visual-studio
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
             {
+                // TODO: These settings can be changed more specific if needed
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
@@ -180,6 +217,7 @@ namespace MyWebAPITemplate.Source.Web.Extensions
                 });
 
                 // Set the comments path for the Swagger JSON and UI.
+                // This enables the <summary></summary> XML comments on Controller methods to be included in Swagger
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
@@ -191,6 +229,11 @@ namespace MyWebAPITemplate.Source.Web.Extensions
 
         #region Configure Development Settings
 
+        /// <summary>
+        /// Configurations for all the settings that are used when running on development mode
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection ConfigureDevelopmentSettings(this IServiceCollection services)
         {
             // TODO: Environment checking here
@@ -199,12 +242,17 @@ namespace MyWebAPITemplate.Source.Web.Extensions
             return services;
         }
 
+        /// <summary>
+        /// Configuration for handy little service listing
+        /// Makes it easy to see list of registered services
+        /// </summary>
+        /// <param name="services"></param>
         private static void ConfigureListStartupServices(IServiceCollection services)
         {
             services.Configure<ServiceConfig>(config =>
             {
                 config.Services = new List<ServiceDescriptor>(services);
-                config.Path = "/listservices";
+                config.Path = "/listservices"; 
             });
         }
 
@@ -212,9 +260,16 @@ namespace MyWebAPITemplate.Source.Web.Extensions
 
         #region Configure HealthChecks
 
+        /// <summary>
+        /// Configurations for all the health checks
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddHealthChecks();
+            // TODO: Other health checks are not yet updated to .NET 5.0. Enable when those are NuGets are updated.
             //services.AddHealthChecksUI(setup =>
             //{
             //    setup.AddHealthCheckEndpoint("Health", "https://localhost:5001/health");

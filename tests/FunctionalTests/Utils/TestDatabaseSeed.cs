@@ -8,6 +8,9 @@ using MyWebAPITemplate.Tests.UnitTests.Shared.Ids;
 // TODO: Consider unifying this with Integration Test DB, or other plan?
 namespace MyWebAPITemplate.Tests.FunctionalTests.Utils
 {
+    /// <summary>
+    /// Database seeding to ensure test database has data
+    /// </summary>
     public static class TestDatabaseSeed
     {
         public static async Task ReinitializeDbForTests(ApplicationDbContext context)

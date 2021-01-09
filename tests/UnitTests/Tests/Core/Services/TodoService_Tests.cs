@@ -12,6 +12,9 @@ using Xunit;
 
 namespace MyWebAPITemplate.Tests.UnitTests.Core.Services
 {
+    /// <summary>
+    /// All the TodoService tests
+    /// </summary>
     public class TodoService_Tests
     {
 

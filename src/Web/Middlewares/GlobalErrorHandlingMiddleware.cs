@@ -6,6 +6,11 @@ using Newtonsoft.Json;
 
 namespace MyWebAPITemplate.Source.Web.Middlewares
 {
+    /// <summary>
+    /// Global error handling
+    /// Gets called each time when system throws and exception
+    /// Acts as global try-catch
+    /// </summary>
     public class GlobalErrorHandlingMiddleware
     {
         private readonly RequestDelegate next;
@@ -15,6 +20,11 @@ namespace MyWebAPITemplate.Source.Web.Middlewares
             this.next = next;
         }
 
+        /// <summary>
+        /// Try-catch for handling the exceptions
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {
             try
@@ -27,6 +37,12 @@ namespace MyWebAPITemplate.Source.Web.Middlewares
             }
         }
 
+        /// <summary>
+        /// Determines what kind of error message is returned to endpoint caller
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="ex"></param>
+        /// <returns></returns>
         private static Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             var code = HttpStatusCode.InternalServerError; // 500 if unexpected

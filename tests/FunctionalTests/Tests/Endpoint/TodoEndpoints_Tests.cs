@@ -16,6 +16,9 @@ using Xunit;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.Endpoint
 {
+    /// <summary>
+    /// All the endpoint tests for Todos
+    /// </summary>
     [Collection("Sequential")]
     public class TodoEndpoints_Tests : IClassFixture<TestFixture<Startup>>
     {

@@ -6,13 +6,9 @@ using MyWebAPITemplate.Source.Core.Interfaces.Mappers;
 
 namespace MyWebAPITemplate.Source.Core.Mappers
 {
+    ///<inheritdoc/>
     public class TodoDtoEntityMapper : ITodoDtoEntityMapper
     {
-        /// <summary>
-        /// Mapping from dto to entity does not include ID. It is always Guid.Empty on Entity when mapped
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
         public TodoEntity Map(TodoDto dto)
         {
             if (dto == null) return null;

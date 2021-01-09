@@ -7,14 +7,11 @@ using MyWebAPITemplate.Source.Core.Interfaces.Database;
 
 namespace MyWebAPITemplate.Source.Infrastructure.Database
 {
-    /// <summary>
-    /// "There's some repetition here - couldn't we have some the sync methods call the async?"
-    /// https://blogs.msdn.microsoft.com/pfxteam/2012/04/13/should-i-expose-synchronous-wrappers-for-asynchronous-methods/
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity
+    // This class is derived from https://github.com/dotnet-architecture/eShopOnWeb/blob/master/src/Infrastructure/Data/EfRepository.cs
+    ///<inheritdoc/>
+    public class EfRepository<T> : IEfRepository<T> where T : BaseEntity
     {
-        // This class is derived from https://github.com/dotnet-architecture/eShopOnWeb/blob/master/src/Infrastructure/Data/EfRepository.cs
+        
         protected readonly ApplicationDbContext _dbContext;
 
         public EfRepository(ApplicationDbContext dbContext)
@@ -31,16 +28,6 @@ namespace MyWebAPITemplate.Source.Infrastructure.Database
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }
-
-        //public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
-        //{
-        //    return await ApplySpecification(spec).ToListAsync();
-        //}
-
-        //public async Task<int> CountAsync(ISpecification<T> spec)
-        //{
-        //    return await ApplySpecification(spec).CountAsync();
-        //}
 
         public async Task<T> AddAsync(T entity)
         {
@@ -61,6 +48,16 @@ namespace MyWebAPITemplate.Source.Infrastructure.Database
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
+
+        //public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
+        //{
+        //    return await ApplySpecification(spec).ToListAsync();
+        //}
+
+        //public async Task<int> CountAsync(ISpecification<T> spec)
+        //{
+        //    return await ApplySpecification(spec).CountAsync();
+        //}
 
         //public async Task<T> FirstAsync(ISpecification<T> spec)
         //{

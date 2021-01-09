@@ -7,6 +7,9 @@ using Xunit;
 
 namespace MyWebAPITemplate.Tests.UnitTests.Web.Validators
 {
+    /// <summary>
+    /// All the TodoRequestModelValidator tests
+    /// </summary>
     public class TodoRequestModelValidator_Tests
     {
         private TodoRequestModelValidator Validator { get; }
