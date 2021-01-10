@@ -1,6 +1,6 @@
 # My Web API Template
 
-## Starter template for all sorts of REST APIs with .NET
+### Starter template for all sorts of REST APIs with .NET
 
 This is my opinionated, constantly work in progress, starter template, for building REST APIs with ASP.NET.  
 
@@ -16,7 +16,7 @@ This is my opinionated, constantly work in progress, starter template, for build
   - Testing: XUnit, Moq & FluentAssertions
   
 ### Architecture, features and patterns
-  - Monolithic ()
+  - Monolithic
   - Clean/Onion Architecture 
   - Well thought and production ready project structure
   - Development/QA/Production configurations (work in progress)
@@ -31,19 +31,25 @@ This is my opinionated, constantly work in progress, starter template, for build
   - Model Converters
 
 ## Usage
-  1. Download latest .NET SDK
-  2. Launch
-     1. With Visual Studio **OR**
-     2. Command line
-        1. dotnet run
-   
-  Initialize database (from Web folder CLI)
+
+  * ### On Windows
+    1. Download latest .NET SDK (https://dotnet.microsoft.com/download)
+    2. When running first time - Initialize database
+       1. > dotnet ef database update -c ApplicationDbContext -p ./src/Infrastructure/Infrastructure.csproj -s ./src/Web/Web.csproj
+    3. Launch
+       * Option 1. Launch on Visual Studio 
+          1. Open with MyWebAPITemplate.sln
+          2. Press F5 or Debug/Start Debugging
+        * Option 2. Launch on CLI
+          1. > dotnet run -p ./src/Web/
+    4. Navigate to https://localhost:5001/swagger/index.html
+
+  * ### Cross-platform with Docker (in progress)
+    1. TODO 
+
+### New database migrations
   ``` bash
-  dotnet ef database update -c ApplicationDbContext -p ../Infrastructure/Infrastructure.csproj -s Web.csproj
-  ```
-  Migrate database (from Web folder CLI)
-  ``` bash
-  dotnet ef migrations add InitialModel --context ApplicationDbContext -p ../Infrastructure/Infrastructure.csproj -s Web.csproj -o Database/Migrations
+  > dotnet ef migrations add NewMigrationNameHere --context ApplicationDbContext -p ./src/Infrastructure/Infrastructure.csproj -s ./src/Web/Web.csproj -o Database/Migrations
   ```
 
 ## Motivation 
@@ -58,7 +64,6 @@ In this template, I have collected my knowledge of API building in a practical f
 - To keep the structure simple, but not too simple. This project structure might seem a bit overkill for TODO app, but the structure is here to show one way to handle code structure on bigger projects.
 - To only use concepts or technologies that I have already used in some of my previous projects, so I know if those are worth it. This project is not for tinkering experimental stuff. (I have other plans to do experimental stuff)
 - To have opinions, but to be ready to change anything if there is better way of doing
-
 
 ## Contributing and license
 This project is [MIT](https://choosealicense.com/licenses/mit/) licensed - So feel free to use it anyway you like. Suggestions and help are welcomed. 🙂
