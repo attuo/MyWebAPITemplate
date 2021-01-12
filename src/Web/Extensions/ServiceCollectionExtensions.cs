@@ -18,6 +18,7 @@ using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
 using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
 using MyWebAPITemplate.Source.Web.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
+using MyWebAPITemplate.Source.Web.Options;
 using MyWebAPITemplate.Source.Web.Validators;
 
 namespace MyWebAPITemplate.Source.Web.Extensions
@@ -157,10 +158,15 @@ namespace MyWebAPITemplate.Source.Web.Extensions
         /// <param name="configuration"></param>
         private static void ConfigureSQLServerDatabase(IServiceCollection services, IConfiguration configuration)
         {
+            var databaseOptions = new DatabaseSettings();
+            configuration.GetSection(DatabaseSettings.OptionsName).Bind(databaseOptions);
+
+            // "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=TemplateDb;"
+
             // Requires LocalDB which can be installed with SQL Server Express
             // https://www.microsoft.com/en-us/download/details.aspx?id=54284
             services.AddDbContext<ApplicationDbContext>(c =>
-                c.UseSqlServer(configuration.GetConnectionString("SQLServerConnection")));
+                c.UseSqlServer(databaseOptions.ConnectionString));
         }
 
         #endregion
@@ -254,6 +260,17 @@ namespace MyWebAPITemplate.Source.Web.Extensions
                 config.Services = new List<ServiceDescriptor>(services);
                 config.Path = "/listservices"; 
             });
+        }
+
+        #endregion
+
+        #region Configure Settings
+
+        public static IServiceCollection ConfigureSettings(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<DatabaseSettings>(configuration.GetSection("Database"));
+
+            return services;
         }
 
         #endregion

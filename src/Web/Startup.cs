@@ -32,6 +32,7 @@ namespace MyWebAPITemplate.Source.Web
                 .ConfigureCors()
                 .ConfigureSwagger()
                 .ConfigureHealthChecks(Configuration)
+                .ConfigureSettings(Configuration)
                 .AddApplicationServices()
                 .AddApplicationMappers()
                 .AddApplicationRepositories()
