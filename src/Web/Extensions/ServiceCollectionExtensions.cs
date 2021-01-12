@@ -18,7 +18,7 @@ using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
 using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
 using MyWebAPITemplate.Source.Web.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
-using MyWebAPITemplate.Source.Web.Options;
+using MyWebAPITemplate.Source.Web.Settings;
 using MyWebAPITemplate.Source.Web.Validators;
 
 namespace MyWebAPITemplate.Source.Web.Extensions
