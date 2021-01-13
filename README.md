@@ -9,26 +9,28 @@ This is my opinionated, constantly work in progress, starter template, for build
 ## Details
 
 ### Technologies, frameworks and libraries
-  - Programming language: C#
-  - Framework: ASP.NET 5
-  - Database: SQL Server (also easy to change)
-  - ORM: Entity Framework
-  - Testing: XUnit, Moq & FluentAssertions
+- Programming language: C#
+- Framework: ASP.NET 5
+- Database: SQL Server (also easy to change)
+- ORM: Entity Framework
+- Testing: XUnit, Moq & FluentAssertions
   
 ### Architecture, features and patterns
-  - Monolithic ()
-  - Clean/Onion Architecture 
-  - Well thought and production ready project structure
-  - Development/QA/Production configurations (work in progress)
-  - Swagger/OpenAPI with UI
-  - Database seeding
-  - Global error handling
-  - Model mapping
-  - Validations
-  - Comprehensive tests
-  - Logging (work in progress)
-  - Repository pattern (work in progress)
-  - Specification pattern (work in progress)
+- [X] Monolithic
+- [X] Clean/Onion Architecture 
+- [X] Well thought and production ready project structure
+- [X] Development/QA/Production configurations (work in progress)
+- [X] Swagger/OpenAPI with UI
+- [X] Database seeding
+- [X] Global error handling
+- [X] Model mapping
+- [X] Validations
+- [X] Comprehensive tests
+- [ ] Logging (work in progress)
+- [ ] Repository pattern (work in progress)
+- [ ] Specification pattern (work in progress)
+- [ ] Docker support (work in progress)
+- [ ] ..and more in [backlog](https://github.com/attuo/MyWebAPITemplate/projects)
 
 ### Template folder structure
 
@@ -76,25 +78,28 @@ app                               -> App and related files
 
 
 ## Usage
+### On Windows
+1. Download latest .NET SDK (https://dotnet.microsoft.com/download)
+2. When running **first time** - Initialize database
+    * ```ps 
+      dotnet ef database update -c ApplicationDbContext -p ./src/Infrastructure/Infrastructure.csproj -s ./src/Web/Web.csproj
+      ```
+3. Launch
+    * Option 1. Launch on **Visual Studio** 
+        1. Open with `MyWebAPITemplate.sln`
+        2. Press `F5` or `Debug/Start Debugging`
+    * Option 2. Launch on **CLI**
+        1. ```ps 
+           dotnet run -p ./src/Web/
+           ```
+4. Navigate to https://localhost:5001/swagger/index.html
 
-  * ### On Windows
-    1. Download latest .NET SDK (https://dotnet.microsoft.com/download)
-    2. When running first time - Initialize database
-       1. > dotnet ef database update -c ApplicationDbContext -p ./src/Infrastructure/Infrastructure.csproj -s ./src/Web/Web.csproj
-    3. Launch
-       * Option 1. Launch on Visual Studio 
-          1. Open with MyWebAPITemplate.sln
-          2. Press F5 or Debug/Start Debugging
-        * Option 2. Launch on CLI
-          1. > dotnet run -p ./src/Web/
-    4. Navigate to https://localhost:5001/swagger/index.html
-
-  * ### Cross-platform with Docker (in progress)
-    1. TODO 
+### Cross-platform with Docker (in progress)
+  1. Currently possible only with in-memory  
 
 ### New database migrations
-  ``` bash
-  > dotnet ef migrations add NewMigrationNameHere --context ApplicationDbContext -p ./src/Infrastructure/Infrastructure.csproj -s ./src/Web/Web.csproj -o Database/Migrations
+  ```ps
+  dotnet ef migrations add NewMigrationNameHere --context ApplicationDbContext -p ./src/Infrastructure/Infrastructure.csproj -s ./src/Web/Web.csproj -o Database/Migrations
   ```
 
 ## Motivation 
