@@ -10,22 +10,23 @@ This is my opinionated, constantly work in progress, starter template, for build
 
 ### Technologies, frameworks and libraries
 - Programming language: C#
-- Framework: ASP.NET 5
-- Database: SQL Server (also easy to change)
+- Framework: ASP.NET 5 (always the latest version)
+- Database: SQL Server (also possible to use other databases)
 - ORM: Entity Framework
 - Testing: XUnit, Moq & FluentAssertions
   
 ### Architecture, features and patterns
-- [X] Monolithic
-- [X] Clean/Onion Architecture 
-- [X] Well thought and production ready project structure
-- [X] Development/QA/Production configurations (work in progress)
+- [X] Single process application (monolithic)
+- [X] Clean/Onion Architecture
+- [X] Follows the most usual REST API principles
+- [X] Code structure that handles the most typical use cases with scaling in mind
 - [X] Swagger/OpenAPI with UI
+- [X] Development/QA/Production configurations
 - [X] Database seeding
 - [X] Global error handling
 - [X] Model mapping
 - [X] Validations
-- [X] Comprehensive tests
+- [X] Comprehensive tests (functional, integration and unit tests)
 - [ ] Logging (work in progress)
 - [ ] Repository pattern (work in progress)
 - [ ] Specification pattern (work in progress)
@@ -98,6 +99,7 @@ app                               -> App and related files
   1. Currently possible only with in-memory  
 
 ### New database migrations
+When you need to create a new migration (when you change the database schema), then run this command to tell Entity Framework to handle the needed schema changes for database.
   ```ps
   dotnet ef migrations add NewMigrationNameHere --context ApplicationDbContext -p ./src/Infrastructure/Infrastructure.csproj -s ./src/Web/Web.csproj -o Database/Migrations
   ```
@@ -109,11 +111,11 @@ This project started as my way to handle the information flow of everything that
 In this template, I have collected my knowledge of API building in a practical format. The architectural preferences, library selections and other choices are made, based on best practices, popularity and my own opinionated preferences. The purpose of this template, is to provide a good basic example on how to build Rest APIs with ASP.NET that are scalable, easy to mantain and contain necessary configurations and other goodies. This template is inspired by [Microsoft eShopOnWeb reference application](https://github.com/dotnet-architecture/eShopOnWeb) and many others.
 
 ### Goals
-- To keep it "monolithic" (read [here](https://www.martinfowler.com/bliki/MonolithFirst.html) for thoughts why it might be wiser to start from here) 
-  - (I have also other plans TODO)
-- To keep the structure simple, but not too simple. This project structure might seem a bit overkill for TODO app, but the structure is here to show one way to handle code structure on bigger projects.
-- To only use concepts or technologies that I have already used in some of my previous projects, so I know if those are worth it. This project is not for tinkering experimental stuff. (I have other plans to do experimental stuff)
-- To have opinions, but to be ready to change anything if there is better way of doing
+- To improve the template every time I find something useful, or I come up with a new better way to handle some part of the program.
+- To only use concepts or technologies that I have already used in some of my previous projects, so I know if those are worth it. This project is not for tinkering all the experimental stuff, there are other projects for that :) 
+- To keep the structure simple, but not too simple. This project structure might seem a bit overkill for TODO app, but the structure is here to show one way to handle code structure on bigger projects. The code structure should be able to handle larger systems with larger amount of code and features.
+- To keep the template as "monolithic", because I think this might be best way to start a new project. Read more [here](https://www.martinfowler.com/bliki/MonolithFirst.html)
+- To be opinionated, but I always think  to be ready to change anything if there is better way of doing
 
 ## Contributing and license
 This project is [MIT](https://choosealicense.com/licenses/mit/) licensed - So feel free to use it anyway you like. Suggestions and help are welcomed. 🙂
