@@ -83,6 +83,7 @@ app                               -> App and related files
 1. Download latest .NET SDK (https://dotnet.microsoft.com/download)
 2. When running **first time** - Initialize database
     * ```ps 
+      dotnet tool install --global dotnet-ef
       dotnet ef database update -c ApplicationDbContext -p ./src/Infrastructure/Infrastructure.csproj -s ./src/Web/Web.csproj
       ```
 3. Launch
