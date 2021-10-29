@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using MyWebAPITemplate.Controllers.Api;
-using MyWebAPITemplate.Models.ResponseModels;
+using MyWebAPITemplate.Source.Web.Controllers;
+using MyWebAPITemplate.Source.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
 using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
@@ -14,7 +14,7 @@ using MyWebAPITemplate.Source.Web.Models.RequestModels;
 using MyWebAPITemplate.Tests.UnitTests.Utils;
 using Xunit;
 
-namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
+namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers
 {
     /// <summary>
     /// All the TodosController tests
@@ -108,7 +108,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         #region Create
 
         [Fact]
-        public async Task Post_Is_Ok()
+        public async Task Create_Is_Ok()
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
@@ -124,7 +124,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
             var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
-            var result = await controller.Post(It.IsAny<TodoRequestModel>());
+            var result = await controller.Create(It.IsAny<TodoRequestModel>());
 
             // Assert
             result.Result.Should().BeOfType<OkObjectResult>();
@@ -141,7 +141,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         #region Update
 
         [Fact]
-        public async Task Put_Is_Ok()
+        public async Task Update_Is_Ok()
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
@@ -157,7 +157,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
             var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
-            var result = await controller.Put(It.IsAny<Guid>(), It.IsAny<TodoRequestModel>());
+            var result = await controller.Update(It.IsAny<Guid>(), It.IsAny<TodoRequestModel>());
 
             // Assert
             result.Result.Should().BeOfType<OkObjectResult>();
@@ -170,7 +170,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
         }
 
         [Fact]
-        public async Task Put_Is_NotFound()
+        public async Task Update_Is_NotFound()
         {
             // Arrange
             var mockTodoService = new Mock<ITodoService>();
@@ -186,7 +186,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers.Api
             var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
             // Act
-            var result = await controller.Put(It.IsAny<Guid>(), It.IsAny<TodoRequestModel>());
+            var result = await controller.Update(It.IsAny<Guid>(), It.IsAny<TodoRequestModel>());
 
             // Assert
             result.Result.Should().BeOfType<NotFoundObjectResult>();

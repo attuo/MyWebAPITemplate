@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyWebAPITemplate.Models.ResponseModels;
+using MyWebAPITemplate.Source.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
-using MyWebAPITemplate.Source.Web.Controllers.Api;
 using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
-namespace MyWebAPITemplate.Controllers.Api
+namespace MyWebAPITemplate.Source.Web.Controllers
 {
     /// <summary>
     /// Endpoints for Todos
@@ -81,7 +80,7 @@ namespace MyWebAPITemplate.Controllers.Api
         /// <returns>Created todo</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<TodoResponseModel>> Post([FromBody] TodoRequestModel model)
+        public async Task<ActionResult<TodoResponseModel>> Create([FromBody] TodoRequestModel model)
         {
             TodoDto newTodoDto = _todoMapper.Map(model);
             TodoDto createdTodoDto = await _todoService.CreateTodo(newTodoDto);
@@ -108,7 +107,7 @@ namespace MyWebAPITemplate.Controllers.Api
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TodoResponseModel>> Put([FromRoute] Guid id, [FromBody] TodoRequestModel model)
+        public async Task<ActionResult<TodoResponseModel>> Update([FromRoute] Guid id, [FromBody] TodoRequestModel model)
         {
             TodoDto updatableTodoDto = _todoMapper.Map(model);
             TodoDto updatedTodoDto = await _todoService.UpdateTodo(id, updatableTodoDto);

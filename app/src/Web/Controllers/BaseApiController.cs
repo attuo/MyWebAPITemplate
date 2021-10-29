@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace MyWebAPITemplate.Source.Web.Controllers.Api
+namespace MyWebAPITemplate.Source.Web.Controllers
 {
     /// <summary>
     /// Contains configs that each controller shared

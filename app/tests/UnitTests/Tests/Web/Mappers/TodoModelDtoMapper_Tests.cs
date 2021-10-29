@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using MyWebAPITemplate.Models.ResponseModels;
+using MyWebAPITemplate.Source.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Web.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;

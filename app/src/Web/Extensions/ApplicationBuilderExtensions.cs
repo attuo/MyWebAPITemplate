@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using MyWebAPITemplate.Source.Web.Middlewares;
 using Serilog;
 
-namespace MyWebAPITemplate.Extensions
+namespace MyWebAPITemplate.Source.Extensions
 {
     /// <summary>
     /// Contains all the application builder extension methods for configuring the system

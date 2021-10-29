@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using MyWebAPITemplate.Models.ResponseModels;
+using MyWebAPITemplate.Source.Models.ResponseModels;
 using MyWebAPITemplate.Source.Web;
 using MyWebAPITemplate.Tests.FunctionalTests.Utils;
 using MyWebAPITemplate.Tests.Shared.Builders.Models;
