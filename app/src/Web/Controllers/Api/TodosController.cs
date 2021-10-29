@@ -64,8 +64,7 @@ namespace MyWebAPITemplate.Controllers.Api
 
             return Ok(todoModel);
         }
-
-        // 
+ 
         /// <summary>
         /// Create new todo
         /// </summary>
