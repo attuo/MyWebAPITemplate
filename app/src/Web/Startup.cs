@@ -53,7 +53,8 @@ namespace MyWebAPITemplate.Source.Web
             app
                 .ConfigureDevelopmentSettings(env)
                 .ConfigureSwagger()
-                .ConfigureRouting();
+                .ConfigureLogger()
+                .ConfigureRouting(); // This usually must be called the last
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using MyWebAPITemplate.Source.Web.Middlewares;
+using Serilog;
 
 namespace MyWebAPITemplate.Extensions
 {
@@ -57,6 +58,18 @@ namespace MyWebAPITemplate.Extensions
         }
 
         /// <summary>
+        /// Logger configurations
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder ConfigureLogger(this IApplicationBuilder app)
+        {
+            app.UseSerilogRequestLogging();
+
+            return app;
+        }
+
+        /// <summary>
         /// Middleware usings
         /// All the middlewares should be registered here
         /// </summary>
@@ -78,7 +91,7 @@ namespace MyWebAPITemplate.Extensions
         /// <returns></returns>
         public static IApplicationBuilder UseCors(this IApplicationBuilder app)
         {
-            app.UseCors("AnyOrigin"); // TODO: Remember to change this when more specific cors settings are configured
+            app.UseCors("AnyOrigin"); // TODO: Remember to change this when more specific CORS settings are configured
 
             return app;
         }

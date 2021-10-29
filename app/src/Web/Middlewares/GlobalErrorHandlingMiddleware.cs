@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace MyWebAPITemplate.Source.Web.Middlewares
@@ -13,11 +14,13 @@ namespace MyWebAPITemplate.Source.Web.Middlewares
     /// </summary>
     public class GlobalErrorHandlingMiddleware
     {
-        private readonly RequestDelegate next;
+        private readonly RequestDelegate _next;
+        private readonly ILogger<GlobalErrorHandlingMiddleware> _logger;
 
-        public GlobalErrorHandlingMiddleware(RequestDelegate next)
+        public GlobalErrorHandlingMiddleware(RequestDelegate next, ILogger<GlobalErrorHandlingMiddleware> logger)
         {
-            this.next = next;
+            _next = next;
+            _logger = logger;
         }
 
         /// <summary>
@@ -29,7 +32,7 @@ namespace MyWebAPITemplate.Source.Web.Middlewares
         {
             try
             {
-                await next(context);
+                await _next(context);
             }
             catch (Exception ex)
             {
@@ -43,19 +46,36 @@ namespace MyWebAPITemplate.Source.Web.Middlewares
         /// <param name="context"></param>
         /// <param name="ex"></param>
         /// <returns></returns>
-        private static Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
-            var code = HttpStatusCode.InternalServerError; // 500 if unexpected
+            // TODO: Do not return raw exception message on other environments than development
 
-            //if (ex is NotFoundException) code = HttpStatusCode.NotFound;
-            if (ex is Exception) code = HttpStatusCode.BadRequest;
+            var errorCode = HttpStatusCode.InternalServerError;
+
+
+            if (ex is ArgumentNullException)
+            {
+                LogError(typeof(ArgumentNullException), ex);
+                errorCode = HttpStatusCode.InternalServerError;
+            }
+            if (ex is Exception)
+            {
+                LogError(typeof(Exception), ex);
+                errorCode = HttpStatusCode.InternalServerError;
+            }
+
 
             string errorMessage = ""; // TODO: Choose what kind of error messages to be sent when in production
 
-            var result = JsonConvert.SerializeObject(new { error = errorMessage });
+            var result = JsonConvert.SerializeObject(new { error = ex.ToString() });
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)code;
-            return context.Response.WriteAsync(result);
+            context.Response.StatusCode = (int)errorCode;
+            await context.Response.WriteAsync(result);
+
+            void LogError(Type type, Exception ex) 
+            {
+                _logger.LogError("Unexpected error: {ExceptionType}. {ExceptionContent}", type, ex.ToString());
+            }
         }
     }
 }
