@@ -1,6 +1,7 @@
 ﻿//using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 using MyWebAPITemplate.Source.Web.Middlewares;
 using Serilog;
@@ -9,7 +10,7 @@ namespace MyWebAPITemplate.Extensions
 {
     /// <summary>
     /// Contains all the application builder extension methods for configuring the system
-    /// This is the class for all kind of registerations for IApplicationBuilder
+    /// This is the class for all kind of registrations for IApplicationBuilder
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
@@ -85,7 +86,7 @@ namespace MyWebAPITemplate.Extensions
         }
 
         /// <summary>
-        /// Used for applying different cors settings
+        /// Used for applying different CORS settings
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
@@ -110,22 +111,18 @@ namespace MyWebAPITemplate.Extensions
 
             app.UseEndpoints(routeBuilder =>
             {
-                //routeBuilder.MapAllHealthChecks();
+                routeBuilder.MapAllHealthChecks();
                 routeBuilder.MapControllers();
             });
 
             return app;
         }
 
-        //private static void MapAllHealthChecks(this IEndpointRouteBuilder routeBuilder)
-        //{
-        //    routeBuilder.MapHealthChecks("/health", new HealthCheckOptions
-        //    {
-        //        Predicate = _ => true,
-        //        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-        //    });
-        //    routeBuilder.MapHealthChecksUI();
-        //}
+        private static void MapAllHealthChecks(this IEndpointRouteBuilder routeBuilder)
+        {
+            routeBuilder.MapHealthChecks("/health");
+            //routeBuilder.MapHealthChecksUI();
+        }
 
     }
 }

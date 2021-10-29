@@ -268,7 +268,7 @@ namespace MyWebAPITemplate.Source.Web.Extensions
 
         public static IServiceCollection ConfigureSettings(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<DatabaseSettings>(configuration.GetSection("Database"));
+            services.Configure<DatabaseSettings>(configuration.GetSection(DatabaseSettings.OptionsName));
 
             return services;
         }
@@ -285,13 +285,10 @@ namespace MyWebAPITemplate.Source.Web.Extensions
         /// <returns></returns>
         public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
+            var connectionString = configuration.GetSection(DatabaseSettings.OptionsName).Get<DatabaseSettings>().ConnectionString;
             services.AddHealthChecks();
-            // TODO: Other health checks are not yet updated to .NET 5.0. Enable when those are NuGets are updated.
-            //services.AddHealthChecksUI(setup =>
-            //{
-            //    setup.AddHealthCheckEndpoint("Health", "https://localhost:5001/health");
-            //})
-            //    .AddSqlServerStorage(configuration.GetConnectionString("SQLServerConnection"));
+            // TODO: Other health checks are not yet updated to .NET 5.0.Enable when those are NuGets are updated.
+            //services.AddHealthChecksUI().AddSqlServerStorage(connectionString);
 
             return services;
         }
