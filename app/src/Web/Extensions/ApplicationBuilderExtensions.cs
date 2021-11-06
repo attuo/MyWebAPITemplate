@@ -24,7 +24,7 @@ namespace MyWebAPITemplate.Source.Extensions
         /// <returns></returns>
         public static IApplicationBuilder ConfigureDevelopmentSettings(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment()) // TODO: Change this to use the new environments
             {
                 app
                     .UseDeveloperExceptionPage()

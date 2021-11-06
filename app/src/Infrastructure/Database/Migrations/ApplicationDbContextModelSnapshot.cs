@@ -15,9 +15,9 @@ namespace MyWebAPITemplate.Source.Infrastructure.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.11")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("MyWebAPITemplate.Source.Core.Entities.TodoEntity", b =>
                 {
@@ -35,6 +35,20 @@ namespace MyWebAPITemplate.Source.Infrastructure.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Todos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000000"),
+                            Description = "This is a first default todo",
+                            IsDone = false
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000000"),
+                            Description = "This is a second default todo",
+                            IsDone = false
+                        });
                 });
 #pragma warning restore 612, 618
         }

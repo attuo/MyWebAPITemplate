@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Database\Migrations\" />
     <Folder Include="ExternalServices\" />
   </ItemGroup>
 

@@ -11,6 +11,7 @@ namespace MyWebAPITemplate.Source.Infrastructure.Database
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
 
         // DB sets
@@ -23,7 +24,7 @@ namespace MyWebAPITemplate.Source.Infrastructure.Database
         {
             base.OnModelCreating(builder);
             // This will automatically find all the entity configurations from Infrastructure/Database/Configurations that inherit IEntityTypeConfiguration
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); 
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
     }
