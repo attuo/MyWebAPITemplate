@@ -25,7 +25,7 @@ public static class ApplicationBuilderExtensions
     /// <returns></returns>
     public static IApplicationBuilder ConfigureDevelopmentSettings(this IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (env.IsDevelopment()) // TODO: Change this to use the new environments
+        if (env.IsDevelopment() || env.IsLocalDocker()) // TODO: Change this to use the new environments
         {
             app
                 .UseDeveloperExceptionPage()
