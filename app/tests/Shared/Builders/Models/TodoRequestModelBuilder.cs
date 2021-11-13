@@ -1,23 +1,22 @@
 ﻿using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
-namespace MyWebAPITemplate.Tests.Shared.Builders.Models
+namespace MyWebAPITemplate.Tests.Shared.Builders.Models;
+
+/// <summary>
+/// TodoRequestModel builder
+/// </summary>
+public static class TodoRequestModelBuilder
 {
     /// <summary>
-    /// TodoRequestModel builder
+    /// Create valid model
     /// </summary>
-    public static class TodoRequestModelBuilder
+    /// <returns></returns>
+    public static TodoRequestModel CreateValid()
     {
-        /// <summary>
-        /// Create valid model
-        /// </summary>
-        /// <returns></returns>
-        public static TodoRequestModel CreateValid()
+        return new TodoRequestModel
         {
-            return new TodoRequestModel
-            {
-                Description = "This is a valid todo",
-                IsDone = true
-            };
-        }
+            Description = "This is a valid todo",
+            IsDone = true
+        };
     }
 }

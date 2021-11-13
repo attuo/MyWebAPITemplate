@@ -1,26 +1,25 @@
 ﻿using System;
 using MyWebAPITemplate.Source.Core.Entities;
 
-namespace MyWebAPITemplate.Tests.Shared.Builders.Entities
+namespace MyWebAPITemplate.Tests.Shared.Builders.Entities;
+
+/// <summary>
+/// TodoEntity builder 
+/// </summary>
+public static class TodoEntityBuilder
 {
     /// <summary>
-    /// TodoEntity builder 
+    /// Create valid entity with given id
     /// </summary>
-    public class TodoEntityBuilder
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public static TodoEntity CreateValid(Guid id)
     {
-        /// <summary>
-        /// Create valid entity with given id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public static TodoEntity CreateValid(Guid id)
+        return new TodoEntity
         {
-            return new TodoEntity
-            {
-                Id = id,
-                Description = "This is a valid todo",
-                IsDone = false
-            };
-        }
+            Id = id,
+            Description = "This is a valid todo",
+            IsDone = false
+        };
     }
 }
