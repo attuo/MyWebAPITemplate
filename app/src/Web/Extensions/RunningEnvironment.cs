@@ -27,6 +27,6 @@ public sealed class RunningEnvironment
 
     public static bool Exists(string name) => AllEnvironments.Exists(c => c.Name.Equals(name));
     public static RunningEnvironment? Get(string name) => AllEnvironments.Find(c => c.Name.Equals(name));
-    
+    public bool IsDevelopment() => Name.Equals(Development.Name);
     
 }
