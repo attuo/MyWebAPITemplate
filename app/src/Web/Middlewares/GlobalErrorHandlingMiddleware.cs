@@ -52,7 +52,6 @@ public class GlobalErrorHandlingMiddleware
 
         var errorCode = HttpStatusCode.InternalServerError;
 
-
         if (ex is ArgumentNullException)
         {
             LogError(typeof(ArgumentNullException), ex);
@@ -63,7 +62,6 @@ public class GlobalErrorHandlingMiddleware
             LogError(typeof(Exception), ex);
             errorCode = HttpStatusCode.InternalServerError;
         }
-
 
         string errorMessage = ""; // TODO: Choose what kind of error messages to be sent when in production
 

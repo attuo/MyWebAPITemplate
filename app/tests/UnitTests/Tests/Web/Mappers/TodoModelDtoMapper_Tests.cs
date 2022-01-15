@@ -1,22 +1,21 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using MyWebAPITemplate.Source.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Web.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
+using MyWebAPITemplate.Source.Web.Models.ResponseModels;
 using MyWebAPITemplate.Tests.Shared.Builders.Dtos;
 using MyWebAPITemplate.Tests.Shared.Builders.Models;
-using MyWebAPITemplate.Tests.UnitTests.Shared.Ids;
+using MyWebAPITemplate.Tests.Shared.Ids;
 using Xunit;
 
-namespace MyWebAPITemplate.Tests.UnitTests.Web.Mappers;
+namespace MyWebAPITemplate.Tests.UnitTests.Tests.Web.Mappers;
 
 /// <summary>
 /// All the TodoModelDtoMapper tests
 /// </summary>
 public class TodoModelDtoMapper_Tests
 {
-
     #region RequestModel -> TodoDto
 
     [Fact]
@@ -48,7 +47,7 @@ public class TodoModelDtoMapper_Tests
         result.Should().BeNull();
     }
 
-    #endregion
+    #endregion RequestModel -> TodoDto
 
     #region Dto -> ResponseModel
 
@@ -80,7 +79,7 @@ public class TodoModelDtoMapper_Tests
         result.Should().BeNull();
     }
 
-    #endregion
+    #endregion Dto -> ResponseModel
 
     #region List - Dto -> ResponseModel
 
@@ -112,6 +111,5 @@ public class TodoModelDtoMapper_Tests
         result.Should().BeNull();
     }
 
-    #endregion
-
+    #endregion List - Dto -> ResponseModel
 }

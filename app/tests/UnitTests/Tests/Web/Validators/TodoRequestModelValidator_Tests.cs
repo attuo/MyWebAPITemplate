@@ -5,7 +5,7 @@ using MyWebAPITemplate.Source.Web.Validators;
 using MyWebAPITemplate.Tests.Shared.Builders.Models;
 using Xunit;
 
-namespace MyWebAPITemplate.Tests.UnitTests.Web.Validators;
+namespace MyWebAPITemplate.Tests.UnitTests.Tests.Web.Validators;
 
 /// <summary>
 /// All the TodoRequestModelValidator tests
@@ -13,6 +13,7 @@ namespace MyWebAPITemplate.Tests.UnitTests.Web.Validators;
 public class TodoRequestModelValidator_Tests
 {
     private TodoRequestModelValidator Validator { get; }
+
     public TodoRequestModelValidator_Tests()
     {
         Validator = new TodoRequestModelValidator();

@@ -11,7 +11,6 @@ namespace MyWebAPITemplate.Source.Infrastructure.Database;
 ///<inheritdoc/>
 public class EfRepository<T> : IEfRepository<T> where T : BaseEntity
 {
-
     protected readonly ApplicationDbContext _dbContext;
 
     public EfRepository(ApplicationDbContext dbContext)

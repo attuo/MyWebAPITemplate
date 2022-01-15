@@ -7,7 +7,7 @@ using MyWebAPITemplate.Source.Web.Extensions;
 using MyWebAPITemplate.Source.Web.Middlewares;
 using Serilog;
 
-namespace MyWebAPITemplate.Source.Extensions;
+namespace MyWebAPITemplate.Source.Web.Extensions;
 
 /// <summary>
 /// Contains all the application builder extension methods for configuring the system
@@ -124,5 +124,4 @@ public static class ApplicationBuilderExtensions
         routeBuilder.MapHealthChecks("/health");
         //routeBuilder.MapHealthChecksUI();
     }
-
 }

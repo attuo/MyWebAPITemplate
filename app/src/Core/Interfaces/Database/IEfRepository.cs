@@ -50,7 +50,7 @@ public interface IEfRepository<T> where T : BaseEntity
     /// </summary>
     /// <param name="spec"></param>
     /// <returns></returns>
-    //Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec); 
+    //Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
 
     /// <summary>
     /// TODO: Implement

@@ -4,7 +4,7 @@ namespace MyWebAPITemplate.Source.Core.Interfaces.Database;
 
 /// <summary>
 /// For repository pattern
-/// </summary> 
+/// </summary>
 public interface ITodoRepository : IEfRepository<TodoEntity>
 {
     // Implement repository pattern

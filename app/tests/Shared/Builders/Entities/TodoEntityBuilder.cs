@@ -4,7 +4,7 @@ using MyWebAPITemplate.Source.Core.Entities;
 namespace MyWebAPITemplate.Tests.Shared.Builders.Entities;
 
 /// <summary>
-/// TodoEntity builder 
+/// TodoEntity builder
 /// </summary>
 public static class TodoEntityBuilder
 {

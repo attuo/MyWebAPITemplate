@@ -2,7 +2,7 @@
 using FluentAssertions;
 using MyWebAPITemplate.Tests.IntegrationTests.Utils;
 using MyWebAPITemplate.Tests.Shared.Builders.Entities;
-using MyWebAPITemplate.Tests.UnitTests.Shared.Ids;
+using MyWebAPITemplate.Tests.Shared.Ids;
 using Xunit;
 
 namespace MyWebAPITemplate.Tests.IntegrationTests.Tests.Infrastructure.Database;

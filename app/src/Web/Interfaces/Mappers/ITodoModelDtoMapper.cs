@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MyWebAPITemplate.Source.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
+using MyWebAPITemplate.Source.Web.Models.ResponseModels;
 
 namespace MyWebAPITemplate.Source.Web.Interfaces.Mappers;
 
@@ -12,7 +12,7 @@ public interface ITodoModelDtoMapper
 {
     /// <summary>
     /// TodoRequestModel -> TodoDto
-    /// Mapping from dto to entity should not include ID. 
+    /// Mapping from dto to entity should not include ID.
     /// It is always Guid.Empty on Entity when mapped
     /// </summary>
     /// <param name="model"></param>

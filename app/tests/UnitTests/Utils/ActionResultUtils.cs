@@ -7,7 +7,7 @@ public static class ActionResultUtils
     /// <summary>
     /// Extension method for getting the ActionResult's content value
     /// This is helper method, because getting the content from ActionResult
-    /// is kinda tedious job to do. 
+    /// is kinda tedious job to do.
     /// Read more: https://stackoverflow.com/questions/51489111/how-to-unit-test-with-actionresultt
     /// </summary>
     /// <typeparam name="T"></typeparam>

@@ -13,6 +13,5 @@ public class TodoRequestModelValidator : AbstractValidator<TodoRequestModel>
         RuleFor(model => model.Description)
             .NotEmpty()
             .MaximumLength(100);
-
     }
 }

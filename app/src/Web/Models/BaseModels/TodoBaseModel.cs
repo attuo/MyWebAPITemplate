@@ -1,6 +1,4 @@
-﻿
-
-namespace MyWebAPITemplate.Source.Web.Models.BaseModels;
+﻿namespace MyWebAPITemplate.Source.Web.Models.BaseModels;
 
 /// <summary>
 /// Acts as base model for Todo request and response models

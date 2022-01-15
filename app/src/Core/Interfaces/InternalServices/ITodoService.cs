@@ -45,5 +45,4 @@ public interface ITodoService
     /// <param name="id"></param>
     /// <returns>Success or null if not found</returns>
     Task<bool?> DeleteTodo(Guid id);
-
 }
