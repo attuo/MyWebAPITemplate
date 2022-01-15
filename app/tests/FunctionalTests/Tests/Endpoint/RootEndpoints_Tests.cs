@@ -1,29 +1,22 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using MyWebAPITemplate.Source.Web;
 using MyWebAPITemplate.Tests.FunctionalTests.Utils;
 using Xunit;
 
-namespace MyWebAPITemplate.Tests.FunctionalTests.EndpointTests;
+namespace MyWebAPITemplate.Tests.FunctionalTests.Tests.Endpoint;
 
 /// <summary>
 /// All the endpoint tests for root
 /// </summary>
-public class RootEndpoints_Tests : IClassFixture<TestFixture<Startup>>
+//[Collection("Sequential")]
+public class RootEndpoints_Tests : EndpointTestsBase
 {
-    private const string BASE_ADDRESS = "https://localhost:5001/"; // TODO: This should not be hard coded
-    private readonly HttpClient _client;
-
-    public RootEndpoints_Tests(TestFixture<Startup> factory)
+    public RootEndpoints_Tests(TestFixture fixture) : base(fixture)
     {
-        _client = factory.CreateClient(new WebApplicationFactoryClientOptions
-        {
-            BaseAddress = new Uri(BASE_ADDRESS)
-        });
     }
 
     [Fact]
@@ -32,7 +25,7 @@ public class RootEndpoints_Tests : IClassFixture<TestFixture<Startup>>
         // Arrange
 
         // Act
-        var response = await _client.GetAsync("/");
+        var response = await Client.GetAsync("/");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

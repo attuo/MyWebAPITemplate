@@ -6,10 +6,10 @@ using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Core.Mappers;
 using MyWebAPITemplate.Tests.Shared.Builders.Dtos;
 using MyWebAPITemplate.Tests.Shared.Builders.Entities;
-using MyWebAPITemplate.Tests.UnitTests.Shared.Ids;
+using MyWebAPITemplate.Tests.Shared.Ids;
 using Xunit;
 
-namespace MyWebAPITemplate.Tests.UnitTests.Core.Mapers;
+namespace MyWebAPITemplate.Tests.UnitTests.Tests.Core.Mappers;
 
 /// <summary>
 /// All the TodoDtoEntityMapper tests
@@ -47,7 +47,7 @@ public class TodoDtoEntityMapper_Tests
         result.Should().BeNull();
     }
 
-    #endregion
+    #endregion Dto -> Entity
 
     #region Dto, Entity -> Entity
 
@@ -81,7 +81,7 @@ public class TodoDtoEntityMapper_Tests
         result.Should().BeNull();
     }
 
-    #endregion
+    #endregion Dto, Entity -> Entity
 
     #region Entity -> Dto
 
@@ -113,7 +113,7 @@ public class TodoDtoEntityMapper_Tests
         result.Should().BeNull();
     }
 
-    #endregion
+    #endregion Entity -> Dto
 
     #region List - Dto -> ResponseModel
 
@@ -145,7 +145,7 @@ public class TodoDtoEntityMapper_Tests
         result.Should().BeNull();
     }
 
-    #endregion
+    #endregion List - Dto -> ResponseModel
 
     #region Parameter MemberDatas
 
@@ -156,6 +156,5 @@ public class TodoDtoEntityMapper_Tests
             new object[] { null, null },
         };
 
-    #endregion
-
+    #endregion Parameter MemberDatas
 }

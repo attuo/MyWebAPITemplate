@@ -6,32 +6,26 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using MyWebAPITemplate.Source.Models.ResponseModels;
 using MyWebAPITemplate.Source.Web;
+using MyWebAPITemplate.Source.Web.Models.ResponseModels;
 using MyWebAPITemplate.Tests.FunctionalTests.Utils;
 using MyWebAPITemplate.Tests.Shared.Builders.Models;
-using MyWebAPITemplate.Tests.UnitTests.Shared.Ids;
+using MyWebAPITemplate.Tests.Shared.Ids;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace MyWebAPITemplate.Tests.FunctionalTests.Endpoint;
+namespace MyWebAPITemplate.Tests.FunctionalTests.Tests.Endpoint;
 
 /// <summary>
 /// All the endpoint tests for Todos
 /// </summary>
-[Collection("Sequential")]
-public class TodoEndpoints_Tests : IClassFixture<TestFixture<Startup>>
+//[Collection("Sequential")]
+public class TodoEndpoints_Tests : EndpointTestsBase
 {
-    private const string BASE_ADDRESS = "https://localhost:5001/"; // TODO: This should not be hard coded
     private const string ENDPOINT_NAME = "api/Todos/";
-    private readonly HttpClient _client;
 
-    public TodoEndpoints_Tests(TestFixture<Startup> factory)
+    public TodoEndpoints_Tests(TestFixture fixture) : base(fixture)
     {
-        _client = factory.CreateClient(new WebApplicationFactoryClientOptions
-        {
-            BaseAddress = new Uri(BASE_ADDRESS)
-        });
     }
 
     [Fact]
@@ -39,9 +33,8 @@ public class TodoEndpoints_Tests : IClassFixture<TestFixture<Startup>>
     {
         // Arrange
 
-
         // Act
-        var response = await _client.GetAsync(ENDPOINT_NAME);
+        var response = await Client.GetAsync(ENDPOINT_NAME);
         var responseBody = await response.Content.ReadAsStringAsync();
         var responseTodos = JsonConvert.DeserializeObject<List<TodoResponseModel>>(responseBody);
 
@@ -59,7 +52,7 @@ public class TodoEndpoints_Tests : IClassFixture<TestFixture<Startup>>
         Guid todoId = TestIds.NormalUsageId;
 
         // Act
-        var response = await _client.GetAsync(ENDPOINT_NAME + todoId);
+        var response = await Client.GetAsync(ENDPOINT_NAME + todoId);
         var responseBody = await response.Content.ReadAsStringAsync();
         var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
 
@@ -76,12 +69,11 @@ public class TodoEndpoints_Tests : IClassFixture<TestFixture<Startup>>
         Guid todoId = TestIds.NonUsageId;
 
         // Act
-        var response = await _client.GetAsync(ENDPOINT_NAME + todoId);
+        var response = await Client.GetAsync(ENDPOINT_NAME + todoId);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
-
 
     [Fact]
     public async Task Create_One_OK()
@@ -91,7 +83,7 @@ public class TodoEndpoints_Tests : IClassFixture<TestFixture<Startup>>
         var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PostAsync(ENDPOINT_NAME, content);
+        var response = await Client.PostAsync(ENDPOINT_NAME, content);
         var responseBody = await response.Content.ReadAsStringAsync();
         var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
 
@@ -113,7 +105,7 @@ public class TodoEndpoints_Tests : IClassFixture<TestFixture<Startup>>
         var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PutAsync(ENDPOINT_NAME + todoId, content);
+        var response = await Client.PutAsync(ENDPOINT_NAME + todoId, content);
         var responseBody = await response.Content.ReadAsStringAsync();
         var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
 
@@ -134,7 +126,7 @@ public class TodoEndpoints_Tests : IClassFixture<TestFixture<Startup>>
         var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PutAsync(ENDPOINT_NAME + todoId, content);
+        var response = await Client.PutAsync(ENDPOINT_NAME + todoId, content);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -147,7 +139,7 @@ public class TodoEndpoints_Tests : IClassFixture<TestFixture<Startup>>
         Guid todoId = TestIds.OtherUsageId;
 
         // Act
-        var response = await _client.DeleteAsync(ENDPOINT_NAME + todoId);
+        var response = await Client.DeleteAsync(ENDPOINT_NAME + todoId);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -160,7 +152,7 @@ public class TodoEndpoints_Tests : IClassFixture<TestFixture<Startup>>
         Guid todoId = TestIds.NonUsageId;
 
         // Act
-        var response = await _client.DeleteAsync(ENDPOINT_NAME + todoId);
+        var response = await Client.DeleteAsync(ENDPOINT_NAME + todoId);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

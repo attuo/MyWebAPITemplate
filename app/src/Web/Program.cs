@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyWebAPITemplate.Source.Extensions;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Source.Web.Extensions;
 using Serilog;
@@ -23,7 +22,7 @@ try
     var builder = WebApplication.CreateBuilder(args);
     SetConfiguration(builder.Configuration, env);
     SetWebHost(builder.WebHost, env);
-    SetServices(builder.Services, builder.Configuration);
+    SetServices(builder.Services, builder.Configuration, env);
 
     var app = builder.Build();
     SetApplications(app, builder.Environment);
@@ -35,13 +34,19 @@ try
 }
 catch (Exception ex)
 {
-    startupLogger.Error(ex, "Application did not start successfully");
+    // https://github.com/dotnet/runtime/issues/60600
+    string type = ex.GetType().Name;
+    if (type.Equals("StopTheHostException", StringComparison.Ordinal))
+        throw;
+    
+    startupLogger.Fatal(ex, "Application did not start successfully");
 }
-finally
-{
-    startupLogger.Information("Application is closing");
-    Environment.Exit(1);
-}
+// This is commented out because the EF migration stops working with it
+//finally
+//{
+//    startupLogger.Information("Application is closing");
+//    Environment.Exit(1);
+//}
 
 static void SetConfiguration(IConfigurationBuilder configBuilder, RunningEnvironment env)
     => configBuilder
@@ -56,13 +61,13 @@ static void SetWebHost(ConfigureWebHostBuilder configWebHostBuilder, RunningEnvi
         .CaptureStartupErrors(true)
         .UseConfiguredSerilog(env);
 
-static void SetServices(IServiceCollection services, IConfiguration configuration)
+static void SetServices(IServiceCollection services, IConfiguration configuration, RunningEnvironment env)
     => services
         .ConfigureDatabase(configuration)
         .ConfigureDevelopmentSettings()
         .ConfigureCors()
         .ConfigureSwagger()
-        .ConfigureHealthChecks(configuration)
+        .ConfigureHealthChecks(configuration, env)
         .ConfigureSettings(configuration)
         .AddApplicationServices()
         .AddApplicationMappers()
@@ -78,28 +83,32 @@ static void SetApplications(IApplicationBuilder app, IWebHostEnvironment env)
         .ConfigureLogger()
         .ConfigureRouting(); // This usually must be called the last
 
-void CheckRequiredEnvVariables(string[] envVars)
+void CheckRequiredEnvVariables(string[] requiredEnvVars)
 {
     startupLogger.Information("Checking required environment variables starting");
-    foreach (var envVar in envVars)
+    var allEnvVars = Environment.GetEnvironmentVariables();
+    foreach (var reqEnvVar in requiredEnvVars)
     {
-        if (string.IsNullOrWhiteSpace(envVar))
+        if (!allEnvVars.Contains(reqEnvVar))
         {
-            startupLogger.Error("Required environment variable is missing: {envVar}", envVar);
-            Environment.Exit(1);
+            startupLogger.Error("Required environment variable is missing: {envVar}", reqEnvVar);
+            throw new ArgumentNullException(reqEnvVar);
         }
-        startupLogger.Information("Required environment variable found: {envVar}", envVar);
+        startupLogger.Information("Required environment variable found: {envVar}", reqEnvVar);
     }
 }
 
 RunningEnvironment GetCurrentEnvironment(string[] envVars)
 {
     startupLogger.Information("Checking running environment starting");
+
+    var envs = Environment.GetEnvironmentVariables();
+
     var env = GetRunningEnvironment(envVars);
     if (env is null || !RunningEnvironment.Exists(env))
     {
         startupLogger.Fatal($"Application environment '{env}' is not supported");
-        Environment.Exit(1);
+        throw new ArgumentNullException(env);
     }
     startupLogger.Information("Checking running environment successful: {env}", env);
     return RunningEnvironment.Get(env)!;
@@ -141,3 +150,6 @@ static ILogger CreateInitialLogger()
         .Enrich.WithProperty("ApplicationName", typeof(Program).Assembly.GetName().Name)
         .Enrich.WithProperty("Environment", "Development")
         .CreateLogger();
+
+
+public partial class Program { } // This is for the tests

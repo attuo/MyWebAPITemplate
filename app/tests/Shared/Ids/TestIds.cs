@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyWebAPITemplate.Tests.UnitTests.Shared.Ids;
+namespace MyWebAPITemplate.Tests.Shared.Ids;
 
 /// <summary>
 /// Contains ids for test using
@@ -21,9 +21,8 @@ public static class TestIds
     public static Guid OtherUsageId = Guid.Parse("22222222-2222-2222-2222-222222222222"); // TODO: Think a better property name
 
     /// <summary>
-    /// For example for not found, 
+    /// For example for not found,
     /// Don't use on database seeding
     /// </summary>
     public static Guid NonUsageId = Guid.Parse("99999999-9999-9999-9999-999999999999"); // TODO: Think a better property name
-
 }

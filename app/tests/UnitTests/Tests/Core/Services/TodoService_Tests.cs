@@ -10,14 +10,13 @@ using MyWebAPITemplate.Source.Core.Interfaces.Mappers;
 using MyWebAPITemplate.Source.Core.Services;
 using Xunit;
 
-namespace MyWebAPITemplate.Tests.UnitTests.Core.Services;
+namespace MyWebAPITemplate.Tests.UnitTests.Tests.Core.Services;
 
 /// <summary>
 /// All the TodoService tests
 /// </summary>
 public class TodoService_Tests
 {
-
     #region Get All
 
     [Fact]
@@ -44,7 +43,7 @@ public class TodoService_Tests
         mockTodoMapper.Verify(c => c.Map(It.IsAny<List<TodoEntity>>()), Times.Once);
     }
 
-    #endregion
+    #endregion Get All
 
     #region Get
 
@@ -94,7 +93,7 @@ public class TodoService_Tests
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoEntity>()), Times.Never);
     }
 
-    #endregion
+    #endregion Get
 
     #region Create
 
@@ -124,7 +123,7 @@ public class TodoService_Tests
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoEntity>()), Times.Once);
     }
 
-    #endregion
+    #endregion Create
 
     #region Update
 
@@ -184,7 +183,7 @@ public class TodoService_Tests
         // TODO: Add Times.Never asserts for other mocks
     }
 
-    #endregion
+    #endregion Update
 
     #region Delete
 
@@ -232,5 +231,5 @@ public class TodoService_Tests
         mockTodoRepository.Verify(c => c.DeleteAsync(It.IsAny<TodoEntity>()), Times.Never);
     }
 
-    #endregion
+    #endregion Delete
 }

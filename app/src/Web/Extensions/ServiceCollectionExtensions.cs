@@ -60,12 +60,11 @@ public static class ServiceCollectionExtensions
     /// <param name="services"></param>
     private static void AddExternalServices(IServiceCollection services)
     {
-
     }
 
-    #endregion
+    #endregion Dependency Injection for Application's Services
 
-    #region Dependency Injection for Application's Mappers 
+    #region Dependency Injection for Application's Mappers
 
     /// <summary>
     /// Dependency Injections for application's model mappers
@@ -74,7 +73,7 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddApplicationMappers(this IServiceCollection services)
     {
-        // The idea for mapper DI methods are derived from here: 
+        // The idea for mapper DI methods are derived from here:
         // https://softwareengineering.stackexchange.com/questions/301580/best-practices-regarding-type-mapping-and-extension-methods
         AddModelDtoMappers(services);
         AddDtoEntityMappers(services);
@@ -101,7 +100,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITodoDtoEntityMapper, TodoDtoEntityMapper>();
     }
 
-    #endregion
+    #endregion Dependency Injection for Application's Mappers
 
     #region Dependency Injection for Application's Repositories
 
@@ -118,7 +117,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    #endregion
+    #endregion Dependency Injection for Application's Repositories
 
     #region Dependency Injection for Application's Validators (FluentValidation)
 
@@ -135,7 +134,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    #endregion
+    #endregion Dependency Injection for Application's Validators (FluentValidation)
 
     #region Configure Database
 
@@ -169,7 +168,7 @@ public static class ServiceCollectionExtensions
             c.UseSqlServer(databaseOptions.ConnectionString));
     }
 
-    #endregion
+    #endregion Configure Database
 
     #region Configure Cors
 
@@ -194,7 +193,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    #endregion
+    #endregion Configure Cors
 
     #region Configure Swagger
 
@@ -209,8 +208,8 @@ public static class ServiceCollectionExtensions
         // Register the Swagger generator, defining 1 or more Swagger documents
         services.AddSwaggerGen(options =>
         {
-                // TODO: These settings can be changed more specific if needed
-                options.SwaggerDoc("v1", new OpenApiInfo
+            // TODO: These settings can be changed more specific if needed
+            options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
                 Title = "Template API",
@@ -222,16 +221,16 @@ public static class ServiceCollectionExtensions
                 },
             });
 
-                // Set the comments path for the Swagger JSON and UI.
-                // This enables the <summary></summary> XML comments on Controller methods to be included in Swagger
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            // Set the comments path for the Swagger JSON and UI.
+            // This enables the <summary></summary> XML comments on Controller methods to be included in Swagger
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             options.IncludeXmlComments(xmlPath);
         });
         return services;
     }
 
-    #endregion
+    #endregion Configure Swagger
 
     #region Configure Development Settings
 
@@ -262,7 +261,7 @@ public static class ServiceCollectionExtensions
         });
     }
 
-    #endregion
+    #endregion Configure Development Settings
 
     #region Configure Settings
 
@@ -273,7 +272,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    #endregion
+    #endregion Configure Settings
 
     #region Configure HealthChecks
 
@@ -283,15 +282,17 @@ public static class ServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>
-    public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration, RunningEnvironment env)
     {
-        var connectionString = configuration.GetSection(DatabaseSettings.OptionsName).Get<DatabaseSettings>().ConnectionString;
         services.AddHealthChecks();
-        // TODO: Other health checks are not yet updated to .NET 5.0.Enable when those are NuGets are updated.
-        //services.AddHealthChecksUI().AddSqlServerStorage(connectionString);
-
+        if (env.IsDevelopment())
+        {
+            var connectionString = configuration.GetSection(DatabaseSettings.OptionsName).Get<DatabaseSettings>().ConnectionString;
+            // TODO: Other health checks are not yet updated to .NET 5.0.Enable when those are NuGets are updated.
+            //services.AddHealthChecksUI().AddSqlServerStorage(connectionString);
+        }
         return services;
     }
 
-    #endregion
+    #endregion Configure HealthChecks
 }

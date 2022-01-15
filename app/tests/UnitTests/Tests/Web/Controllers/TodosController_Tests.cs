@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using MyWebAPITemplate.Source.Web.Controllers;
-using MyWebAPITemplate.Source.Models.ResponseModels;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
+using MyWebAPITemplate.Source.Web.Controllers;
 using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
+using MyWebAPITemplate.Source.Web.Models.ResponseModels;
 using MyWebAPITemplate.Tests.UnitTests.Utils;
 using Xunit;
 
-namespace MyWebAPITemplate.Tests.UnitTests.Web.Controllers;
+namespace MyWebAPITemplate.Tests.UnitTests.Tests.Web.Controllers;
 
 /// <summary>
 /// All the TodosController tests
@@ -50,7 +50,7 @@ public class TodosController_Tests
         mockTodoMapper.Verify(c => c.Map(It.IsAny<List<TodoDto>>()), Times.Once);
     }
 
-    #endregion
+    #endregion Get all
 
     #region Get
 
@@ -103,7 +103,7 @@ public class TodosController_Tests
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Never);
     }
 
-    #endregion
+    #endregion Get
 
     #region Create
 
@@ -136,7 +136,7 @@ public class TodosController_Tests
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Once);
     }
 
-    #endregion
+    #endregion Create
 
     #region Update
 
@@ -195,7 +195,7 @@ public class TodosController_Tests
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Never);
     }
 
-    #endregion
+    #endregion Update
 
     #region Delete
 
@@ -239,5 +239,5 @@ public class TodosController_Tests
         mockTodoService.Verify(c => c.DeleteTodo(It.IsAny<Guid>()), Times.Once);
     }
 
-    #endregion
+    #endregion Delete
 }
