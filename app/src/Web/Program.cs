@@ -1,162 +1,155 @@
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Source.Web.Extensions;
 using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 
-namespace MyWebAPITemplate.Source.Web
+string[] _requiredEnvironmentVariables = { "ASPNETCORE_ENVIRONMENT" };
+var startupLogger = CreateInitialLogger();
+
+try
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class Program
+    CheckRequiredEnvVariables(_requiredEnvironmentVariables);
+    var env = GetCurrentEnvironment(_requiredEnvironmentVariables);
+
+    startupLogger.Information("Application starting");
+    var builder = WebApplication.CreateBuilder(args);
+    SetConfiguration(builder.Configuration, env);
+    SetWebHost(builder.WebHost, env);
+    SetServices(builder.Services, builder.Configuration, env);
+
+    var app = builder.Build();
+    SetApplications(app, builder.Environment);
+
+    await SeedDatabase(app.Services, env);
+
+    startupLogger.Information("Application starting to run");
+    app.Run();
+}
+catch (Exception ex)
+{
+    // https://github.com/dotnet/runtime/issues/60600
+    string type = ex.GetType().Name;
+    if (type.Equals("StopTheHostException", StringComparison.Ordinal))
+        throw;
+    
+    startupLogger.Fatal(ex, "Application did not start successfully");
+}
+// This is commented out because the EF migration stops working with it
+//finally
+//{
+//    startupLogger.Information("Application is closing");
+//    Environment.Exit(1);
+//}
+
+static void SetConfiguration(IConfigurationBuilder configBuilder, RunningEnvironment env)
+    => configBuilder
+        //.SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", false, false)
+        .AddJsonFile("appsettings.Logs.json", false, false)
+        .AddJsonFile($"appsettings.{env.Name}.json", false, false)
+        .AddEnvironmentVariables();
+
+static void SetWebHost(ConfigureWebHostBuilder configWebHostBuilder, RunningEnvironment env)
+    => configWebHostBuilder
+        .CaptureStartupErrors(true)
+        .UseConfiguredSerilog(env);
+
+static void SetServices(IServiceCollection services, IConfiguration configuration, RunningEnvironment env)
+    => services
+        .ConfigureDatabase(configuration)
+        .ConfigureDevelopmentSettings()
+        .ConfigureCors()
+        .ConfigureSwagger()
+        .ConfigureHealthChecks(configuration, env)
+        .ConfigureSettings(configuration)
+        .AddApplicationServices()
+        .AddApplicationMappers()
+        .AddApplicationRepositories()
+        .AddModelValidators()
+        .AddControllers()
+        .AddFluentValidation(); // this must be called directly after AddControllers
+
+static void SetApplications(IApplicationBuilder app, IWebHostEnvironment env)
+    => app
+        .ConfigureDevelopmentSettings(env)
+        .ConfigureSwagger()
+        .ConfigureLogger()
+        .ConfigureRouting(); // This usually must be called the last
+
+void CheckRequiredEnvVariables(string[] requiredEnvVars)
+{
+    startupLogger.Information("Checking required environment variables starting");
+    var allEnvVars = Environment.GetEnvironmentVariables();
+    foreach (var reqEnvVar in requiredEnvVars)
     {
-        private static readonly string[] _requiredEnvironmentVariables = { "ASPNETCORE_ENVIRONMENT" };
-
-        /// <summary>
-        /// Starts the system and seeds the database.
-        /// Runs first when the system launches.
-        /// </summary>
-        /// <param name="args"></param>
-        public static void Main(string[] args)
+        if (!allEnvVars.Contains(reqEnvVar))
         {
-            try
-            {
-                Log.Logger = CreateInitialLogger();
-
-                CheckRequiredEnvVariables();
-                CheckRunningEnvironment();
-
-
-                Log.Information("Application starting");
-
-                var host = CreateHostBuilder(args).Build();
-                using var scope = host.Services.CreateScope();
-                var services = scope.ServiceProvider;
-
-                MigrateDatabase(services);
-
-                Log.Information("Application starting to run");
-                host.Run();
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Application did not start successfully");
-            }
-            finally
-            {
-                Log.Information("Application is closing");
-                Log.CloseAndFlush();
-            }
+            startupLogger.Error("Required environment variable is missing: {envVar}", reqEnvVar);
+            throw new ArgumentNullException(reqEnvVar);
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args)
-            => Host
-                .CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webHostBuilder
-                    => webHostBuilder
-                        .UseStartup<Startup>()
-                        .CaptureStartupErrors(true)
-                        .ConfigureAppConfiguration(configBuilder
-                            => configBuilder.SetBasePath(Directory.GetCurrentDirectory())
-                                .AddJsonFile("appsettings.json", false, false)
-                                .AddJsonFile("appsettings.Logs.json", false, false)
-                                .AddJsonFile($"appsettings.{GetRunningEnvironment()}.json", false, false)
-                                .AddEnvironmentVariables())
-                        .UseSerilog((hostingContext, loggerConfiguration)
-                            => {
-                                    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration)
-                                   .Enrich.FromLogContext()
-                                   .Enrich.WithProperty("ApplicationName", typeof(Program).Assembly.GetName().Name)
-                                   .Enrich.WithProperty("Environment", GetRunningEnvironment())
-#if DEBUG
-                                    // Used to filter out potentially bad data due debugging.
-                                    .Enrich.WithProperty("DebuggerAttached", Debugger.IsAttached);
-#endif
-                               }));
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private static void CheckRequiredEnvVariables()
-        {
-            Log.Information("Checking required environment variables starting");
-            foreach (var environmentVariable in _requiredEnvironmentVariables)
-            {
-                if (string.IsNullOrWhiteSpace(environmentVariable))
-                {
-                    Log.Error("Required environment variable is missing: {envVar}", environmentVariable);
-                    Environment.Exit(1);
-                }
-                Log.Information("Required environment variable found: {envVar}", environmentVariable);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private static Serilog.ILogger CreateInitialLogger()
-            => new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.Console()
-                .Enrich.FromLogContext()
-                .Enrich.WithProperty("Initial Logger", true)
-                .Enrich.WithProperty("ApplicationName", typeof(Program).Assembly.GetName().Name)
-                .Enrich.WithProperty("Environment", "Development")
-#if DEBUG
-                // Used to filter out potentially bad data due debugging.
-                .Enrich.WithProperty("DebuggerAttached", Debugger.IsAttached)
-#endif
-                .CreateLogger();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private static void CheckRunningEnvironment()
-        {
-            Log.Information("Checking running environment starting");
-            var env = GetRunningEnvironment();
-            if (!RunningEnvironment.Exists(env))
-            {
-                Log.Fatal($"Application environment '{env}' is not supported");
-                Environment.Exit(1);
-            }
-            Log.Information("Checking running environment successful: {env}", env);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        /// <returns></returns>
-        private static void MigrateDatabase(IServiceProvider serviceProvider)
-        {
-            // TODO: Make environment specific database migrating
-            Log.Information("Database migrating starting");
-            using var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
-            try
-            {
-                dbContext.Database.Migrate();
-                Log.Information("Database migrating successful");
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Database migrating errored", ex);
-                throw;
-            }
-        }
-
-        private static string GetRunningEnvironment()
-            => Environment.GetEnvironmentVariable(_requiredEnvironmentVariables[0]);
+        startupLogger.Information("Required environment variable found: {envVar}", reqEnvVar);
     }
 }
+
+RunningEnvironment GetCurrentEnvironment(string[] envVars)
+{
+    startupLogger.Information("Checking running environment starting");
+
+    var envs = Environment.GetEnvironmentVariables();
+
+    var env = GetRunningEnvironment(envVars);
+    if (env is null || !RunningEnvironment.Exists(env))
+    {
+        startupLogger.Fatal($"Application environment '{env}' is not supported");
+        throw new ArgumentNullException(env);
+    }
+    startupLogger.Information("Checking running environment successful: {env}", env);
+    return RunningEnvironment.Get(env)!;
+}
+
+async Task SeedDatabase(IServiceProvider serviceProvider, RunningEnvironment env)
+{
+    startupLogger.Information("Database seeding starting");
+    using var scope = serviceProvider.CreateScope();
+    var scopedProvider = scope.ServiceProvider;
+    try
+    {
+        if (env.IsDevelopment())
+        {
+            var dbContext = scopedProvider.GetRequiredService<ApplicationDbContext>();
+            await ApplicationDbContextSeed.SeedDevelopAsync(dbContext);
+            startupLogger.Information("Database seeding successful");
+        }
+    }
+    catch (Exception ex)
+    {
+        startupLogger.Error(ex, "Database seeding errored");
+        throw;
+    }
+}
+
+static string? GetRunningEnvironment(string[] envVars)
+    => Environment.GetEnvironmentVariable(envVars[0]);
+
+static ILogger CreateInitialLogger()
+    => new LoggerConfiguration()
+        .MinimumLevel.Debug()
+        .WriteTo.Console(
+            outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}",
+            theme: AnsiConsoleTheme.Code
+        )
+        .Enrich.FromLogContext()
+        .Enrich.WithProperty("Initial Logger", true)
+        .Enrich.WithProperty("ApplicationName", typeof(Program).Assembly.GetName().Name)
+        .Enrich.WithProperty("Environment", "Development")
+        .CreateLogger();
+
+
+public partial class Program { } // This is for the tests

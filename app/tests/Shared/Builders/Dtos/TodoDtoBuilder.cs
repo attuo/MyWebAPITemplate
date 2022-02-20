@@ -1,26 +1,25 @@
 ﻿using System;
 using MyWebAPITemplate.Source.Core.Dtos;
 
-namespace MyWebAPITemplate.Tests.Shared.Builders.Dtos
+namespace MyWebAPITemplate.Tests.Shared.Builders.Dtos;
+
+/// <summary>
+/// TodoDto builder
+/// </summary>
+public static class TodoDtoBuilder
 {
     /// <summary>
-    /// TodoDto builder
+    /// Create valid dot with given id
     /// </summary>
-    public class TodoDtoBuilder
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public static TodoDto CreateValid(Guid id)
     {
-        /// <summary>
-        /// Create valid dot with given id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public static TodoDto CreateValid(Guid id)
+        return new TodoDto
         {
-            return new TodoDto
-            {
-                Id = id,
-                Description = "This is a valid todo",
-                IsDone = false
-            };
-        }
+            Id = id,
+            Description = "This is a valid todo",
+            IsDone = false
+        };
     }
 }
