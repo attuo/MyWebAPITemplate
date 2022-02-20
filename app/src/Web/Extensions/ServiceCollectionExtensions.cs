@@ -289,7 +289,7 @@ public static class ServiceCollectionExtensions
         {
             var connectionString = configuration.GetSection(DatabaseSettings.OptionsName).Get<DatabaseSettings>().ConnectionString;
             // TODO: Other health checks are not yet updated to .NET 5.0.Enable when those are NuGets are updated.
-            //services.AddHealthChecksUI().AddSqlServerStorage(connectionString);
+            services.AddHealthChecksUI().AddSqlServerStorage(connectionString);
         }
         return services;
     }

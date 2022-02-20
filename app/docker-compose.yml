@@ -6,7 +6,7 @@ services:
     container_name: api
     hostname: api
     ports:
-      - "5001:80"
+      - "6001:80"
     build:
       context: .
       dockerfile: src/Web/Dockerfile
