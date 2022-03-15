@@ -1,10 +1,17 @@
-﻿using System;
+﻿namespace MyWebAPITemplate.Source.Core.Dtos;
 
-namespace MyWebAPITemplate.Source.Core.Dtos;
-
-public class TodoDto
+/// <summary>
+/// Data transfer object for the Todo.
+/// </summary>
+public class TodoDto : BaseDto
 {
-    public Guid? Id { get; init; }
-    public string Description { get; init; }
+    /// <summary>
+    /// Gets or inits a description. This is the actual info that the Todo contains.
+    /// </summary>
+    public string? Description { get; init; }
+
+    /// <summary>
+    /// Gets a value indicating whether Todo is done or not.
+    /// </summary>
     public bool IsDone { get; init; }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Entities;
@@ -6,12 +7,14 @@ using MyWebAPITemplate.Source.Core.Interfaces.Mappers;
 
 namespace MyWebAPITemplate.Source.Core.Mappers;
 
-///<inheritdoc/>
+/// <inheritdoc/>
 public class TodoDtoEntityMapper : ITodoDtoEntityMapper
 {
+    /// <inheritdoc/>
     public TodoEntity Map(TodoDto dto)
     {
-        if (dto == null) return null;
+        ArgumentNullException.ThrowIfNull(dto, nameof(dto));
+
         return new TodoEntity
         {
             Description = dto.Description,
@@ -19,17 +22,11 @@ public class TodoDtoEntityMapper : ITodoDtoEntityMapper
         };
     }
 
-    public TodoEntity Map(TodoDto dto, TodoEntity entity)
-    {
-        if (dto == null || entity == null) return null;
-        entity.Description = dto.Description;
-        entity.IsDone = dto.IsDone;
-        return entity;
-    }
-
+    /// <inheritdoc/>
     public TodoDto Map(TodoEntity entity)
     {
-        if (entity == null) return null;
+        ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+
         return new TodoDto
         {
             Id = entity.Id,
@@ -38,9 +35,22 @@ public class TodoDtoEntityMapper : ITodoDtoEntityMapper
         };
     }
 
+    /// <inheritdoc/>
+    public TodoEntity Map(TodoDto dto, TodoEntity entity)
+    {
+        ArgumentNullException.ThrowIfNull(dto, nameof(dto));
+        ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+
+        entity.Description = dto.Description;
+        entity.IsDone = dto.IsDone;
+        return entity;
+    }
+
+    /// <inheritdoc/>
     public IEnumerable<TodoDto> Map(IReadOnlyList<TodoEntity> entities)
     {
-        if (entities == null) return null;
+        ArgumentNullException.ThrowIfNull(entities, nameof(entities));
+
         return entities.Select(entity => Map(entity));
     }
 }

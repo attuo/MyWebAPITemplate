@@ -5,36 +5,36 @@ using MyWebAPITemplate.Source.Core.Entities;
 namespace MyWebAPITemplate.Source.Core.Interfaces.Mappers;
 
 /// <summary>
-/// Mapping methods between TodoDtos and TodoEntities
+/// Mapping methods between TodoDtos and TodoEntities.
 /// </summary>
 public interface ITodoDtoEntityMapper
 {
     /// <summary>
-    /// TodoDto -> TodoEntity
+    /// Maps Dto to Entity.
     /// </summary>
-    /// <param name="dto"></param>
-    /// <returns></returns>
+    /// <param name="dto">Dto to be mapped from.</param>
+    /// <returns>Mapped new entity.</returns>
     TodoEntity Map(TodoDto dto);
 
     /// <summary>
-    /// TodoDto, TodoEntity -> TodoEntity
+    /// Maps Dto data to existing entity.
     /// </summary>
-    /// <param name="dto"></param>
-    /// <param name="entity"></param>
-    /// <returns></returns>
+    /// <param name="dto">Dto to be mapped from.</param>
+    /// <param name="entity">Entity to be mapped to.</param>
+    /// <returns>Mapped entity.</returns>
     TodoEntity Map(TodoDto dto, TodoEntity entity);
 
     /// <summary>
-    /// TodoEntity -> TodoDto
+    /// Maps entity to Dto.
     /// </summary>
-    /// <param name="entity"></param>
-    /// <returns></returns>
+    /// <param name="entity">Entity to be mapped from.</param>
+    /// <returns>Mapped new Dto.</returns>
     TodoDto Map(TodoEntity entity);
 
     /// <summary>
-    /// TodoEntities -> TodoDtos
+    /// Maps list of entities to list of Dtos.
     /// </summary>
-    /// <param name="entities"></param>
-    /// <returns></returns>
+    /// <param name="entities">List of entities to be mapped from.</param>
+    /// <returns>Mapped list of new Dtos.</returns>
     IEnumerable<TodoDto> Map(IReadOnlyList<TodoEntity> entities);
 }

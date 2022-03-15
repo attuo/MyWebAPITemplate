@@ -3,14 +3,14 @@
 namespace MyWebAPITemplate.Tests.Shared.Builders.Models;
 
 /// <summary>
-/// TodoRequestModel builder
+/// TodoRequestModel builder.
 /// </summary>
 public static class TodoRequestModelBuilder
 {
     /// <summary>
-    /// Create valid model
+    /// Create valid model.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Valid model.</returns>
     public static TodoRequestModel CreateValid()
     {
         return new TodoRequestModel

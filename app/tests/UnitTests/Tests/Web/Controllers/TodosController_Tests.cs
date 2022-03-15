@@ -17,12 +17,16 @@ using Xunit;
 namespace MyWebAPITemplate.Tests.UnitTests.Tests.Web.Controllers;
 
 /// <summary>
-/// All the TodosController tests
+/// All the TodosController tests.
 /// </summary>
 public class TodosController_Tests
 {
     #region Get all
 
+    /// <summary>
+    /// Test for happy case.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
     public async Task Get_All_Is_Ok()
     {
@@ -54,6 +58,10 @@ public class TodosController_Tests
 
     #region Get
 
+    /// <summary>
+    /// Test for happy case.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
     public async Task Get_Is_Ok()
     {
@@ -80,33 +88,14 @@ public class TodosController_Tests
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Once);
     }
 
-    [Fact]
-    public async Task Get_Is_NotFound()
-    {
-        // Arrange
-        var mockTodoService = new Mock<ITodoService>();
-        var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
-
-        mockTodoService.Setup(s => s.GetTodo(It.IsAny<Guid>()))
-            .ReturnsAsync((TodoDto)null);
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>()))
-            .Returns(new TodoResponseModel());
-
-        var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
-
-        // Act
-        var result = await controller.Get(It.IsAny<Guid>());
-
-        // Assert
-        result.Result.Should().BeOfType<NotFoundObjectResult>();
-        mockTodoService.Verify(c => c.GetTodo(It.IsAny<Guid>()), Times.Once);
-        mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Never);
-    }
-
     #endregion Get
 
     #region Create
 
+    /// <summary>
+    /// Test for happy case.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
     public async Task Create_Is_Ok()
     {
@@ -140,6 +129,10 @@ public class TodosController_Tests
 
     #region Update
 
+    /// <summary>
+    /// Test for happy case.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
     public async Task Update_Is_Ok()
     {
@@ -165,40 +158,18 @@ public class TodosController_Tests
         resultObject.Should().BeOfType<TodoResponseModel>();
         resultObject.Should().NotBeNull();
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoRequestModel>()), Times.Once);
-        mockTodoService.Verify(c => c.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>()), Times.Once); ;
+        mockTodoService.Verify(c => c.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>()), Times.Once);
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Once);
-    }
-
-    [Fact]
-    public async Task Update_Is_NotFound()
-    {
-        // Arrange
-        var mockTodoService = new Mock<ITodoService>();
-        var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
-
-        mockTodoService.Setup(s => s.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>()))
-            .ReturnsAsync((TodoDto)null);
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoRequestModel>()))
-            .Returns(new TodoDto());
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>()))
-            .Returns(new TodoResponseModel());
-
-        var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
-
-        // Act
-        var result = await controller.Update(It.IsAny<Guid>(), It.IsAny<TodoRequestModel>());
-
-        // Assert
-        result.Result.Should().BeOfType<NotFoundObjectResult>();
-        mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoRequestModel>()), Times.Once);
-        mockTodoService.Verify(c => c.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>()), Times.Once); ;
-        mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Never);
     }
 
     #endregion Update
 
     #region Delete
 
+    /// <summary>
+    /// Test for happy case.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
     public async Task Delete_Is_Ok()
     {
@@ -206,8 +177,7 @@ public class TodosController_Tests
         var mockTodoService = new Mock<ITodoService>();
         var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
 
-        mockTodoService.Setup(s => s.DeleteTodo(It.IsAny<Guid>()))
-            .ReturnsAsync(true);
+        mockTodoService.Setup(s => s.DeleteTodo(It.IsAny<Guid>())).Returns(Task.CompletedTask);
 
         var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
 
@@ -216,26 +186,6 @@ public class TodosController_Tests
 
         // Assert
         result.Should().BeOfType<NoContentResult>();
-        mockTodoService.Verify(c => c.DeleteTodo(It.IsAny<Guid>()), Times.Once);
-    }
-
-    [Fact]
-    public async Task Delete_Is_NotFound()
-    {
-        // Arrange
-        var mockTodoService = new Mock<ITodoService>();
-        var mockTodoMapper = new Mock<ITodoModelDtoMapper>();
-
-        mockTodoService.Setup(s => s.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>()))
-            .ReturnsAsync(() => null);
-
-        var controller = new TodosController(mockTodoService.Object, mockTodoMapper.Object);
-
-        // Act
-        var result = await controller.Delete(It.IsAny<Guid>());
-
-        // Assert
-        result.Should().BeOfType<NotFoundObjectResult>();
         mockTodoService.Verify(c => c.DeleteTodo(It.IsAny<Guid>()), Times.Once);
     }
 

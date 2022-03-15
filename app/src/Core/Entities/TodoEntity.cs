@@ -1,14 +1,19 @@
-﻿namespace MyWebAPITemplate.Source.Core.Entities;
+﻿using MyWebAPITemplate.Source.Core.Interfaces.Database;
 
-public class TodoEntity : BaseEntity
+namespace MyWebAPITemplate.Source.Core.Entities;
+
+/// <summary>
+/// Entity for Todo.
+/// </summary>
+public class TodoEntity : BaseEntity, IAggregateRoot
 {
     /// <summary>
-    /// Text for what needs to be done in the todo item
+    /// Gets or sets text for what needs to be done in the todo item.
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
-    /// Is the todo still in progress or done
+    /// Gets or sets a value indicating whether is the todo still in progress or done.
     /// </summary>
     public bool IsDone { get; set; }
 }

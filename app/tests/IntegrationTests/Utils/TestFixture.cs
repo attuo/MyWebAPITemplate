@@ -1,17 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Infrastructure.Database;
+using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
 
 namespace MyWebAPITemplate.Tests.IntegrationTests.Utils;
 
 /// <summary>
-/// Sets the test environment
+/// Sets the test environment.
 /// </summary>
 public abstract class TestFixture
 {
-    protected ApplicationDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TestFixture"/> class.
+    /// </summary>
+    protected TestFixture()
+    {
+        var options = CreateNewContextOptions();
+        _dbContext = new ApplicationDbContext(options);
+    }
+
+    /// <summary>
+    /// Sets a new context options for the existing context.
+    /// </summary>
+    /// <returns><see cref="DbContextOptions"/>.</returns>
     protected static DbContextOptions<ApplicationDbContext> CreateNewContextOptions()
     {
         // Create a fresh service provider, and therefore a fresh
@@ -29,12 +42,9 @@ public abstract class TestFixture
         return builder.Options;
     }
 
-    // TODO: Make this a generic method
-    protected EfRepository<TodoEntity> GetTodoRepository()
-    {
-        var options = CreateNewContextOptions();
-
-        _dbContext = new ApplicationDbContext(options);
-        return new EfRepository<TodoEntity>(_dbContext);
-    }
+    /// <summary>
+    /// Initializes a TodoRepository for the tests.
+    /// </summary>
+    /// <returns>Created instance.</returns>
+    protected TodoRepository GetTodoRepository() => new(_dbContext);
 }

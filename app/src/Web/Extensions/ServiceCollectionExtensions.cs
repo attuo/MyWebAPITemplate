@@ -18,59 +18,59 @@ using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
 using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
 using MyWebAPITemplate.Source.Web.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
-using MyWebAPITemplate.Source.Web.Settings;
+using MyWebAPITemplate.Source.Web.Options;
 using MyWebAPITemplate.Source.Web.Validators;
 
 namespace MyWebAPITemplate.Source.Web.Extensions;
 
 /// <summary>
-/// Contains all the service collection extension methods for configuring the system
-/// This is the class for all kind of registerations for IServiceCollection
+/// Contains all the service collection extension methods for configuring the system.
+/// This is the class for all kind of registerations for IServiceCollection.
 /// </summary>
 public static class ServiceCollectionExtensions
 {
     #region Dependency Injection for Application's Services
 
     /// <summary>
-    /// Dependency injections for all the Application Services
+    /// Dependency injections for all the Application Services.
     /// </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         AddInternalServices(services);
-        AddExternalServices(services);
+        // AddExternalServices(services);
         return services;
     }
 
     /// <summary>
-    /// Dependency injections for services from Core/Services
-    /// When creating a new service in core project, remember to register it here
+    /// Dependency injections for services from Core/Services.
+    /// When creating a new service in core project, remember to register it here.
     /// </summary>
-    /// <param name="services"></param>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
     private static void AddInternalServices(IServiceCollection services)
     {
         services.AddScoped<ITodoService, TodoService>();
     }
 
-    /// <summary>
-    /// Dependency injections for services from Infrastructure/Services
-    /// When creating a new service in infrastructure project, remember to register it here
-    /// </summary>
-    /// <param name="services"></param>
-    private static void AddExternalServices(IServiceCollection services)
-    {
-    }
+    ///// <summary>
+    ///// Dependency injections for services from Infrastructure/Services.
+    ///// When creating a new service in infrastructure project, remember to register it here.
+    ///// </summary>
+    ///// <param name = "services" > See < see cref= "IServiceCollection" />.</ param >
+    // private static void AddExternalServices(IServiceCollection services)
+    // {
+    // }
 
     #endregion Dependency Injection for Application's Services
 
     #region Dependency Injection for Application's Mappers
 
     /// <summary>
-    /// Dependency Injections for application's model mappers
+    /// Dependency Injections for application's model mappers.
     /// </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddApplicationMappers(this IServiceCollection services)
     {
         // The idea for mapper DI methods are derived from here:
@@ -81,20 +81,20 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Dependency Injections for mappers from Web/Mappers
-    /// When creating a new mapper in Web project, remember to register it here
+    /// Dependency Injections for mappers from Web/Mappers.
+    /// When creating a new mapper in Web project, remember to register it here.
     /// </summary>
-    /// <param name="services"></param>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
     private static void AddModelDtoMappers(IServiceCollection services)
     {
         services.AddScoped<ITodoModelDtoMapper, TodoModelDtoMapper>();
     }
 
     /// <summary>
-    /// Dependency Injections for mappers from Core/Mappers
-    /// When creating a new mapper in Core project, remember to register it here
+    /// Dependency Injections for mappers from Core/Mappers.
+    /// When creating a new mapper in Core project, remember to register it here.
     /// </summary>
-    /// <param name="services"></param>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
     private static void AddDtoEntityMappers(IServiceCollection services)
     {
         services.AddScoped<ITodoDtoEntityMapper, TodoDtoEntityMapper>();
@@ -105,11 +105,11 @@ public static class ServiceCollectionExtensions
     #region Dependency Injection for Application's Repositories
 
     /// <summary>
-    /// Dependency Injections for repositories from Infrastructure/Database/Repositories
-    /// When creating a new repository, remember to register it here
+    /// Dependency Injections for repositories from Infrastructure/Database/Repositories.
+    /// When creating a new repository, remember to register it here.
     /// </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddApplicationRepositories(this IServiceCollection services)
     {
         services.AddScoped<ITodoRepository, TodoRepository>();
@@ -122,11 +122,11 @@ public static class ServiceCollectionExtensions
     #region Dependency Injection for Application's Validators (FluentValidation)
 
     /// <summary>
-    /// Dependency Injections for validators from Web/Validators
-    /// When creating a new validator, remember to register it here
+    /// Dependency Injections for validators from Web/Validators.
+    /// When creating a new validator, remember to register it here.
     /// </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddModelValidators(this IServiceCollection services)
     {
         // Register the validators here
@@ -139,11 +139,11 @@ public static class ServiceCollectionExtensions
     #region Configure Database
 
     /// <summary>
-    /// Configurations for databases
+    /// Configurations for databases.
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="configuration"></param>
-    /// <returns></returns>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <param name="configuration">See <see cref="IConfiguration"/>.</param>
+    /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         ConfigureSQLServerDatabase(services, configuration);
@@ -151,19 +151,22 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Configurations for SQL Server
+    /// Configurations for SQL Server.
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="configuration"></param>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <param name="configuration">See <see cref="IConfiguration"/>.</param>
+    /// <exception cref="NullReferenceException">Throws exception if connection string is not found in the configuration.</exception>
     private static void ConfigureSQLServerDatabase(IServiceCollection services, IConfiguration configuration)
     {
-        var databaseOptions = new DatabaseSettings();
-        configuration.GetSection(DatabaseSettings.OptionsName).Bind(databaseOptions);
+        // TODO: Add validation for the options pattern: https://dev.to/antoniofalcao/quick-tip-improving-developer-experience-with-options-pattern-validation-on-start-3ac2
+        var databaseOptions = configuration.GetSection(DatabaseOptions.OptionsName).Get<DatabaseOptions>();
 
-        // "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=TemplateDb;"
+        if (databaseOptions.ConnectionString == null)
+            throw new NullReferenceException(nameof(databaseOptions.ConnectionString));
 
         // Requires LocalDB which can be installed with SQL Server Express
         // https://www.microsoft.com/en-us/download/details.aspx?id=54284
+        // "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=TemplateDb;"
         services.AddDbContext<ApplicationDbContext>(c =>
             c.UseSqlServer(databaseOptions.ConnectionString));
     }
@@ -173,10 +176,10 @@ public static class ServiceCollectionExtensions
     #region Configure Cors
 
     /// <summary>
-    /// Configurations for CORS rules
+    /// Configurations for CORS rules.
     /// </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection ConfigureCors(this IServiceCollection services)
     {
         // TODO: Change to be more strict
@@ -198,10 +201,10 @@ public static class ServiceCollectionExtensions
     #region Configure Swagger
 
     /// <summary>
-    /// Configurations for Swagger (OpenAPI)
+    /// Configurations for Swagger (OpenAPI).
     /// </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
     {
         // Read more https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.1&tabs=visual-studio
@@ -235,10 +238,10 @@ public static class ServiceCollectionExtensions
     #region Configure Development Settings
 
     /// <summary>
-    /// Configurations for all the settings that are used when running on development mode
+    /// Configurations for all the settings that are used when running on development mode.
     /// </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection ConfigureDevelopmentSettings(this IServiceCollection services)
     {
         // TODO: Environment checking here
@@ -248,10 +251,10 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Configuration for handy little service listing
-    /// Makes it easy to see list of registered services
+    /// Configuration for handy little service listing.
+    /// Makes it easy to see list of registered services.
     /// </summary>
-    /// <param name="services"></param>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
     private static void ConfigureListStartupServices(IServiceCollection services)
     {
         services.Configure<ServiceConfig>(config =>
@@ -263,34 +266,61 @@ public static class ServiceCollectionExtensions
 
     #endregion Configure Development Settings
 
-    #region Configure Settings
+    #region Configure Options
 
-    public static IServiceCollection ConfigureSettings(this IServiceCollection services, IConfiguration configuration)
+    /// <summary>
+    /// Configuration for options pattern.
+    /// </summary>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <param name="configuration">See <see cref="IConfiguration"/>.</param>
+    /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
+    public static IServiceCollection ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<DatabaseSettings>(configuration.GetSection(DatabaseSettings.OptionsName));
+        services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.OptionsName));
+
+        AddOption<DatabaseOptions>(services, configuration, DatabaseOptions.OptionsName);
 
         return services;
     }
 
-    #endregion Configure Settings
+    /// <summary>
+    /// Adds and validates an option class that contains the properties for specific option.
+    /// </summary>
+    /// <typeparam name="T">Option class.</typeparam>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <param name="configuration">See <see cref="IConfiguration"/>.</param>
+    /// <param name="optionsName">Name of the section of the option.</param>
+    private static void AddOption<T>(IServiceCollection services, IConfiguration configuration, string optionsName) where T : class
+    {
+        services
+            .AddOptions<T>()
+            .Bind(configuration.GetSection(optionsName))
+            .ValidateDataAnnotations() // NOTE: This can also be done with FluentValidation, however it is a bit more tedious work to do.
+            .ValidateOnStart();
+    }
+
+    #endregion Configure Options
 
     #region Configure HealthChecks
 
     /// <summary>
-    /// Configurations for all the health checks
+    /// Configurations for all the health checks.
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="configuration"></param>
-    /// <returns></returns>
+    /// <param name="services">See <see cref="IServiceCollection"/>.</param>
+    /// <param name="configuration">See <see cref="IConfiguration"/>.</param>
+    /// <param name="env">See <see cref="RunningEnvironment"/>.</param>
+    /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration, RunningEnvironment env)
     {
         services.AddHealthChecks();
-        if (env.IsDevelopment())
+        if (env.IsLocalDevelopment())
         {
-            var connectionString = configuration.GetSection(DatabaseSettings.OptionsName).Get<DatabaseSettings>().ConnectionString;
+            var connectionString = configuration.GetSection(DatabaseOptions.OptionsName).Get<DatabaseOptions>().ConnectionString;
+
             // TODO: Other health checks are not yet updated to .NET 5.0.Enable when those are NuGets are updated.
             services.AddHealthChecksUI().AddSqlServerStorage(connectionString);
         }
+
         return services;
     }
 

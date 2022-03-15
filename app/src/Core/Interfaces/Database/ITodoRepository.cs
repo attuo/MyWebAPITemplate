@@ -3,10 +3,10 @@
 namespace MyWebAPITemplate.Source.Core.Interfaces.Database;
 
 /// <summary>
-/// For repository pattern
+/// For repository pattern.
 /// </summary>
-public interface ITodoRepository : IEfRepository<TodoEntity>
+public interface ITodoRepository : IRepositoryBase<TodoEntity>, IAggregateRoot
 {
     // Implement repository pattern
-    //Task<TodoEntity> GetByIdWithItemsAsync(int id);
+    // Task<TodoEntity> GetByIdWithItemsAsync(int id);
 }

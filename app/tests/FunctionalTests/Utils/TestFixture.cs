@@ -4,23 +4,25 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MyWebAPITemplate.Source.Infrastructure.Database;
-using MyWebAPITemplate.Source.Web;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.Utils;
 
 /// <summary>
-/// Sets the test environment
+/// Setups the test environment.
 /// </summary>
 public class TestFixture : WebApplicationFactory<Program>
 {
-
     private readonly string _environment = "Testing";
 
+    /// <summary>
+    /// Overrides Host creating to initialize the db context and other usefull stuff.
+    /// </summary>
+    /// <param name="builder">See <see cref="IHostBuilder"/>.</param>
+    /// <returns>New instance of <see cref="IHost"/>.</returns>
     protected override IHost CreateHost(IHostBuilder builder)
     {
         builder.UseEnvironment(_environment);
@@ -32,13 +34,10 @@ public class TestFixture : WebApplicationFactory<Program>
             var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
                         typeof(DbContextOptions<ApplicationDbContext>));
+            if (descriptor != null)
+                services.Remove(descriptor);
 
-            services.Remove(descriptor);
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseInMemoryDatabase("InMemoryDbForTesting");
-            });
+            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("InMemoryDbForTesting"));
 
             var sp = services.BuildServiceProvider();
 
@@ -56,47 +55,20 @@ public class TestFixture : WebApplicationFactory<Program>
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred seeding the " +
-                    "database with test messages. Error: {Message}", ex.Message);
+                logger.LogError(
+                    ex,
+                    "An error occurred seeding the database with test messages. Error: {Message}",
+                    ex.Message);
             }
         });
 
         return base.CreateHost(builder);
     }
 
-    //protected override IHost CreateHost(IHostBuilder builder)
-    //{
-    //    Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
-    //    var host = builder.Build();
-    //    var serviceProvider = host.Services;
-    //    // Create a scope to obtain a reference to the database context
-    //    using (var scope = serviceProvider.CreateScope())
-    //    {
-    //        var scopedServices = scope.ServiceProvider;
-    //        var db = scopedServices.GetRequiredService<ApplicationDbContext>();
-
-    //        var logger = scopedServices
-    //            .GetRequiredService<ILogger<TestFixture<TStartup>>>();
-
-    //        // Ensure the database is created.
-    //        db.Database.EnsureCreated();
-
-    //        try
-    //        {
-    //            // Seed the database with test data.
-    //            //TestDatabaseSeed.ReinitializeDbForTests(db).Wait();
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            logger.LogError(ex, "An error occurred seeding the " +
-    //                                $"database with test messages. Error: {ex.Message}");
-    //        }
-    //    }
-
-    //    host.Start();
-    //    return host;
-    //}
-
+    /// <summary>
+    /// Overrides Web Host building for testing purposes.
+    /// </summary>
+    /// <param name="builder">See <see cref="IWebHostBuilder"/>.</param>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder
@@ -114,10 +86,7 @@ public class TestFixture : WebApplicationFactory<Program>
                 }
 
                 // Add ApplicationDbContext using an in-memory database for testing.
-                services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseInMemoryDatabase("InMemoryDB-Functional-Tests"); // TODO: Config to use real database
-            });
+                services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("InMemoryDB-Functional-Tests"));
             });
     }
 }

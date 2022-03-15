@@ -10,13 +10,14 @@ using MyWebAPITemplate.Source.Web.Extensions;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
-string[] _requiredEnvironmentVariables = { "ASPNETCORE_ENVIRONMENT" };
+string[] requiredEnvironmentVariables = { "ASPNETCORE_ENVIRONMENT" };
+
 var startupLogger = CreateInitialLogger();
 
 try
 {
-    CheckRequiredEnvVariables(_requiredEnvironmentVariables);
-    var env = GetCurrentEnvironment(_requiredEnvironmentVariables);
+    CheckRequiredEnvVariables(requiredEnvironmentVariables);
+    var env = GetCurrentEnvironment(requiredEnvironmentVariables);
 
     startupLogger.Information("Application starting");
     var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +26,7 @@ try
     SetServices(builder.Services, builder.Configuration, env);
 
     var app = builder.Build();
-    SetApplications(app, builder.Environment);
+    SetApplications(app, env);
 
     await SeedDatabase(app.Services, env);
 
@@ -38,19 +39,19 @@ catch (Exception ex)
     string type = ex.GetType().Name;
     if (type.Equals("StopTheHostException", StringComparison.Ordinal))
         throw;
-    
     startupLogger.Fatal(ex, "Application did not start successfully");
 }
+
 // This is commented out because the EF migration stops working with it
-//finally
-//{
-//    startupLogger.Information("Application is closing");
-//    Environment.Exit(1);
-//}
+// finally
+// {
+//     startupLogger.Information("Application is closing");
+//     Environment.Exit(1);
+// }
 
 static void SetConfiguration(IConfigurationBuilder configBuilder, RunningEnvironment env)
     => configBuilder
-        //.SetBasePath(Directory.GetCurrentDirectory())
+        // .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", false, false)
         .AddJsonFile("appsettings.Logs.json", false, false)
         .AddJsonFile($"appsettings.{env.Name}.json", false, false)
@@ -68,7 +69,7 @@ static void SetServices(IServiceCollection services, IConfiguration configuratio
         .ConfigureCors()
         .ConfigureSwagger()
         .ConfigureHealthChecks(configuration, env)
-        .ConfigureSettings(configuration)
+        .ConfigureOptions(configuration)
         .AddApplicationServices()
         .AddApplicationMappers()
         .AddApplicationRepositories()
@@ -76,11 +77,12 @@ static void SetServices(IServiceCollection services, IConfiguration configuratio
         .AddControllers()
         .AddFluentValidation(); // this must be called directly after AddControllers
 
-static void SetApplications(IApplicationBuilder app, IWebHostEnvironment env)
+static void SetApplications(IApplicationBuilder app, RunningEnvironment env)
     => app
         .ConfigureDevelopmentSettings(env)
         .ConfigureSwagger()
         .ConfigureLogger()
+        .UseCustomMiddlewares()
         .ConfigureRouting(); // This usually must be called the last
 
 void CheckRequiredEnvVariables(string[] requiredEnvVars)
@@ -94,6 +96,7 @@ void CheckRequiredEnvVariables(string[] requiredEnvVars)
             startupLogger.Error("Required environment variable is missing: {envVar}", reqEnvVar);
             throw new ArgumentNullException(reqEnvVar);
         }
+
         startupLogger.Information("Required environment variable found: {envVar}", reqEnvVar);
     }
 }
@@ -110,6 +113,7 @@ RunningEnvironment GetCurrentEnvironment(string[] envVars)
         startupLogger.Fatal($"Application environment '{env}' is not supported");
         throw new ArgumentNullException(env);
     }
+
     startupLogger.Information("Checking running environment successful: {env}", env);
     return RunningEnvironment.Get(env)!;
 }
@@ -121,7 +125,7 @@ async Task SeedDatabase(IServiceProvider serviceProvider, RunningEnvironment env
     var scopedProvider = scope.ServiceProvider;
     try
     {
-        if (env.IsDevelopment())
+        if (env.IsLocalDevelopment())
         {
             var dbContext = scopedProvider.GetRequiredService<ApplicationDbContext>();
             await ApplicationDbContextSeed.SeedDevelopAsync(dbContext);
@@ -143,13 +147,16 @@ static ILogger CreateInitialLogger()
         .MinimumLevel.Debug()
         .WriteTo.Console(
             outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}",
-            theme: AnsiConsoleTheme.Code
-        )
+            theme: AnsiConsoleTheme.Code)
         .Enrich.FromLogContext()
         .Enrich.WithProperty("Initial Logger", true)
         .Enrich.WithProperty("ApplicationName", typeof(Program).Assembly.GetName().Name)
         .Enrich.WithProperty("Environment", "Development")
-        .CreateLogger();
+        .CreateBootstrapLogger();
 
-
-public partial class Program { } // This is for the tests
+/// <summary>
+/// Set implicitly for the tests.
+/// </summary>
+public partial class Program
+{
+}

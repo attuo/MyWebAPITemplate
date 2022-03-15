@@ -8,17 +8,23 @@ using Xunit;
 namespace MyWebAPITemplate.Tests.UnitTests.Tests.Web.Validators;
 
 /// <summary>
-/// All the TodoRequestModelValidator tests
+/// All the TodoRequestModelValidator tests.
 /// </summary>
 public class TodoRequestModelValidator_Tests
 {
-    private TodoRequestModelValidator Validator { get; }
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TodoRequestModelValidator_Tests"/> class.
+    /// </summary>
     public TodoRequestModelValidator_Tests()
     {
         Validator = new TodoRequestModelValidator();
     }
 
+    private TodoRequestModelValidator Validator { get; }
+
+    /// <summary>
+    /// Happy case for model validation.
+    /// </summary>
     [Fact]
     public void Valid_Model()
     {
@@ -32,6 +38,9 @@ public class TodoRequestModelValidator_Tests
         result.IsValid.Should().BeTrue();
     }
 
+    /// <summary>
+    /// Unhappy case for model validation.
+    /// </summary>
     [Fact]
     public void Invalid_Model_Description_Null()
     {
@@ -47,6 +56,9 @@ public class TodoRequestModelValidator_Tests
         result.Errors.Should().NotBeEmpty().And.HaveCount(1);
     }
 
+    /// <summary>
+    /// Unhappy case for model validation.
+    /// </summary>
     [Fact]
     public void Invalid_Model_Description_Too_Long()
     {
@@ -60,6 +72,6 @@ public class TodoRequestModelValidator_Tests
         // Assert
         result.IsValid.Should().BeFalse();
         result.Errors.Should().NotBeEmpty().And.HaveCount(1);
-        //result.Errors.Should().Contain(c => c.ErrorMessage.Contains("{The length of 'Description' must be 100 characters or fewer."));
+        // TODO: Check the error message too.
     }
 }

@@ -13,12 +13,18 @@ using Xunit;
 namespace MyWebAPITemplate.Tests.UnitTests.Tests.Core.Services;
 
 /// <summary>
-/// All the TodoService tests
+/// All the TodoService tests.
 /// </summary>
 public class TodoService_Tests
 {
+    // TODO: Share mocking between the tests
+
     #region Get All
 
+    /// <summary>
+    /// Tests happy case for service method on getting all the todos.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
     public async Task GetTodos_Is_Ok()
     {
@@ -47,6 +53,10 @@ public class TodoService_Tests
 
     #region Get
 
+    /// <summary>
+    /// Tests happy case for service method on getting the todo.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
     public async Task GetTodo_Is_Ok()
     {
@@ -70,33 +80,14 @@ public class TodoService_Tests
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoEntity>()), Times.Once);
     }
 
-    [Fact]
-    public async Task GetTodo_Is_Null()
-    {
-        // Arrange
-        var mockTodoRepository = new Mock<ITodoRepository>();
-        var mockTodoMapper = new Mock<ITodoDtoEntityMapper>();
-
-        mockTodoRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync((TodoEntity)null);
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoEntity>()))
-            .Returns(new TodoDto());
-
-        var service = new TodoService(mockTodoRepository.Object, mockTodoMapper.Object);
-
-        // Act
-        var result = await service.GetTodo(It.IsAny<Guid>());
-
-        // Assert
-        result.Should().BeNull();
-        mockTodoRepository.Verify(c => c.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
-        mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoEntity>()), Times.Never);
-    }
-
     #endregion Get
 
     #region Create
 
+    /// <summary>
+    /// Tests happy case for service method on creating a todo.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
     public async Task CreateTodo_Is_Ok()
     {
@@ -127,6 +118,10 @@ public class TodoService_Tests
 
     #region Update
 
+    /// <summary>
+    /// Tests happy case for service method on updating a todo.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
     public async Task UpdateTodo_Is_Ok()
     {
@@ -155,38 +150,14 @@ public class TodoService_Tests
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoEntity>()), Times.Once);
     }
 
-    [Fact]
-    public async Task UpdateTodo_Is_Null()
-    {
-        // Arrange
-        var mockTodoRepository = new Mock<ITodoRepository>();
-        var mockTodoMapper = new Mock<ITodoDtoEntityMapper>();
-
-        mockTodoRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync((TodoEntity)null);
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>()))
-            .Returns(new TodoEntity());
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoEntity>()))
-            .Returns(new TodoDto());
-
-        var service = new TodoService(mockTodoRepository.Object, mockTodoMapper.Object);
-
-        // Act
-        var result = await service.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>());
-
-        // Assert
-        result.Should().BeNull();
-        mockTodoRepository.Verify(c => c.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
-        mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Never);
-        mockTodoRepository.Verify(c => c.UpdateAsync(It.IsAny<TodoEntity>()), Times.Never);
-        mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoEntity>()), Times.Never);
-        // TODO: Add Times.Never asserts for other mocks
-    }
-
     #endregion Update
 
     #region Delete
 
+    /// <summary>
+    /// Tests happy case for service method on deleting a todo.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
     public async Task DeleteTodo_Is_Ok()
     {
@@ -201,34 +172,11 @@ public class TodoService_Tests
         var service = new TodoService(mockTodoRepository.Object, mockTodoMapper.Object);
 
         // Act
-        var result = await service.DeleteTodo(It.IsAny<Guid>());
+        await service.DeleteTodo(It.IsAny<Guid>());
 
         // Assert
-        result.Should().Be(true);
         mockTodoRepository.Verify(c => c.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
         mockTodoRepository.Verify(c => c.DeleteAsync(It.IsAny<TodoEntity>()), Times.Once);
-    }
-
-    [Fact]
-    public async Task DeleteTodo_Is_Null()
-    {
-        // Arrange
-        var mockTodoRepository = new Mock<ITodoRepository>();
-        var mockTodoMapper = new Mock<ITodoDtoEntityMapper>();
-
-        mockTodoRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync((TodoEntity)null);
-        mockTodoRepository.Setup(s => s.DeleteAsync(It.IsAny<TodoEntity>()));
-
-        var service = new TodoService(mockTodoRepository.Object, mockTodoMapper.Object);
-
-        // Act
-        var result = await service.DeleteTodo(It.IsAny<Guid>());
-
-        // Assert
-        result.Should().BeNull();
-        mockTodoRepository.Verify(c => c.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
-        mockTodoRepository.Verify(c => c.DeleteAsync(It.IsAny<TodoEntity>()), Times.Never);
     }
 
     #endregion Delete

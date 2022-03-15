@@ -4,15 +4,15 @@ using MyWebAPITemplate.Source.Core.Dtos;
 namespace MyWebAPITemplate.Tests.Shared.Builders.Dtos;
 
 /// <summary>
-/// TodoDto builder
+/// TodoDto builder for testing purposes.
 /// </summary>
 public static class TodoDtoBuilder
 {
     /// <summary>
-    /// Create valid dot with given id
+    /// Creates a valid Todo with given id.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
+    /// <param name="id">Id of the object.</param>
+    /// <returns>Created valid object.</returns>
     public static TodoDto CreateValid(Guid id)
     {
         return new TodoDto

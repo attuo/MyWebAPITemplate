@@ -3,12 +3,12 @@
 namespace MyWebAPITemplate.Source.Core.Entities;
 
 /// <summary>
-/// All entities inherit this base class
+/// All entities inherit this base class.
 /// </summary>
-public abstract class BaseEntity
+public class BaseEntity
 {
     /// <summary>
-    /// Entity Framework sets this as Id for each entity
+    /// Gets or sets as Id for each entity.
     /// </summary>
     public virtual Guid Id { get; set; }
 }

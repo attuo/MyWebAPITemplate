@@ -12,12 +12,15 @@ using Xunit;
 namespace MyWebAPITemplate.Tests.UnitTests.Tests.Web.Mappers;
 
 /// <summary>
-/// All the TodoModelDtoMapper tests
+/// All the TodoModelDtoMapper tests.
 /// </summary>
 public class TodoModelDtoMapper_Tests
 {
     #region RequestModel -> TodoDto
 
+    /// <summary>
+    /// Test for mapping the valid case.
+    /// </summary>
     [Fact]
     public void Map_RequestModelToDto_Is_Valid()
     {
@@ -33,24 +36,13 @@ public class TodoModelDtoMapper_Tests
         result.Id.Should().BeNull();
     }
 
-    [Fact]
-    public void Map_RequestModelToDto_Is_Null()
-    {
-        // Arrange
-        var mapper = new TodoModelDtoMapper();
-        TodoRequestModel model = null;
-
-        // Act
-        TodoDto result = mapper.Map(model);
-
-        // Assert
-        result.Should().BeNull();
-    }
-
     #endregion RequestModel -> TodoDto
 
     #region Dto -> ResponseModel
 
+    /// <summary>
+    /// Test for mapping the valid case.
+    /// </summary>
     [Fact]
     public void Map_DtoToResponseModel_Is_Valid()
     {
@@ -65,24 +57,13 @@ public class TodoModelDtoMapper_Tests
         result.Should().BeEquivalentTo(dto);
     }
 
-    [Fact]
-    public void Map_DtoToResponseModel_Is_Null()
-    {
-        // Arrange
-        var mapper = new TodoModelDtoMapper();
-        TodoDto dto = null;
-
-        // Act
-        TodoResponseModel result = mapper.Map(dto);
-
-        // Assert
-        result.Should().BeNull();
-    }
-
     #endregion Dto -> ResponseModel
 
     #region List - Dto -> ResponseModel
 
+    /// <summary>
+    /// Test for mapping the valid case.
+    /// </summary>
     [Fact]
     public void Map_List_DtoToResponseModel_Is_Valid()
     {
@@ -95,20 +76,6 @@ public class TodoModelDtoMapper_Tests
 
         // Assert
         result.Should().BeEquivalentTo(dtos);
-    }
-
-    [Fact]
-    public void Map_List_DtoToResponseModel_Is_Null()
-    {
-        // Arrange
-        var mapper = new TodoModelDtoMapper();
-        IEnumerable<TodoDto> dtos = null;
-
-        // Act
-        IEnumerable<TodoResponseModel> result = mapper.Map(dtos);
-
-        // Assert
-        result.Should().BeNull();
     }
 
     #endregion List - Dto -> ResponseModel

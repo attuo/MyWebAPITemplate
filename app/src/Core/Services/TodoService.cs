@@ -9,59 +9,58 @@ using MyWebAPITemplate.Source.Core.Interfaces.Mappers;
 
 namespace MyWebAPITemplate.Source.Core.Services;
 
-///<inheritdoc/>
+/// <inheritdoc/>
 public class TodoService : ITodoService
 {
     private readonly ITodoRepository _todoRepository;
     private readonly ITodoDtoEntityMapper _todoMapper;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TodoService"/> class.
+    /// </summary>
+    /// <param name="todoRepository">See <see cref="ITodoRepository"/>.</param>
+    /// <param name="todoMapper">See <see cref="ITodoDtoEntityMapper"/>.</param>
     public TodoService(ITodoRepository todoRepository, ITodoDtoEntityMapper todoMapper)
     {
         _todoRepository = todoRepository;
         _todoMapper = todoMapper;
     }
 
+    /// <inheritdoc/>
     public async Task<IEnumerable<TodoDto>> GetTodos()
     {
         IReadOnlyList<TodoEntity> todoEntities = await _todoRepository.ListAllAsync();
-        IEnumerable<TodoDto> todoDtos = _todoMapper.Map(todoEntities);
-        return todoDtos;
+        return _todoMapper.Map(todoEntities);
     }
 
+    /// <inheritdoc/>
     public async Task<TodoDto> GetTodo(Guid id)
     {
         TodoEntity todoEntity = await _todoRepository.GetByIdAsync(id);
-        if (todoEntity == null) return null;
-        TodoDto todoDto = _todoMapper.Map(todoEntity);
-        return todoDto;
+        return _todoMapper.Map(todoEntity);
     }
 
-    public async Task<TodoDto> CreateTodo(TodoDto newTodoDto)
+    /// <inheritdoc/>
+    public async Task<TodoDto> CreateTodo(TodoDto dto)
     {
-        TodoEntity newTodoEntity = _todoMapper.Map(newTodoDto);
+        TodoEntity newTodoEntity = _todoMapper.Map(dto);
         TodoEntity createdTodoEntity = await _todoRepository.AddAsync(newTodoEntity);
-        TodoDto createdTodoDto = _todoMapper.Map(createdTodoEntity);
-        return createdTodoDto;
+        return _todoMapper.Map(createdTodoEntity);
     }
 
-    public async Task<TodoDto> UpdateTodo(Guid id, TodoDto updatableTodoDto)
+    /// <inheritdoc/>
+    public async Task<TodoDto> UpdateTodo(Guid id, TodoDto dto)
     {
         TodoEntity existingTodoEntity = await _todoRepository.GetByIdAsync(id);
-        if (existingTodoEntity == null) return null;
-
-        TodoEntity updatableTodoEntity = _todoMapper.Map(updatableTodoDto, existingTodoEntity);
+        TodoEntity updatableTodoEntity = _todoMapper.Map(dto, existingTodoEntity);
         await _todoRepository.UpdateAsync(updatableTodoEntity);
-
-        TodoDto updatedTodo = _todoMapper.Map(updatableTodoEntity);
-        return updatedTodo;
+        return _todoMapper.Map(updatableTodoEntity);
     }
 
-    public async Task<bool?> DeleteTodo(Guid id)
+    /// <inheritdoc/>
+    public async Task DeleteTodo(Guid id)
     {
         TodoEntity existingTodoEntity = await _todoRepository.GetByIdAsync(id);
-        if (existingTodoEntity == null) return null;
-
         await _todoRepository.DeleteAsync(existingTodoEntity);
-        return true;
     }
 }

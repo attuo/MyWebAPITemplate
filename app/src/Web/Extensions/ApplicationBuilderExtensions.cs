@@ -1,8 +1,6 @@
-﻿//using HealthChecks.UI.Client;
+﻿using Ardalis.ListStartupServices;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Hosting;
 using MyWebAPITemplate.Source.Web.Extensions;
 using MyWebAPITemplate.Source.Web.Middlewares;
 using Serilog;
@@ -10,29 +8,28 @@ using Serilog;
 namespace MyWebAPITemplate.Source.Web.Extensions;
 
 /// <summary>
-/// Contains all the application builder extension methods for configuring the system
-/// This is the class for all kind of registrations for IApplicationBuilder
+/// Contains all the application builder extension methods for configuring the system.
+/// This is the class for all kind of registrations for IApplicationBuilder.
 /// </summary>
 public static class ApplicationBuilderExtensions
 {
     /// <summary>
-    /// Configs for local development
-    /// Contains development tool and other development related settings
-    /// Should be run first
+    /// Configs for local development.
+    /// Contains development tool and other development related settings.
+    /// Should be run first.
     /// </summary>
-    /// <param name="app"></param>
-    /// <param name="env"></param>
-    /// <returns></returns>
-    public static IApplicationBuilder ConfigureDevelopmentSettings(this IApplicationBuilder app, IWebHostEnvironment env)
+    /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
+    /// <param name="env">See <see cref="RunningEnvironment"/>.</param>
+    /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
+    public static IApplicationBuilder ConfigureDevelopmentSettings(this IApplicationBuilder app, RunningEnvironment env)
     {
-        if (env.IsDevelopment() || env.IsLocalDocker()) // TODO: Change this to use the new environments
+        if (env.IsLocalDevelopment())
         {
             app
                 .UseDeveloperExceptionPage()
                 .UseMigrationsEndPoint()
-                .UseCors();
-            //.UseShowAllServicesMiddleware()
-            //.UseDatabaseErrorPage();
+                .UseCors()
+                .UseShowAllServicesMiddleware();
         }
 
         return app;
@@ -40,10 +37,10 @@ public static class ApplicationBuilderExtensions
 
     /// <summary>
     /// Swagger configurations
-    /// Should be run before routing configurations
+    /// Should be run before routing configurations.
     /// </summary>
-    /// <param name="app"></param>
-    /// <returns></returns>
+    /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
+    /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder ConfigureSwagger(this IApplicationBuilder app)
     {
         // Enable middleware to serve generated Swagger as a JSON endpoint.
@@ -51,19 +48,16 @@ public static class ApplicationBuilderExtensions
 
         // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
         // specifying the Swagger JSON endpoint.
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Template API V1");
-        });
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Template API V1"));
 
         return app;
     }
 
     /// <summary>
-    /// Logger configurations
+    /// Logger configurations.
     /// </summary>
-    /// <param name="app"></param>
-    /// <returns></returns>
+    /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
+    /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder ConfigureLogger(this IApplicationBuilder app)
     {
         app.UseSerilogRequestLogging();
@@ -73,12 +67,11 @@ public static class ApplicationBuilderExtensions
 
     /// <summary>
     /// Middleware usings
-    /// All the middlewares should be registered here
+    /// All the middlewares should be registered here.
     /// </summary>
-    /// <param name="app"></param>
-    /// <param name="env"></param>
-    /// <returns></returns>
-    public static IApplicationBuilder UseCustomMiddlewares(this IApplicationBuilder app, IWebHostEnvironment env)
+    /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
+    /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
+    public static IApplicationBuilder UseCustomMiddlewares(this IApplicationBuilder app)
     {
         // Global error handling
         app.UseMiddleware<GlobalErrorHandlingMiddleware>();
@@ -87,10 +80,10 @@ public static class ApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// Used for applying different CORS settings
+    /// Used for applying different CORS settings.
     /// </summary>
-    /// <param name="app"></param>
-    /// <returns></returns>
+    /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
+    /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder UseCors(this IApplicationBuilder app)
     {
         app.UseCors("AnyOrigin"); // TODO: Remember to change this when more specific CORS settings are configured
@@ -99,11 +92,11 @@ public static class ApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// Routing related configurations
-    /// This should be run last in Startup.cs configure
+    /// Routing related configurations.
+    /// This should be run last in Startup.cs configure.
     /// </summary>
-    /// <param name="app"></param>
-    /// <returns></returns>
+    /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
+    /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder ConfigureRouting(this IApplicationBuilder app)
     {
         app.UseHttpsRedirection();
@@ -122,6 +115,6 @@ public static class ApplicationBuilderExtensions
     private static void MapAllHealthChecks(this IEndpointRouteBuilder routeBuilder)
     {
         routeBuilder.MapHealthChecks("/health");
-        //routeBuilder.MapHealthChecksUI();
+        routeBuilder.MapHealthChecksUI();
     }
 }

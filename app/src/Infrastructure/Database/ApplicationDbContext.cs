@@ -5,25 +5,36 @@ using MyWebAPITemplate.Source.Core.Entities;
 namespace MyWebAPITemplate.Source.Infrastructure.Database;
 
 /// <summary>
-/// Applications DB Context which sets configurations for Entity Framework
+/// Applications DB Context which sets configurations for Entity Framework.
 /// </summary>
 public class ApplicationDbContext : DbContext
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
+    /// </summary>
+    /// <param name="options">See <see cref="DbContextOptions"/>.</param>
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
 
-    // DB sets
     // When adding new entity (table), add its DbSet here
-    public DbSet<TodoEntity> Todos { get; set; }
+
+    /// <summary>
+    /// Gets the entity set for Entity Framework.
+    /// </summary>
+    public DbSet<TodoEntity> Todos => Set<TodoEntity>();
 
     // .. Add more entities here
 
-    // Taken from https://github.com/dotnet-architecture/eShopOnWeb/blob/master/src/Infrastructure/Data/CatalogContext.cs
-    protected override void OnModelCreating(ModelBuilder builder)
+    /// <summary>
+    /// Overridden method for applying all the entity type configurations from assembly.
+    /// </summary>
+    /// <param name="modelBuilder">See <see cref="ModelBuilder"/>.</param>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
+
         // This will automatically find all the entity configurations from Infrastructure/Database/Configurations that inherit IEntityTypeConfiguration
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        _ = modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

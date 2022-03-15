@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
@@ -7,12 +8,14 @@ using MyWebAPITemplate.Source.Web.Models.ResponseModels;
 
 namespace MyWebAPITemplate.Source.Web.Mappers;
 
-///<inheritdoc/>
+/// <inheritdoc/>
 public class TodoModelDtoMapper : ITodoModelDtoMapper
 {
+    /// <inheritdoc/>
     public TodoDto Map(TodoRequestModel model)
     {
-        if (model == null) return null;
+        ArgumentNullException.ThrowIfNull(model, nameof(model));
+
         return new TodoDto
         {
             Description = model.Description,
@@ -20,9 +23,11 @@ public class TodoModelDtoMapper : ITodoModelDtoMapper
         };
     }
 
+    /// <inheritdoc/>
     public TodoResponseModel Map(TodoDto dto)
     {
-        if (dto == null) return null;
+        ArgumentNullException.ThrowIfNull(dto, nameof(dto));
+
         return new TodoResponseModel
         {
             Id = dto.Id.GetValueOrDefault(),
@@ -31,9 +36,11 @@ public class TodoModelDtoMapper : ITodoModelDtoMapper
         };
     }
 
+    /// <inheritdoc/>
     public IEnumerable<TodoResponseModel> Map(IEnumerable<TodoDto> dtos)
     {
-        if (dtos == null) return null;
+        ArgumentNullException.ThrowIfNull(dtos, nameof(dtos));
+
         return dtos.Select(dto => Map(dto));
     }
 }

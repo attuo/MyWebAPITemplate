@@ -6,43 +6,43 @@ using MyWebAPITemplate.Source.Core.Dtos;
 namespace MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
 
 /// <summary>
-/// Service for Todo methods
+/// Interface for service for Todo methods
 /// Should contain all business logic specific actions etc.
 /// </summary>
 public interface ITodoService
 {
     /// <summary>
-    /// Get todos
+    /// Gets todos.
     /// </summary>
-    /// <returns>Found todos or empty</returns>
+    /// <returns>Found todos or empty.</returns>
     Task<IEnumerable<TodoDto>> GetTodos();
 
     /// <summary>
-    /// Get todo
+    /// Gets todo.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns>Found todo or null</returns>
+    /// <param name="id">Id of the existing Todo.</param>
+    /// <returns>Found todo or null.</returns>
     Task<TodoDto> GetTodo(Guid id);
 
     /// <summary>
-    /// Create todo
+    /// Creates todo.
     /// </summary>
-    /// <param name="dto"></param>
-    /// <returns>Created todo</returns>
+    /// <param name="dto">Todo data.</param>
+    /// <returns>Created todo.</returns>
     Task<TodoDto> CreateTodo(TodoDto dto);
 
     /// <summary>
-    /// Update todo
+    /// Updates todo.
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="dto"></param>
-    /// <returns>Updated todo or null</returns>
+    /// <param name="id">Id of the existing Todo.</param>
+    /// <param name="dto">Todo data to be updated.</param>
+    /// <returns>Updated todo or null.</returns>
     Task<TodoDto> UpdateTodo(Guid id, TodoDto dto);
 
     /// <summary>
-    /// Delete todo
+    /// Delete todo.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns>Success or null if not found</returns>
-    Task<bool?> DeleteTodo(Guid id);
+    /// <param name="id">Id of the existing Todo.</param>
+    /// <returns>Success or null if not found.</returns>
+    Task DeleteTodo(Guid id);
 }
