@@ -26,33 +26,33 @@ public sealed class RunningEnvironment
     /// Gets all the environments of the system.
     /// This must appear before other static instance types.
     /// </summary>
-    public static List<RunningEnvironment> AllEnvironments { get; } = new List<RunningEnvironment>();
+    private static List<RunningEnvironment> AllEnvironments { get; } = new List<RunningEnvironment>();
 
     /// <summary>
     /// Gets a local development, which represents running the system without Docker locally.
     /// </summary>
-    public static RunningEnvironment Local { get; } = new RunningEnvironment(0, nameof(Local));
+    private static RunningEnvironment Local { get; } = new RunningEnvironment(0, nameof(Local));
 
     /// <summary>
     /// Gets a local development, which represents running the system in Docker locally.
     /// </summary>
-    public static RunningEnvironment LocalDocker { get; } = new RunningEnvironment(1, nameof(LocalDocker));
+    private static RunningEnvironment LocalDocker { get; } = new RunningEnvironment(1, nameof(LocalDocker));
 
     /// <summary>
     /// Gets a testing development, which represents running the system with a test configurations.
     /// For example automated testing purposes.
     /// </summary>
-    public static RunningEnvironment Testing { get; } = new RunningEnvironment(3, nameof(Testing));
+    private static RunningEnvironment Testing { get; } = new RunningEnvironment(3, nameof(Testing));
 
     /// <summary>
     /// Gets a QA development, which represents running the system in a remote QA server.
     /// </summary>
-    public static RunningEnvironment QA { get; } = new RunningEnvironment(2, nameof(QA));
+    private static RunningEnvironment QA { get; } = new RunningEnvironment(2, nameof(QA));
 
     /// <summary>
     /// Gets a QA development, which represents running the system in a remote Production server.
     /// </summary>
-    public static RunningEnvironment Production { get; } = new RunningEnvironment(3, nameof(Production));
+    private static RunningEnvironment Production { get; } = new RunningEnvironment(3, nameof(Production));
 
     #endregion Environment definitions
 
@@ -90,15 +90,16 @@ public sealed class RunningEnvironment
     /// Checks whether the running environment is local.
     /// </summary>
     /// <returns>True if running on local environment.</returns>
-    public bool IsLocalDevelopment() =>
-        Name.Equals(Local.Name, System.StringComparison.Ordinal) ||
-        Name.Equals(LocalDocker.Name, System.StringComparison.Ordinal);
+    public bool IsLocalDevelopment()
+        => Name.Equals(Local.Name, System.StringComparison.Ordinal) ||
+           Name.Equals(LocalDocker.Name, System.StringComparison.Ordinal);
 
     /// <summary>
     /// Checks whether the running environment is testing.
     /// </summary>
     /// <returns>True if running on testing environment.</returns>
-    public bool IsTesting() => Name.Equals(Testing.Name, System.StringComparison.Ordinal);
+    public bool IsTesting()
+        => Name.Equals(Testing.Name, System.StringComparison.Ordinal);
 
     #endregion Methods
 }

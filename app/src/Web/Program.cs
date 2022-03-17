@@ -10,44 +10,50 @@ using MyWebAPITemplate.Source.Web.Extensions;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
-string[] requiredEnvironmentVariables = { "ASPNETCORE_ENVIRONMENT" };
-
 var startupLogger = CreateInitialLogger();
 
-try
+await Start();
+
+/// <summary>
+/// Method that will start first when the system launches.
+/// </summary>
+async Task Start()
 {
-    CheckRequiredEnvVariables(requiredEnvironmentVariables);
-    var env = GetCurrentEnvironment(requiredEnvironmentVariables);
+    string[] requiredEnvironmentVariables = { "ASPNETCORE_ENVIRONMENT" };
+    try
+    {
+        CheckRequiredEnvVariables(requiredEnvironmentVariables);
+        var env = GetCurrentEnvironment(requiredEnvironmentVariables);
 
-    startupLogger.Information("Application starting");
-    var builder = WebApplication.CreateBuilder(args);
-    SetConfiguration(builder.Configuration, env);
-    SetWebHost(builder.WebHost, env);
-    SetServices(builder.Services, builder.Configuration, env);
+        startupLogger.Information("Application starting");
+        var builder = WebApplication.CreateBuilder(args);
+        SetConfiguration(builder.Configuration, env);
+        SetWebHost(builder.WebHost, env);
+        SetServices(builder.Services, builder.Configuration, env);
 
-    var app = builder.Build();
-    SetApplications(app, env);
+        var app = builder.Build();
+        SetApplications(app, env);
 
-    await SeedDatabase(app.Services, env);
+        await SeedDatabase(app.Services, env);
 
-    startupLogger.Information("Application starting to run");
-    app.Run();
+        startupLogger.Information("Application starting to run");
+        app.Run();
+    }
+    catch (Exception ex)
+    {
+        // https://github.com/dotnet/runtime/issues/60600
+        string type = ex.GetType().Name;
+        if (type.Equals("StopTheHostException", StringComparison.Ordinal))
+            throw;
+        startupLogger.Fatal(ex, "Application did not start successfully");
+    }
+    //{
+    //    // This is commented out because the EF migration stops working with it
+    //    // finally
+    //    startupLogger.Information("Application is closing");
+    //    Environment.Exit(1);
+    //}
 }
-catch (Exception ex)
-{
-    // https://github.com/dotnet/runtime/issues/60600
-    string type = ex.GetType().Name;
-    if (type.Equals("StopTheHostException", StringComparison.Ordinal))
-        throw;
-    startupLogger.Fatal(ex, "Application did not start successfully");
-}
-
-// This is commented out because the EF migration stops working with it
-// finally
-// {
-//     startupLogger.Information("Application is closing");
-//     Environment.Exit(1);
-// }
 
 static void SetConfiguration(IConfigurationBuilder configBuilder, RunningEnvironment env)
     => configBuilder
@@ -128,6 +134,7 @@ async Task SeedDatabase(IServiceProvider serviceProvider, RunningEnvironment env
         if (env.IsLocalDevelopment())
         {
             var dbContext = scopedProvider.GetRequiredService<ApplicationDbContext>();
+
             await ApplicationDbContextSeed.SeedDevelopAsync(dbContext);
             startupLogger.Information("Database seeding successful");
         }
@@ -142,6 +149,9 @@ async Task SeedDatabase(IServiceProvider serviceProvider, RunningEnvironment env
 static string? GetRunningEnvironment(string[] envVars)
     => Environment.GetEnvironmentVariable(envVars[0]);
 
+/// <summary>
+/// Logger for logging purposes that happen before the application starts.
+/// </summary>
 static ILogger CreateInitialLogger()
     => new LoggerConfiguration()
         .MinimumLevel.Debug()
