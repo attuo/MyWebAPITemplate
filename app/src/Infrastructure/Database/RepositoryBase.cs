@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyWebAPITemplate.Source.Core.Exceptions;
 using MyWebAPITemplate.Source.Core.Interfaces.Database;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MyWebAPITemplate.Tests.Shared.Ids;
+﻿namespace MyWebAPITemplate.Tests.Shared.Ids;
 
 /// <summary>
 /// Contains ids for test using.

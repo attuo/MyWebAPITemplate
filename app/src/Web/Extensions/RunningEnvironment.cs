@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MyWebAPITemplate.Source.Web.Extensions;
+﻿namespace MyWebAPITemplate.Source.Web.Extensions;
 
 /// <summary>
 /// Smart enumeration class that contains all the environments of the system.

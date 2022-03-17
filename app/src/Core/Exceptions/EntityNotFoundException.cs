@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MyWebAPITemplate.Source.Core.Exceptions
+﻿namespace MyWebAPITemplate.Source.Core.Exceptions
 {
     /// <summary>
     /// Represents error states where entity is not found.

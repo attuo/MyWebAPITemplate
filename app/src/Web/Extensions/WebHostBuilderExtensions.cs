@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Serilog;
+﻿using Serilog;
 
 namespace MyWebAPITemplate.Source.Web.Extensions;
 

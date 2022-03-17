@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using MyWebAPITemplate.Tests.FunctionalTests.Utils;
 using Xunit;
 

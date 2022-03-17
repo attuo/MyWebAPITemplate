@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MyWebAPITemplate.Source.Core.Entities;
+﻿namespace MyWebAPITemplate.Source.Core.Entities;
 
 /// <summary>
 /// All entities inherit this base class.

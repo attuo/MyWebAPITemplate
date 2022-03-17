@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using MyWebAPITemplate.Source.Core.Dtos;
+﻿using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Core.Interfaces.Mappers;
 

@@ -1,10 +1,4 @@
-using System;
-using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Source.Web.Extensions;
 using Serilog;
@@ -152,7 +146,7 @@ static string? GetRunningEnvironment(string[] envVars)
 /// <summary>
 /// Logger for logging purposes that happen before the application starts.
 /// </summary>
-static ILogger CreateInitialLogger()
+static Serilog.ILogger CreateInitialLogger()
     => new LoggerConfiguration()
         .MinimumLevel.Debug()
         .WriteTo.Console(

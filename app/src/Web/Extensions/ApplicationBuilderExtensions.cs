@@ -1,6 +1,4 @@
 ﻿using Ardalis.ListStartupServices;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using MyWebAPITemplate.Source.Web.Extensions;
 using MyWebAPITemplate.Source.Web.Middlewares;
 using Serilog;

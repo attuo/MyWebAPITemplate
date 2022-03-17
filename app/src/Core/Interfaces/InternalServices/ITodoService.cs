@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using MyWebAPITemplate.Source.Core.Dtos;
+﻿using MyWebAPITemplate.Source.Core.Dtos;
 
 namespace MyWebAPITemplate.Source.Core.Interfaces.InternalServices;
 

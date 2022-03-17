@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace MyWebAPITemplate.Source.Core.Interfaces.Database;
+﻿namespace MyWebAPITemplate.Source.Core.Interfaces.Database;
 
 /// <summary>
 /// Base database methods.

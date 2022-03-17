@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+﻿using System.Net;
 using MyWebAPITemplate.Source.Core.Exceptions;
 using Newtonsoft.Json;
 

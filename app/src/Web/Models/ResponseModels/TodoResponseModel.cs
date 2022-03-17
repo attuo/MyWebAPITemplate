@@ -1,5 +1,4 @@
-﻿using System;
-using MyWebAPITemplate.Source.Web.Models.BaseModels;
+﻿using MyWebAPITemplate.Source.Web.Models.BaseModels;
 
 namespace MyWebAPITemplate.Source.Web.Models.ResponseModels;
 

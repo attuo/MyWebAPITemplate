@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MyWebAPITemplate.Source.Core.Dtos
+﻿namespace MyWebAPITemplate.Source.Core.Dtos
 {
     /// <summary>
     /// Base class for all the data transfer objects.

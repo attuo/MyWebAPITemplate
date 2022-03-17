@@ -1,6 +1,8 @@
 <Project>
   <!-- StyleCop Analyzers configuration -->
   <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\Analyzers.ruleset</CodeAnalysisRuleSet> -->
   </PropertyGroup>

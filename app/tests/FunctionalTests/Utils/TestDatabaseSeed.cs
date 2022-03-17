@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MyWebAPITemplate.Source.Core.Entities;
+﻿using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Tests.Shared.Builders.Entities;
 using MyWebAPITemplate.Tests.Shared.Ids;

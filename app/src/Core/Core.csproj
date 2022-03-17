@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>MyWebAPITemplate.Source.Core</RootNamespace>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 </Project>

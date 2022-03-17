@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using MyWebAPITemplate.Source.Core.Exceptions;
 using MyWebAPITemplate.Tests.IntegrationTests.Utils;
 using MyWebAPITemplate.Tests.Shared.Builders.Entities;

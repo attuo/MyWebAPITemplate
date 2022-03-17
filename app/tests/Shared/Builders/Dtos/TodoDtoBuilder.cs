@@ -1,5 +1,4 @@
-﻿using System;
-using MyWebAPITemplate.Source.Core.Dtos;
+﻿using MyWebAPITemplate.Source.Core.Dtos;
 
 namespace MyWebAPITemplate.Tests.Shared.Builders.Dtos;
 

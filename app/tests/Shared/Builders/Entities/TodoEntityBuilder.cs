@@ -1,5 +1,4 @@
-﻿using System;
-using MyWebAPITemplate.Source.Core.Entities;
+﻿using MyWebAPITemplate.Source.Core.Entities;
 
 namespace MyWebAPITemplate.Tests.Shared.Builders.Entities;
 

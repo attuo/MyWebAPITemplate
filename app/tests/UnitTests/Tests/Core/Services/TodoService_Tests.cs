@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Entities;

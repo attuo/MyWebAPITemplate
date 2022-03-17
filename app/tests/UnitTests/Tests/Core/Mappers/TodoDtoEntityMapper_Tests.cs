@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
+﻿using FluentAssertions;
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Core.Mappers;
