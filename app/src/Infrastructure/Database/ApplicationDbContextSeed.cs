@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MyWebAPITemplate.Source.Core.Entities;
 
 namespace MyWebAPITemplate.Source.Infrastructure.Database;
@@ -16,8 +18,13 @@ public static class ApplicationDbContextSeed
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public static async Task SeedDevelopAsync(ApplicationDbContext context)
     {
-        // TODO Seeding could also be done in OnModelCreating?
-        // https://www.learnentityframeworkcore.com/migrations/seeding
+        // NOTE: This is by no means a good solution for production.
+        // Only use this for local development, but it should be adviced that this is best to do with a separate migration runner.
+
+        // TODO: Create a separate migration runner which handles all the migrations
+        // and so it is a completely different instance which can be run in CI/CD pipeline etc..
+        MigratePendingMigrations(context);
+
         await AddTodos(context);
     }
 
@@ -29,6 +36,18 @@ public static class ApplicationDbContextSeed
     public static async Task SeedAsync(ApplicationDbContext context)
     {
         await SeedDevelopAsync(context);
+    }
+
+    /// <summary>
+    /// Migrates database with pending migrations. This should not be used in production.
+    /// </summary>
+    /// <param name="context">See <see cref="ApplicationDbContext"/>.</param>
+    private static void MigratePendingMigrations(ApplicationDbContext context)
+    {
+        if (context.Database.GetPendingMigrations().Any())
+        {
+            context.Database.Migrate();
+        }
     }
 
     /// <summary>
