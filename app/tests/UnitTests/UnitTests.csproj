@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Web\Web.csproj" />
-    <ProjectReference Include="..\Shared\SharedComponents.csproj" />
+    <ProjectReference Include="..\SharedComponents\SharedComponents.csproj" />
   </ItemGroup>
 
 </Project>
