@@ -1,13 +1,12 @@
-﻿namespace MyWebAPITemplate.Source.Core.Dtos
+﻿namespace MyWebAPITemplate.Source.Core.Dtos;
+
+/// <summary>
+/// Base class for all the data transfer objects.
+/// </summary>
+public abstract class BaseDto
 {
     /// <summary>
-    /// Base class for all the data transfer objects.
+    /// Gets or inits the Id.
     /// </summary>
-    public abstract class BaseDto
-    {
-        /// <summary>
-        /// Gets or inits the Id.
-        /// </summary>
-        public Guid? Id { get; init; }
-    }
+    public Guid? Id { get; init; }
 }

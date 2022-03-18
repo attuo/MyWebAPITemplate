@@ -1,6 +1,6 @@
 ﻿using MyWebAPITemplate.Source.Web.Models.RequestModels;
 
-namespace MyWebAPITemplate.Tests.Shared.Builders.Models;
+namespace MyWebAPITemplate.Tests.SharedComponents.Builders.Models;
 
 /// <summary>
 /// TodoRequestModel builder.

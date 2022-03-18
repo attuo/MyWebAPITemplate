@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "tests\UnitTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionalTests", "tests\FunctionalTests\FunctionalTests.csproj", "{048F534E-3813-4680-8A9D-B2761EF96D42}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "tests\Shared\Shared.csproj", "{680A57B7-9107-43A4-98F2-A8F63E3D123A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedComponents", "tests\Shared\SharedComponents.csproj", "{680A57B7-9107-43A4-98F2-A8F63E3D123A}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4EBB9456-0B64-43C4-8271-ED8F9CA1F8F8}"
 EndProject

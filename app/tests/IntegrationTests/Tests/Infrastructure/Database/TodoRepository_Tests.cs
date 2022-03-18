@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using MyWebAPITemplate.Source.Core.Exceptions;
 using MyWebAPITemplate.Tests.IntegrationTests.Utils;
-using MyWebAPITemplate.Tests.Shared.Builders.Entities;
-using MyWebAPITemplate.Tests.Shared.Ids;
+using MyWebAPITemplate.Tests.SharedComponents.Builders.Entities;
+using MyWebAPITemplate.Tests.SharedComponents.Ids;
 using Xunit;
 
 namespace MyWebAPITemplate.Tests.IntegrationTests.Tests.Infrastructure.Database;

@@ -1,5 +1,5 @@
 # +--------------------------------------------------------------------------------------------------------------------+
-# | - Global EditorConfig rules -
+# | --- Global EditorConfig rules ---
 # +--------------------------------------------------------------------------------------------------------------------+
 
 # Remove the line below if you want to inherit .editorconfig settings from higher directories
@@ -69,8 +69,8 @@ dotnet_style_qualification_for_method                                          =
 dotnet_style_qualification_for_property                                        = false : warning
 
 # Language keywords vs BCL types preferences 
-dotnet_style_predefined_type_for_locals_parameters_members                     = true : warning
-dotnet_style_predefined_type_for_member_access                                 = false : warning
+dotnet_style_predefined_type_for_locals_parameters_members                     = true:warning
+dotnet_style_predefined_type_for_member_access                                 = false:warning
 
 # Parentheses preferences 
 dotnet_style_parentheses_in_arithmetic_binary_operators                        = always_for_clarity : warning
@@ -88,7 +88,7 @@ dotnet_style_collection_initializer                                            =
 dotnet_style_explicit_tuple_names                                              = true : warning
 dotnet_style_null_propagation                                                  = true : warning
 dotnet_style_object_initializer                                                = true : warning
-dotnet_style_operator_placement_when_wrapping                                  = beginning_of_line : warning
+dotnet_style_operator_placement_when_wrapping                                  = beginning_of_line
 dotnet_style_prefer_auto_properties                                            = true : warning
 dotnet_style_prefer_compound_assignment                                        = true : warning
 dotnet_style_prefer_conditional_expression_over_assignment                     = true : warning
@@ -100,8 +100,11 @@ dotnet_style_prefer_simplified_boolean_expressions                             =
 dotnet_style_prefer_simplified_interpolation                                   = true : warning
 
 # Quality rules 
-dotnet_code_quality_unused_parameters                                          = all 
+dotnet_code_quality_unused_parameters                                          = all : warning
 dotnet_remove_unnecessary_suppression_exclusions                               = none : warning
+dotnet_style_namespace_match_folder                                            = true:suggestion
+dotnet_style_allow_multiple_blank_lines_experimental                           = true : suggestion
+dotnet_style_allow_statement_immediately_after_block_experimental              = true : suggestion
 
 # +--------------------------------------------------------------------------------------------------------------------+
 # | C# Coding convention rules
@@ -109,9 +112,9 @@ dotnet_remove_unnecessary_suppression_exclusions                               =
 # +--------------------------------------------------------------------------------------------------------------------+
 
 # var preferences 
-csharp_style_var_elsewhere                                                     = false 
-csharp_style_var_for_built_in_types                                            = true 
-csharp_style_var_when_type_is_apparent                                         = true
+csharp_style_var_elsewhere                                                     = true : none
+csharp_style_var_for_built_in_types                                            = false : none
+csharp_style_var_when_type_is_apparent                                         = true : none
 
 # Expression-bodied members 
 csharp_style_expression_bodied_accessors                                       = true : warning
@@ -138,7 +141,7 @@ csharp_prefer_static_local_function                                            =
 csharp_preferred_modifier_order                                                = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async : warning
 
 # Code-block preferences 
-csharp_prefer_braces                                                           = when_multiline 
+csharp_prefer_braces                                                           = when_multiline : suggestion
 csharp_prefer_simple_using_statement                                           = true : warning
 
 # Expression-level preferences 
@@ -151,10 +154,20 @@ csharp_style_prefer_index_operator                                             =
 csharp_style_prefer_range_operator                                             = true : warning
 csharp_style_throw_expression                                                  = true : warning
 csharp_style_unused_value_assignment_preference                                = discard_variable : warning
-csharp_style_unused_value_expression_statement_preference                      = unused_local_variable 
+csharp_style_unused_value_expression_statement_preference                      = unused_local_variable : warning
 
 # 'using' directive preferences 
 csharp_using_directive_placement                                               = outside_namespace : warning
+
+# Other
+csharp_style_namespace_declarations                                            = file_scoped : warning
+csharp_style_prefer_null_check_over_type_check                                 = true : suggestion
+csharp_style_prefer_local_over_anonymous_function                              = true : suggestion
+csharp_style_prefer_tuple_swap                                                 = true : suggestion
+csharp_style_prefer_extended_property_pattern                                  = true : suggestion
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental         = true : suggestion
+csharp_style_allow_embedded_statements_on_same_line_experimental               = true : suggestion
+csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = true : suggestion
 
 # +--------------------------------------------------------------------------------------------------------------------+
 # | C# Formatting rules
@@ -191,7 +204,7 @@ csharp_space_before_colon_in_inheritance_clause                                =
 csharp_space_before_comma                                                      = false
 csharp_space_before_dot                                                        = false
 csharp_space_before_open_square_brackets                                       = false
-csharp_space_before_semicolon_in_for_statement                                 = false
+csharp_space_before_semicolon_in_for_statement                                 = true
 csharp_space_between_empty_square_brackets                                     = false
 csharp_space_between_method_call_empty_parameter_list_parentheses              = false
 csharp_space_between_method_call_name_and_opening_parenthesis                  = false
@@ -212,17 +225,17 @@ csharp_preserve_single_line_statements                                         =
 # +--------------------------------------------------------------------------------------------------------------------+
 
 # Naming rules 
-dotnet_naming_rule.interface_should_be_begins_with_i.severity                  = suggestion
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols                   = interface
-dotnet_naming_rule.interface_should_be_begins_with_i.style                     = begins_with_i
+dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
 
-dotnet_naming_rule.types_should_be_pascal_case.severity                        = suggestion
+dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.types_should_be_pascal_case.symbols                         = types
-dotnet_naming_rule.types_should_be_pascal_case.style                           = pascal_case
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.non_field_members_should_be_pascal_case.severity            = suggestion
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols             = non_field_members
-dotnet_naming_rule.non_field_members_should_be_pascal_case.style               = pascal_case
+dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
 # Symbol specifications
 dotnet_naming_symbols.interface.applicable_kinds                               = interface
@@ -253,14 +266,110 @@ dotnet_naming_style.begins_with_i.capitalization                               =
 # |   - https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
 # +--------------------------------------------------------------------------------------------------------------------+
 
+# IDE0004: Remove unnecessary cast 
+dotnet_diagnostic.IDE0004.severity                                             = warning
+
 # IDE0005: Using directive is unnecessary.
 dotnet_diagnostic.IDE0005.severity                                             = warning
 
+# IDE0007: 'var' preferences
+dotnet_diagnostic.IDE0007.severity                                             = none
+
 # IDE0008: Use explicit type
-dotnet_diagnostic.IDE0008.severity                                             = silent
+dotnet_diagnostic.IDE0008.severity                                             = suggestion
+
+# IDE0009: this and Me preferences 
+dotnet_diagnostic.IDE0009.severity                                             = suggestion
+
+# IDE0010: Add missing cases to switch statement
+dotnet_diagnostic.IDE0010.severity                                             = suggestion
+
+# IDE0011: Add braces
+dotnet_diagnostic.IDE0011.severity                                             = suggestion
+
+# IDE0016: Use throw expression
+dotnet_diagnostic.IDE0016.severity                                             = suggestion
+
+# IDE0017: Use object initializers
+dotnet_diagnostic.IDE0017.severity                                             = suggestion
+
+# IDE0018: Inline variable declaration
+dotnet_diagnostic.IDE0018.severity                                             = suggestion
+
+# IDE0019: Use pattern matching to avoid 'as' followed by a 'null' check
+dotnet_diagnostic.IDE0019.severity                                             = suggestion
+
+# IDE0020: Use pattern matching to avoid 'is' check followed by a cast
+dotnet_diagnostic.IDE0020.severity                                             = suggestion
 
 # IDE0022: Use block body for methods
 dotnet_diagnostic.IDE0022.severity                                             = suggestion
+
+# IDE0024: Use expression body for operators 
+dotnet_diagnostic.IDE0024.severity                                             = suggestion
+
+# IDE0025: Use expression body for properties
+dotnet_diagnostic.IDE0025.severity                                             = suggestion
+
+# IDE0026: Use expression body for indexers
+dotnet_diagnostic.IDE0026.severity                                             = suggestion
+
+# IDE0027: Use expression body for accessors
+dotnet_diagnostic.IDE0027.severity                                             = suggestion
+
+# IDE0028: Use collection initializers
+dotnet_diagnostic.IDE0028.severity                                             = suggestion
+
+# IDE0029: Use coalesce expression
+dotnet_diagnostic.IDE0029.severity                                             = suggestion
+
+# IDE0030: Use coalesce expression
+dotnet_diagnostic.IDE0030.severity                                             = suggestion
+
+# IDE0031: Use null propagation
+dotnet_diagnostic.IDE0031.severity                                             = warning
+
+# IDE0032: Use auto property 
+dotnet_diagnostic.IDE0032.severity                                             = warning
+
+# IDE0033: Use explicitly provided tuple name
+dotnet_diagnostic.IDE0033.severity                                             = warning
+
+# IDE0034: Simplify 'default' expression
+dotnet_diagnostic.IDE0034.severity                                             = warning
+
+# IDE0063: Use simple 'using' statement
+dotnet_diagnostic.IDE0036.severity                                             = suggestion
+
+# IDE0037: Use inferred member name
+dotnet_diagnostic.IDE0037.severity                                             = suggestion
+
+# IDE0039: Use local function instead of lambda
+dotnet_diagnostic.IDE0039.severity                                             = suggestion
+
+# IDE0040: Add accessibility modifiers
+dotnet_diagnostic.IDE0040.severity                                             = suggestion
+
+# IDE0041: Use is null check
+dotnet_diagnostic.IDE0041.severity                                             = warning
+
+# IDE0042: Deconstruct variable declaration
+dotnet_diagnostic.IDE0042.severity                                             = suggestion
+
+# IDE0044: Add readonly modifier
+dotnet_diagnostic.IDE0044.severity                                             = warning
+
+# IDE0045: Use conditional expression for assignment
+dotnet_diagnostic.IDE0045.severity                                             = suggestion
+
+# IDE0046: Use conditional expression for return
+dotnet_diagnostic.IDE0046.severity                                             = suggestion
+
+# IDE0047: Parentheses preferences 
+dotnet_diagnostic.IDE0047.severity                                             = suggestion
+
+# IDE0048: Parentheses preferences 
+dotnet_diagnostic.IDE0048.severity                                             = suggestion
 
 # IDE0052: Remove unread private members
 dotnet_diagnostic.IDE0052.severity                                             = suggestion
@@ -268,14 +377,107 @@ dotnet_diagnostic.IDE0052.severity                                             =
 # IDE0053: Use expression body for lambda expressions
 dotnet_diagnostic.IDE0053.severity                                             = warning
 
+# IDE0054: Use compound assignment
+dotnet_diagnostic.IDE0054.severity                                             = suggestion
+
 # IDE0055: Fix formatting
 dotnet_diagnostic.IDE0055.severity                                             = warning
+
+# IDE0056: Use index operator
+dotnet_diagnostic.IDE0056.severity                                             = suggestion
+
+# IDE0057: Use range operator
+dotnet_diagnostic.IDE0057.severity                                             = suggestion
 
 # IDE0058: Expression value is never used
 dotnet_diagnostic.IDE0058.severity                                             = suggestion
 
+# IDE0059: Remove unnecessary value assignment
+dotnet_diagnostic.IDE0059.severity                                             = warning
+
 # IDE0060: Remove unused parameter
-dotnet_diagnostic.IDE0060.severity                                             = suggestion
+dotnet_diagnostic.IDE0060.severity                                             = warning
+
+# IDE0061: Use expression body for local functions
+dotnet_diagnostic.IDE0061.severity                                             = suggestion
+
+# IDE0062: Make local function static
+dotnet_diagnostic.IDE0062.severity                                             = suggestion
+
+# IDE0065: 'using' directive placement
+dotnet_diagnostic.IDE0065.severity                                             = suggestion
+
+# IDE0066: Use switch expression
+dotnet_diagnostic.IDE0066.severity                                             = suggestion
+
+# IDE0070: Use 'System.HashCode.Combine'
+dotnet_diagnostic.IDE0070.severity                                             = suggestion
+
+# IDE0071: Simplify interpolation
+dotnet_diagnostic.IDE0071.severity                                             = suggestion
+
+# IDE0078: Use pattern matching
+dotnet_diagnostic.IDE0078.severity                                             = suggestion
+
+# IDE0080: Remove unnecessary suppression operator
+dotnet_diagnostic.IDE0080.severity                                             = suggestion
+
+# IDE0082: Convert typeof to nameof
+dotnet_diagnostic.IDE0082.severity                                             = suggestion
+
+# IDE0083: Use pattern matching not operator
+dotnet_diagnostic.IDE0083.severity                                             = suggestion
+
+# IDE0090: Simplify new expression
+dotnet_diagnostic.IDE0090.severity                                             = suggestion
+
+# IDE0100: Remove unnecessary equality operator
+dotnet_diagnostic.IDE0100.severity                                             = suggestion
+
+# Use conditional delegate call 
+dotnet_diagnostic.IDE1005.severity                                             = suggestion
+
+# IDE1006: 
+dotnet_diagnostic.IDE1006.severity                                             = suggestion
+
+# IDE0110: Remove unnecessary discard
+dotnet_diagnostic.IDE0110.severity                                             = suggestion
+
+# IDE0120: 
+dotnet_diagnostic.IDE0120.severity                                             = suggestion
+
+# Namespace folder structure
+dotnet_diagnostic.IDE0130.severity                                             = suggestion
+
+# IDE0150: 
+dotnet_diagnostic.IDE0150.severity                                             = suggestion
+
+# IDE0160: Convert to block scoped namespace
+dotnet_diagnostic.IDE0160.severity                                             = suggestion
+
+# IDE0161: File-scoped namespaces
+dotnet_diagnostic.IDE0161.severity                                             = suggestion
+
+# IDE0170: Positional pattern
+dotnet_diagnostic.IDE0170.severity                                             = suggestion
+
+# IDE0180: 
+dotnet_diagnostic.IDE0180.severity                                             = suggestion
+
+# IDE2000: 
+dotnet_diagnostic.IDE2000.severity                                             = suggestion
+
+# IDE2001: 
+dotnet_diagnostic.IDE2001.severity                                             = suggestion
+
+# IDE2002: 
+dotnet_diagnostic.IDE2002.severity                                             = suggestion
+
+# IDE2003: 
+dotnet_diagnostic.IDE2003.severity                                             = suggestion
+
+# IDE2004: 
+dotnet_diagnostic.IDE2004.severity                                             = suggestion
 
 # +--------------------------------------------------------------------------------------------------------------------+
 # | .NET Code quality rules (CA0000)
@@ -300,14 +502,17 @@ dotnet_diagnostic.CA1033.severity                                              =
 # CA1036: Override methods on comparable types
 dotnet_diagnostic.CA1036.severity                                              = suggestion
 
+# CA1051: Do not declare visible instance fields
+dotnet_diagnostic.CA1051.severity                                              = suggestion
+
 # CA1060: Move P/Invokes to NativeMethods class [DllImport]
 dotnet_diagnostic.CA1060.severity                                              = warning
 
-# CA1062: Validate arguments of public methods                                 
-dotnet_diagnostic.CA1062.severity                                              = suggestion
-
 # CA1061: Do not hide base class methods
 dotnet_diagnostic.CA1061.severity                                              = warning
+
+# CA1062: Validate arguments of public methods                                 
+dotnet_diagnostic.CA1062.severity                                              = suggestion
 
 # CA1063: Implement IDisposable correctly
 dotnet_diagnostic.CA1063.severity                                              = warning
@@ -318,9 +523,6 @@ dotnet_diagnostic.CA1065.severity                                              =
 # CA1200: Avoid using cref tags with a prefix
 dotnet_diagnostic.CA1200.severity                                              = warning
 
-# CA1309: Use ordinal StringComparison
-dotnet_diagnostic.CA1309.severity                                              = warning
-
 # CA1303: Do not pass literals as localized parameters
 dotnet_diagnostic.CA1303.severity                                              = warning
 
@@ -330,14 +532,26 @@ dotnet_diagnostic.CA1304.severity                                              =
 # CA1305: Specify IFormatProvider
 dotnet_diagnostic.CA1305.severity                                              = warning
 
+# CA1309: Use ordinal StringComparison
+dotnet_diagnostic.CA1309.severity                                              = warning
+
 # CA1310: Specify StringComparison for correctness
 dotnet_diagnostic.CA1310.severity                                              = warning
 
 # CA1401: P/Invokes should not be visible [DllImport]
 dotnet_diagnostic.CA1401.severity                                              = warning
 
+# CA1707: Identifiers should not contain underscores
+dotnet_diagnostic.CA1707.severity                                              = none
+
+# CA1708: Identifiers should differ by more than case
+dotnet_diagnostic.CA1708.severity                                              = suggestion
+
 # CA1710: Identifiers should have correct suffix
 dotnet_diagnostic.CA1710.severity                                              = warning
+
+# CA1711: Identifiers should not have incorrect suffix
+dotnet_diagnostic.CA1711.severity                                              = warning
 
 # CA1712: Do not prefix enum values with type name
 dotnet_diagnostic.CA1712.severity                                              = warning
@@ -345,14 +559,26 @@ dotnet_diagnostic.CA1712.severity                                              =
 # CA1715: Identifiers should have correct prefix
 dotnet_diagnostic.CA1715.severity                                              = warning
 
+# CA1716: Identifiers should not match keywords
+dotnet_diagnostic.CA1716.severity                                              = warning
+
 # CA1720: Identifiers should not contain type names
 dotnet_diagnostic.CA1720.severity                                              = warning
 
 # CA1725: Parameter names should match base declaration
 dotnet_diagnostic.CA1725.severity                                              = warning
 
+# CA1727: Use PascalCase for named placeholders
+dotnet_diagnostic.CA1727.severity                                              = suggestion
+
+# CA1805: Do not initialize unnecessarily
+dotnet_diagnostic.CA1805.severity                                              = suggestion
+
 # CA1821: Remove empty finalizers
 dotnet_diagnostic.CA1821.severity                                              = warning
+
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity                                              = suggestion
 
 # CA2002: Do not lock on objects with weak identity
 dotnet_diagnostic.CA2002.severity                                              = warning
@@ -395,6 +621,33 @@ dotnet_diagnostic.CA2241.severity                                              =
 
 # CA2242: Test for NaN correctly
 dotnet_diagnostic.CA2242.severity                                              = warning
+
+# CA1838: Avoid StringBuilder parameters for P/Invokes
+dotnet_diagnostic.CA1838.severity                                              = suggestion
+
+# CA5350: Do Not Use Weak Cryptographic Algorithms
+dotnet_diagnostic.CA5350.severity                                              = warning
+
+# CA5351 Do Not Use Broken Cryptographic Algorithms
+dotnet_diagnostic.CA5351.severity                                              = warning
+
+# CA5359: Do not disable certificate validation
+dotnet_diagnostic.CA5359.severity                                              = warning
+
+# CA5363: Do not disable request validation
+dotnet_diagnostic.CA5363.severity                                              = warning
+
+# CA5364: Do not use deprecated security protocols
+dotnet_diagnostic.CA5364.severity                                              = warning
+
+# CA5365: Do Not Disable HTTP Header Checking
+dotnet_diagnostic.CA5365.severity                                              = warning
+
+# CA5366: Use XmlReader For DataSet Read XML
+dotnet_diagnostic.CA5366.severity                                              = warning
+
+# CA2251: Use String.Equals over String.Compare
+dotnet_diagnostic.CA2251.severity                                              = suggestion
 
 # +--------------------------------------------------------------------------------------------------------------------+
 # | .NET Compiler error message rules (CS0000)
@@ -457,6 +710,12 @@ dotnet_diagnostic.SA1413.severity                                              =
 # SA1503: Braces must not be omitted                                           
 dotnet_diagnostic.SA1503.severity                                              = none
 
+# SA1512: Single-line comments should not be followed by blank line
+dotnet_diagnostic.SA1512.severity                                              = none
+
+# SA1513: Closing brace should be followed by blank line
+dotnet_diagnostic.SA1513.severity                                              = suggestion
+
 # SA1515: Single-line comment should be preceded by blank line
 dotnet_diagnostic.SA1515.severity                                              = none
 
@@ -492,7 +751,12 @@ roslynator_refactorings.enabled                                               = 
 # Enable/disable all compiler diagnostic fixes
 roslynator_compiler_diagnostic_fixes.enabled                                  = true
 
+# RCS0048: 
+dotnet_diagnostic.RCS0048.severity                                            = suggestion
+
+# RCS1002: 
+dotnet_diagnostic.RCS1002.severity                                            = none
+
 # +--------------------------------------------------------------------------------------------------------------------+
 # | Unordered rules                                                                      
 # +--------------------------------------------------------------------------------------------------------------------+
-

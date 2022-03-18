@@ -2,9 +2,9 @@
 using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Core.Mappers;
-using MyWebAPITemplate.Tests.Shared.Builders.Dtos;
-using MyWebAPITemplate.Tests.Shared.Builders.Entities;
-using MyWebAPITemplate.Tests.Shared.Ids;
+using MyWebAPITemplate.Tests.SharedComponents.Builders.Dtos;
+using MyWebAPITemplate.Tests.SharedComponents.Builders.Entities;
+using MyWebAPITemplate.Tests.SharedComponents.Ids;
 using Xunit;
 
 namespace MyWebAPITemplate.Tests.UnitTests.Tests.Core.Mappers;

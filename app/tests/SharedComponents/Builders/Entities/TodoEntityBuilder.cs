@@ -1,6 +1,6 @@
 ﻿using MyWebAPITemplate.Source.Core.Entities;
 
-namespace MyWebAPITemplate.Tests.Shared.Builders.Entities;
+namespace MyWebAPITemplate.Tests.SharedComponents.Builders.Entities;
 
 /// <summary>
 /// TodoEntity builder for testing purposes.

@@ -1,4 +1,4 @@
-﻿namespace MyWebAPITemplate.Tests.Shared.Ids;
+﻿namespace MyWebAPITemplate.Tests.SharedComponents.Ids;
 
 /// <summary>
 /// Contains ids for test using.

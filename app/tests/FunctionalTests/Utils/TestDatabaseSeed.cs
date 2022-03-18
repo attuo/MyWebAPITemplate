@@ -1,7 +1,7 @@
 ﻿using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Infrastructure.Database;
-using MyWebAPITemplate.Tests.Shared.Builders.Entities;
-using MyWebAPITemplate.Tests.Shared.Ids;
+using MyWebAPITemplate.Tests.SharedComponents.Builders.Entities;
+using MyWebAPITemplate.Tests.SharedComponents.Ids;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.Utils;
 // TODO: Consider unifying this with Integration Test DB, or other plan?

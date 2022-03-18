@@ -3,9 +3,9 @@ using MyWebAPITemplate.Source.Core.Dtos;
 using MyWebAPITemplate.Source.Web.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
 using MyWebAPITemplate.Source.Web.Models.ResponseModels;
-using MyWebAPITemplate.Tests.Shared.Builders.Dtos;
-using MyWebAPITemplate.Tests.Shared.Builders.Models;
-using MyWebAPITemplate.Tests.Shared.Ids;
+using MyWebAPITemplate.Tests.SharedComponents.Builders.Dtos;
+using MyWebAPITemplate.Tests.SharedComponents.Builders.Models;
+using MyWebAPITemplate.Tests.SharedComponents.Ids;
 using Xunit;
 
 namespace MyWebAPITemplate.Tests.UnitTests.Tests.Web.Mappers;

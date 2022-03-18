@@ -1,6 +1,6 @@
 ﻿using MyWebAPITemplate.Source.Core.Dtos;
 
-namespace MyWebAPITemplate.Tests.Shared.Builders.Dtos;
+namespace MyWebAPITemplate.Tests.SharedComponents.Builders.Dtos;
 
 /// <summary>
 /// TodoDto builder for testing purposes.

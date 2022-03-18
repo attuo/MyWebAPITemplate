@@ -8,9 +8,7 @@ var startupLogger = CreateInitialLogger();
 
 await Start();
 
-/// <summary>
-/// Method that will start first when the system launches.
-/// </summary>
+// Method that will start first when the system launches.
 async Task Start()
 {
     string[] requiredEnvironmentVariables = { "ASPNETCORE_ENVIRONMENT" };
@@ -41,12 +39,12 @@ async Task Start()
             throw;
         startupLogger.Fatal(ex, "Application did not start successfully");
     }
-    //{
+    // {
     //    // This is commented out because the EF migration stops working with it
     //    // finally
     //    startupLogger.Information("Application is closing");
     //    Environment.Exit(1);
-    //}
+    // }
 }
 
 static void SetConfiguration(IConfigurationBuilder configBuilder, RunningEnvironment env)
@@ -143,10 +141,8 @@ async Task SeedDatabase(IServiceProvider serviceProvider, RunningEnvironment env
 static string? GetRunningEnvironment(string[] envVars)
     => Environment.GetEnvironmentVariable(envVars[0]);
 
-/// <summary>
-/// Logger for logging purposes that happen before the application starts.
-/// </summary>
 static Serilog.ILogger CreateInitialLogger()
+    // Only used for logging purposes that happen before the application starts.
     => new LoggerConfiguration()
         .MinimumLevel.Debug()
         .WriteTo.Console(

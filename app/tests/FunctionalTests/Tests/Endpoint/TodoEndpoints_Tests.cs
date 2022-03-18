@@ -3,8 +3,8 @@ using System.Text;
 using FluentAssertions;
 using MyWebAPITemplate.Source.Web.Models.ResponseModels;
 using MyWebAPITemplate.Tests.FunctionalTests.Utils;
-using MyWebAPITemplate.Tests.Shared.Builders.Models;
-using MyWebAPITemplate.Tests.Shared.Ids;
+using MyWebAPITemplate.Tests.SharedComponents.Builders.Models;
+using MyWebAPITemplate.Tests.SharedComponents.Ids;
 using Newtonsoft.Json;
 using Xunit;
 
