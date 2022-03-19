@@ -30,7 +30,7 @@ public static class TestDatabaseSeed
     private static async Task InitializeDbForTests(ApplicationDbContext context)
     {
         await context.Todos.AddRangeAsync(CreateTestTodos());
-        await context.SaveChangesAsync();
+        _ = await context.SaveChangesAsync();
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public static class TestDatabaseSeed
     private static async Task ClearDbForTests(ApplicationDbContext context)
     {
         context.Todos.RemoveRange(context.Todos);
-        await context.SaveChangesAsync();
+        _ = await context.SaveChangesAsync();
     }
 
     /// <summary>

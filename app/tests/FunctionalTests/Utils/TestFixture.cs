@@ -23,19 +23,19 @@ public class TestFixture : WebApplicationFactory<Program>
     /// <returns>New instance of <see cref="IHost"/>.</returns>
     protected override IHost CreateHost(IHostBuilder builder)
     {
-        builder.UseEnvironment(_environment);
+        _ = builder.UseEnvironment(_environment);
         Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", _environment);
 
         // Add mock/test services to the builder here
-        builder.ConfigureServices(services =>
+        _ = builder.ConfigureServices(services =>
         {
             var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
                         typeof(DbContextOptions<ApplicationDbContext>));
             if (descriptor != null)
-                services.Remove(descriptor);
+                _ = services.Remove(descriptor);
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("InMemoryDbForTesting"));
+            _ = services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("InMemoryDbForTesting"));
 
             var sp = services.BuildServiceProvider();
 
@@ -45,7 +45,7 @@ public class TestFixture : WebApplicationFactory<Program>
             var logger = scopedServices
                 .GetRequiredService<ILogger<TestFixture>>();
 
-            db.Database.EnsureCreated();
+            _ = db.Database.EnsureCreated();
 
             try
             {
@@ -69,7 +69,7 @@ public class TestFixture : WebApplicationFactory<Program>
     /// <param name="builder">See <see cref="IWebHostBuilder"/>.</param>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder
+        _ = builder
             .UseSolutionRelativeContentRoot("src/Web")
             .ConfigureServices(services =>
             {
@@ -80,11 +80,11 @@ public class TestFixture : WebApplicationFactory<Program>
 
                 if (descriptor != null)
                 {
-                    services.Remove(descriptor);
+                    _ = services.Remove(descriptor);
                 }
 
                 // Add ApplicationDbContext using an in-memory database for testing.
-                services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("InMemoryDB-Functional-Tests"));
+                _ = services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("InMemoryDB-Functional-Tests"));
             });
     }
 }

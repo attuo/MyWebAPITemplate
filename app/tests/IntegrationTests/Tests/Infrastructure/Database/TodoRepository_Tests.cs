@@ -25,13 +25,13 @@ public class TodoRepository_Tests : TestFixture
         // Arrange
         var repository = GetTodoRepository();
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
-        await repository.AddAsync(todo);
+        _ = await repository.AddAsync(todo);
 
         // Act
         var items = await repository.ListAllAsync();
 
         // Assert
-        items.Should().HaveCount(1);
+        _ = items.Should().HaveCount(1);
     }
 
     /// <summary>
@@ -44,14 +44,14 @@ public class TodoRepository_Tests : TestFixture
         // Arrange
         var repository = GetTodoRepository();
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
-        await repository.AddAsync(todo);
+        _ = await repository.AddAsync(todo);
 
         // Act
         var item = await repository.GetByIdAsync(todo.Id);
 
         // Assert
-        item.Should().NotBeNull();
-        item.Id.Should().Be(todo.Id);
+        _ = item.Should().NotBeNull();
+        _ = item.Id.Should().Be(todo.Id);
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class TodoRepository_Tests : TestFixture
         Func<Task> act = async () => await repository.GetByIdAsync(notFoundId);
 
         // Assert
-        await act.Should().ThrowAsync<EntityNotFoundException>().WithMessage($"*{notFoundId}*");
+        _ = await act.Should().ThrowAsync<EntityNotFoundException>().WithMessage($"*{notFoundId}*");
     }
 
     /// <summary>
@@ -82,14 +82,14 @@ public class TodoRepository_Tests : TestFixture
         // Arrange
         var repository = GetTodoRepository();
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
-        await repository.AddAsync(todo);
+        _ = await repository.AddAsync(todo);
 
         // Act
         var item = await repository.GetByIdAsync(todo.Id);
 
         // Assert
-        item.Should().NotBeNull();
-        item.Id.Should().Be(todo.Id);
+        _ = item.Should().NotBeNull();
+        _ = item.Id.Should().Be(todo.Id);
     }
 
     /// <summary>
@@ -102,7 +102,7 @@ public class TodoRepository_Tests : TestFixture
         // Arrange
         var repository = GetTodoRepository();
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
-        await repository.AddAsync(todo);
+        _ = await repository.AddAsync(todo);
 
         // Act
         todo.Description = "test1";
@@ -110,9 +110,9 @@ public class TodoRepository_Tests : TestFixture
         var result = await repository.GetByIdAsync(todo.Id);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Id.Should().Be(todo.Id);
-        result.Description.Should().Be(todo.Description);
+        _ = result.Should().NotBeNull();
+        _ = result.Id.Should().Be(todo.Id);
+        _ = result.Description.Should().Be(todo.Description);
     }
 
     /// <summary>
@@ -125,7 +125,7 @@ public class TodoRepository_Tests : TestFixture
         // Arrange
         var repository = GetTodoRepository();
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
-        await repository.AddAsync(todo);
+        _ = await repository.AddAsync(todo);
 
         // Act
         var firstResult = await repository.GetByIdAsync(todo.Id);
@@ -133,8 +133,8 @@ public class TodoRepository_Tests : TestFixture
         Func<Task> secondResult = async () => await repository.GetByIdAsync(todo.Id);
 
         // Assert
-        firstResult.Should().NotBeNull();
-        await secondResult.Should().ThrowAsync<EntityNotFoundException>().WithMessage($"*{todo.Id}*");
+        _ = firstResult.Should().NotBeNull();
+        _ = await secondResult.Should().ThrowAsync<EntityNotFoundException>().WithMessage($"*{todo.Id}*");
     }
 
     // TODO: Add tests for non existing entities for updating and deleting.

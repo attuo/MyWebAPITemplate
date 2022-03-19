@@ -30,10 +30,7 @@ public static class ApplicationDbContextSeed
     /// </summary>
     /// <param name="context">See <see cref="ApplicationDbContext"/>.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public static async Task SeedAsync(ApplicationDbContext context)
-    {
-        await SeedDevelopAsync(context);
-    }
+    public static async Task SeedAsync(ApplicationDbContext context) => await SeedDevelopAsync(context);
 
     /// <summary>
     /// Migrates database with pending migrations. This should not be used in production.

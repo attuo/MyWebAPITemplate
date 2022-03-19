@@ -31,6 +31,6 @@ public class RootEndpoints_Tests : EndpointTestsBase
         var response = await Client.GetAsync("/");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        _ = response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }

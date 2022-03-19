@@ -21,10 +21,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class, IA
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyList<T>> ListAllAsync()
-    {
-        return await _dbContext.Set<T>().ToListAsync();
-    }
+    public async Task<IReadOnlyList<T>> ListAllAsync() => await _dbContext.Set<T>().ToListAsync();
 
     /// <inheritdoc />
     public async Task<T> GetByIdAsync(Guid id)

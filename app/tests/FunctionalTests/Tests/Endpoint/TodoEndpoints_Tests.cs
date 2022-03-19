@@ -42,9 +42,9 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var responseTodos = JsonConvert.DeserializeObject<List<TodoResponseModel>>(responseBody);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
         // TODO: Make the tests to be independent. Currently this test also get affected by the create todo test
-        responseTodos.Should().HaveCount(2);
+        _ = responseTodos.Should().HaveCount(2);
     }
 
     /// <summary>
@@ -63,8 +63,8 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        responseTodo.Should().NotBeNull();
+        _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
+        _ = responseTodo.Should().NotBeNull();
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var response = await Client.GetAsync(EndpointName + todoId);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        _ = response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
     /// <summary>
@@ -101,9 +101,9 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        responseTodo.Should().NotBeNull();
-        responseTodo!.Id.Should().NotBeEmpty();
+        _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
+        _ = responseTodo.Should().NotBeNull();
+        _ = responseTodo!.Id.Should().NotBeEmpty();
     }
 
     /// <summary>
@@ -126,11 +126,11 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        responseTodo.Should().NotBeNull();
+        _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
+        _ = responseTodo.Should().NotBeNull();
 
-        responseTodo!.Description.Should().Be(model.Description);
-        responseTodo!.IsDone.Should().Be(model.IsDone);
+        _ = responseTodo!.Description.Should().Be(model.Description);
+        _ = responseTodo!.IsDone.Should().Be(model.IsDone);
     }
 
     /// <summary>
@@ -149,7 +149,7 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var response = await Client.PutAsync(EndpointName + todoId, content);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        _ = response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
     /// <summary>
@@ -166,7 +166,7 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var response = await Client.DeleteAsync(EndpointName + todoId);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        _ = response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 
     /// <summary>
@@ -183,6 +183,6 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var response = await Client.DeleteAsync(EndpointName + todoId);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        _ = response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }

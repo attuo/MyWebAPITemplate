@@ -55,12 +55,15 @@ public class GlobalErrorHandlingMiddleware
             case ArgumentNullException exception:
                 LogError(exception.GetType(), exception);
                 return HttpStatusCode.InternalServerError;
+
             case EntityNotFoundException exception:
                 LogError(exception.GetType(), exception);
                 return HttpStatusCode.NotFound;
+
             case Exception exception:
                 LogError(exception.GetType(), exception);
                 return HttpStatusCode.InternalServerError;
+
             default:
                 return HttpStatusCode.InternalServerError;
         }

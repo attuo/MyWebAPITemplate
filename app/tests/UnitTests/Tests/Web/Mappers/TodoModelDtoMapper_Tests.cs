@@ -31,8 +31,8 @@ public class TodoModelDtoMapper_Tests
         TodoDto result = mapper.Map(model);
 
         // Assert
-        result.Should().BeEquivalentTo(model);
-        result.Id.Should().BeNull();
+        _ = result.Should().BeEquivalentTo(model);
+        _ = result.Id.Should().BeNull();
     }
 
     #endregion RequestModel -> TodoDto
@@ -53,7 +53,7 @@ public class TodoModelDtoMapper_Tests
         TodoResponseModel result = mapper.Map(dto);
 
         // Assert
-        result.Should().BeEquivalentTo(dto);
+        _ = result.Should().BeEquivalentTo(dto);
     }
 
     #endregion Dto -> ResponseModel
@@ -74,7 +74,7 @@ public class TodoModelDtoMapper_Tests
         IEnumerable<TodoResponseModel> result = mapper.Map(dtos);
 
         // Assert
-        result.Should().BeEquivalentTo(dtos);
+        _ = result.Should().BeEquivalentTo(dtos);
     }
 
     #endregion List - Dto -> ResponseModel

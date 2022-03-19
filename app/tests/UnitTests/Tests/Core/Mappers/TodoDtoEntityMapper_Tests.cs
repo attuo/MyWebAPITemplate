@@ -30,8 +30,8 @@ public class TodoDtoEntityMapper_Tests
         TodoEntity result = mapper.Map(dto);
 
         // Assert
-        result.Should().BeEquivalentTo(dto, options => options.Excluding(o => o.Id));
-        result.Id.Should().Be(Guid.Empty);
+        _ = result.Should().BeEquivalentTo(dto, options => options.Excluding(o => o.Id));
+        _ = result.Id.Should().Be(Guid.Empty);
     }
 
     #endregion Dto -> Entity
@@ -53,8 +53,8 @@ public class TodoDtoEntityMapper_Tests
         TodoEntity result = mapper.Map(dto, entity);
 
         // Assert
-        result.Should().BeEquivalentTo(dto, options => options.Excluding(o => o.Id));
-        result.Id.Should().Be(entity.Id);
+        _ = result.Should().BeEquivalentTo(dto, options => options.Excluding(o => o.Id));
+        _ = result.Id.Should().Be(entity.Id);
     }
 
     #endregion Dto, Entity -> Entity
@@ -75,7 +75,7 @@ public class TodoDtoEntityMapper_Tests
         TodoDto result = mapper.Map(entity);
 
         // Assert
-        result.Should().BeEquivalentTo(entity);
+        _ = result.Should().BeEquivalentTo(entity);
     }
 
     #endregion Entity -> Dto
@@ -96,9 +96,8 @@ public class TodoDtoEntityMapper_Tests
         IEnumerable<TodoDto> result = mapper.Map(entities);
 
         // Assert
-        result.Should().BeEquivalentTo(result);
+        _ = result.Should().BeEquivalentTo(result);
     }
 
     #endregion List - Dto -> ResponseModel
-
 }

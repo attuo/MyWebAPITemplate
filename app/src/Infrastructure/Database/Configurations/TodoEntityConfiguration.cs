@@ -14,14 +14,11 @@ public class TodoEntityConfiguration : IEntityTypeConfiguration<TodoEntity>
     /// Configure all entity's properties here that are set on database table.
     /// </summary>
     /// <param name="builder">See <see cref="EntityTypeBuilder"/>.</param>
-    public void Configure(EntityTypeBuilder<TodoEntity> builder)
-    {
-        SetProperties(builder);
-    }
+    public void Configure(EntityTypeBuilder<TodoEntity> builder) => SetProperties(builder);
 
     private static void SetProperties(EntityTypeBuilder<TodoEntity> builder)
     {
-        builder.Property(entity => entity.Description)
+        _ = builder.Property(entity => entity.Description)
             .HasMaxLength(1000);
     }
 }

@@ -17,10 +17,8 @@ public abstract class EndpointTestsBase : IClassFixture<TestFixture>
     /// <param name="fixture">See <see cref="TestFixture"/>.</param>
     protected EndpointTestsBase(TestFixture fixture)
     {
-        Client = fixture.CreateClient(new WebApplicationFactoryClientOptions
-        {
-            BaseAddress = new Uri(BaseAddressUrl)
-        });
+        Client = fixture
+            .CreateClient(new WebApplicationFactoryClientOptions { BaseAddress = new Uri(BaseAddressUrl) });
     }
 
     /// <summary>

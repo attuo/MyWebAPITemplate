@@ -43,10 +43,7 @@ public static class ServiceCollectionExtensions
     /// When creating a new service in core project, remember to register it here.
     /// </summary>
     /// <param name="services">See <see cref="IServiceCollection"/>.</param>
-    private static void AddInternalServices(IServiceCollection services)
-    {
-        services.AddScoped<ITodoService, TodoService>();
-    }
+    private static void AddInternalServices(IServiceCollection services) => services.AddScoped<ITodoService, TodoService>();
 
     ///// <summary>
     ///// Dependency injections for services from Infrastructure/Services.
@@ -80,20 +77,14 @@ public static class ServiceCollectionExtensions
     /// When creating a new mapper in Web project, remember to register it here.
     /// </summary>
     /// <param name="services">See <see cref="IServiceCollection"/>.</param>
-    private static void AddModelDtoMappers(IServiceCollection services)
-    {
-        services.AddScoped<ITodoModelDtoMapper, TodoModelDtoMapper>();
-    }
+    private static void AddModelDtoMappers(IServiceCollection services) => services.AddScoped<ITodoModelDtoMapper, TodoModelDtoMapper>();
 
     /// <summary>
     /// Dependency Injections for mappers from Core/Mappers.
     /// When creating a new mapper in Core project, remember to register it here.
     /// </summary>
     /// <param name="services">See <see cref="IServiceCollection"/>.</param>
-    private static void AddDtoEntityMappers(IServiceCollection services)
-    {
-        services.AddScoped<ITodoDtoEntityMapper, TodoDtoEntityMapper>();
-    }
+    private static void AddDtoEntityMappers(IServiceCollection services) => services.AddScoped<ITodoDtoEntityMapper, TodoDtoEntityMapper>();
 
     #endregion Dependency Injection for Application's Mappers
 
@@ -106,11 +97,8 @@ public static class ServiceCollectionExtensions
     /// <param name="services">See <see cref="IServiceCollection"/>.</param>
     /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddApplicationRepositories(this IServiceCollection services)
-    {
-        services.AddScoped<ITodoRepository, TodoRepository>();
-
-        return services;
-    }
+        => services
+            .AddScoped<ITodoRepository, TodoRepository>();
 
     #endregion Dependency Injection for Application's Repositories
 
@@ -123,11 +111,8 @@ public static class ServiceCollectionExtensions
     /// <param name="services">See <see cref="IServiceCollection"/>.</param>
     /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddModelValidators(this IServiceCollection services)
-    {
-        // Register the validators here
-        services.AddTransient<IValidator<TodoRequestModel>, TodoRequestModelValidator>();
-        return services;
-    }
+        => services
+            .AddTransient<IValidator<TodoRequestModel>, TodoRequestModelValidator>();
 
     #endregion Dependency Injection for Application's Validators (FluentValidation)
 
@@ -162,7 +147,7 @@ public static class ServiceCollectionExtensions
         // Requires LocalDB which can be installed with SQL Server Express
         // https://www.microsoft.com/en-us/download/details.aspx?id=54284
         // "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=TemplateDb;"
-        services.AddDbContext<ApplicationDbContext>(c =>
+        _ = services.AddDbContext<ApplicationDbContext>(c =>
             c.UseSqlServer(databaseOptions.ConnectionString));
     }
 
@@ -176,20 +161,17 @@ public static class ServiceCollectionExtensions
     /// <param name="services">See <see cref="IServiceCollection"/>.</param>
     /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection ConfigureCors(this IServiceCollection services)
-    {
-        // TODO: Change to be more strict
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AnyOrigin", builder =>
+        => services
+            .AddCors(options =>
             {
-                builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
+                options.AddPolicy("AnyOrigin", builder => // TODO: Change to be more strict
+                {
+                    _ = builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
             });
-        });
-        return services;
-    }
 
     #endregion Configure Cors
 
@@ -204,7 +186,7 @@ public static class ServiceCollectionExtensions
     {
         // Read more https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.1&tabs=visual-studio
         // Register the Swagger generator, defining 1 or more Swagger documents
-        services.AddSwaggerGen(options =>
+        _ = services.AddSwaggerGen(options =>
         {
             // TODO: These settings can be changed more specific if needed
             options.SwaggerDoc("v1", new OpenApiInfo
@@ -241,7 +223,7 @@ public static class ServiceCollectionExtensions
     {
         // TODO: Environment checking here
         ConfigureListStartupServices(services);
-        services.AddDatabaseDeveloperPageExceptionFilter(); // https://github.com/aspnet/Announcements/issues/432
+        _ = services.AddDatabaseDeveloperPageExceptionFilter(); // https://github.com/aspnet/Announcements/issues/432
         return services;
     }
 
@@ -252,7 +234,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">See <see cref="IServiceCollection"/>.</param>
     private static void ConfigureListStartupServices(IServiceCollection services)
     {
-        services.Configure<ServiceConfig>(config =>
+        _ = services.Configure<ServiceConfig>(config =>
         {
             config.Services = new List<ServiceDescriptor>(services);
             config.Path = "/listservices";
@@ -271,8 +253,6 @@ public static class ServiceCollectionExtensions
     /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.OptionsName));
-
         AddOption<DatabaseOptions>(services, configuration, DatabaseOptions.OptionsName);
 
         return services;
@@ -287,7 +267,7 @@ public static class ServiceCollectionExtensions
     /// <param name="optionsName">Name of the section of the option.</param>
     private static void AddOption<T>(IServiceCollection services, IConfiguration configuration, string optionsName) where T : class
     {
-        services
+        _ = services
             .AddOptions<T>()
             .Bind(configuration.GetSection(optionsName))
             .ValidateDataAnnotations() // NOTE: This can also be done with FluentValidation, however it is a bit more tedious work to do.
@@ -307,13 +287,12 @@ public static class ServiceCollectionExtensions
     /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration, RunningEnvironment env)
     {
-        services.AddHealthChecks();
+        _ = services.AddHealthChecks();
         if (env.IsLocalDevelopment())
         {
             var connectionString = configuration.GetSection(DatabaseOptions.OptionsName).Get<DatabaseOptions>().ConnectionString;
-
             // TODO: Other health checks are not yet updated to .NET 5.0.Enable when those are NuGets are updated.
-            services.AddHealthChecksUI().AddSqlServerStorage(connectionString);
+            _ = services.AddHealthChecksUI().AddSqlServerStorage(connectionString);
         }
 
         return services;

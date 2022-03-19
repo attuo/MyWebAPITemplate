@@ -20,18 +20,13 @@ public static class ApplicationBuilderExtensions
     /// <param name="env">See <see cref="RunningEnvironment"/>.</param>
     /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder ConfigureDevelopmentSettings(this IApplicationBuilder app, RunningEnvironment env)
-    {
-        if (env.IsLocalDevelopment())
-        {
-            app
+        => env.IsLocalDevelopment()
+            ? app
                 .UseDeveloperExceptionPage()
                 .UseMigrationsEndPoint()
                 .UseCors()
-                .UseShowAllServicesMiddleware();
-        }
-
-        return app;
-    }
+                .UseShowAllServicesMiddleware()
+            : app;
 
     /// <summary>
     /// Swagger configurations
@@ -40,16 +35,9 @@ public static class ApplicationBuilderExtensions
     /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
     /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder ConfigureSwagger(this IApplicationBuilder app)
-    {
-        // Enable middleware to serve generated Swagger as a JSON endpoint.
-        app.UseSwagger();
-
-        // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-        // specifying the Swagger JSON endpoint.
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Template API V1"));
-
-        return app;
-    }
+        => app
+            .UseSwagger()
+            .UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Template API V1"));
 
     /// <summary>
     /// Logger configurations.
@@ -57,11 +45,8 @@ public static class ApplicationBuilderExtensions
     /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
     /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder ConfigureLogger(this IApplicationBuilder app)
-    {
-        app.UseSerilogRequestLogging();
-
-        return app;
-    }
+        => app
+            .UseSerilogRequestLogging();
 
     /// <summary>
     /// Middleware usings
@@ -70,12 +55,8 @@ public static class ApplicationBuilderExtensions
     /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
     /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder UseCustomMiddlewares(this IApplicationBuilder app)
-    {
-        // Global error handling
-        app.UseMiddleware<GlobalErrorHandlingMiddleware>();
-
-        return app;
-    }
+        => app.
+            UseMiddleware<GlobalErrorHandlingMiddleware>(); // Global error handling
 
     /// <summary>
     /// Used for applying different CORS settings.
@@ -83,11 +64,8 @@ public static class ApplicationBuilderExtensions
     /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
     /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder UseCors(this IApplicationBuilder app)
-    {
-        app.UseCors("AnyOrigin"); // TODO: Remember to change this when more specific CORS settings are configured
-
-        return app;
-    }
+        => app
+            .UseCors("AnyOrigin"); // TODO: Remember to change this when more specific CORS settings are configured
 
     /// <summary>
     /// Routing related configurations.
@@ -96,23 +74,13 @@ public static class ApplicationBuilderExtensions
     /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
     /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder ConfigureRouting(this IApplicationBuilder app)
-    {
-        app.UseHttpsRedirection();
-
-        app.UseRouting();
-
-        app.UseEndpoints(routeBuilder =>
-        {
-            routeBuilder.MapAllHealthChecks();
-            routeBuilder.MapControllers();
-        });
-
-        return app;
-    }
-
-    private static void MapAllHealthChecks(this IEndpointRouteBuilder routeBuilder)
-    {
-        routeBuilder.MapHealthChecks("/health");
-        routeBuilder.MapHealthChecksUI();
-    }
+        => app
+            .UseHttpsRedirection()
+            .UseRouting()
+            .UseEndpoints(routeBuilder =>
+            {
+                _ = routeBuilder.MapHealthChecks("/health");
+                _ = routeBuilder.MapHealthChecksUI();
+                _ = routeBuilder.MapControllers();
+            });
 }

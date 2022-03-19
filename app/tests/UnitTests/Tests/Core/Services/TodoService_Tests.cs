@@ -29,9 +29,9 @@ public class TodoService_Tests
         var mockTodoRepository = new Mock<ITodoRepository>();
         var mockTodoMapper = new Mock<ITodoDtoEntityMapper>();
 
-        mockTodoRepository.Setup(s => s.ListAllAsync())
+        _ = mockTodoRepository.Setup(s => s.ListAllAsync())
             .ReturnsAsync(new List<TodoEntity> { new TodoEntity() });
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<List<TodoEntity>>()))
+        _ = mockTodoMapper.Setup(s => s.Map(It.IsAny<List<TodoEntity>>()))
             .Returns(new List<TodoDto> { new TodoDto() });
 
         var service = new TodoService(mockTodoRepository.Object, mockTodoMapper.Object);
@@ -40,8 +40,8 @@ public class TodoService_Tests
         var result = await service.GetTodos();
 
         // Assert
-        result.Should().BeOfType<List<TodoDto>>();
-        result.Should().HaveCount(1);
+        _ = result.Should().BeOfType<List<TodoDto>>();
+        _ = result.Should().HaveCount(1);
         mockTodoRepository.Verify(c => c.ListAllAsync(), Times.Once);
         mockTodoMapper.Verify(c => c.Map(It.IsAny<List<TodoEntity>>()), Times.Once);
     }
@@ -61,9 +61,9 @@ public class TodoService_Tests
         var mockTodoRepository = new Mock<ITodoRepository>();
         var mockTodoMapper = new Mock<ITodoDtoEntityMapper>();
 
-        mockTodoRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+        _ = mockTodoRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(new TodoEntity());
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoEntity>()))
+        _ = mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoEntity>()))
             .Returns(new TodoDto());
 
         var service = new TodoService(mockTodoRepository.Object, mockTodoMapper.Object);
@@ -72,7 +72,7 @@ public class TodoService_Tests
         var result = await service.GetTodo(It.IsAny<Guid>());
 
         // Assert
-        result.Should().BeOfType<TodoDto>();
+        _ = result.Should().BeOfType<TodoDto>();
         mockTodoRepository.Verify(c => c.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoEntity>()), Times.Once);
     }
@@ -92,11 +92,11 @@ public class TodoService_Tests
         var mockTodoRepository = new Mock<ITodoRepository>();
         var mockTodoMapper = new Mock<ITodoDtoEntityMapper>();
 
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>()))
+        _ = mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>()))
             .Returns(new TodoEntity());
-        mockTodoRepository.Setup(s => s.AddAsync(It.IsAny<TodoEntity>()))
+        _ = mockTodoRepository.Setup(s => s.AddAsync(It.IsAny<TodoEntity>()))
             .ReturnsAsync(new TodoEntity());
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoEntity>()))
+        _ = mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoEntity>()))
             .Returns(new TodoDto());
 
         var service = new TodoService(mockTodoRepository.Object, mockTodoMapper.Object);
@@ -105,7 +105,7 @@ public class TodoService_Tests
         var result = await service.CreateTodo(It.IsAny<TodoDto>());
 
         // Assert
-        result.Should().BeOfType<TodoDto>();
+        _ = result.Should().BeOfType<TodoDto>();
         mockTodoRepository.Verify(c => c.AddAsync(It.IsAny<TodoEntity>()), Times.Once);
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>()), Times.Once);
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoEntity>()), Times.Once);
@@ -126,12 +126,12 @@ public class TodoService_Tests
         var mockTodoRepository = new Mock<ITodoRepository>();
         var mockTodoMapper = new Mock<ITodoDtoEntityMapper>();
 
-        mockTodoRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+        _ = mockTodoRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(new TodoEntity());
-        mockTodoRepository.Setup(s => s.UpdateAsync(It.IsAny<TodoEntity>()));
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>(), It.IsAny<TodoEntity>()))
+        _ = mockTodoRepository.Setup(s => s.UpdateAsync(It.IsAny<TodoEntity>()));
+        _ = mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoDto>(), It.IsAny<TodoEntity>()))
             .Returns(new TodoEntity());
-        mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoEntity>()))
+        _ = mockTodoMapper.Setup(s => s.Map(It.IsAny<TodoEntity>()))
             .Returns(new TodoDto());
 
         var service = new TodoService(mockTodoRepository.Object, mockTodoMapper.Object);
@@ -140,7 +140,7 @@ public class TodoService_Tests
         var result = await service.UpdateTodo(It.IsAny<Guid>(), It.IsAny<TodoDto>());
 
         // Assert
-        result.Should().BeOfType<TodoDto>();
+        _ = result.Should().BeOfType<TodoDto>();
         mockTodoRepository.Verify(c => c.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
         mockTodoMapper.Verify(c => c.Map(It.IsAny<TodoDto>(), It.IsAny<TodoEntity>()), Times.Once);
         mockTodoRepository.Verify(c => c.UpdateAsync(It.IsAny<TodoEntity>()), Times.Once);
@@ -162,9 +162,9 @@ public class TodoService_Tests
         var mockTodoRepository = new Mock<ITodoRepository>();
         var mockTodoMapper = new Mock<ITodoDtoEntityMapper>();
 
-        mockTodoRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+        _ = mockTodoRepository.Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(new TodoEntity());
-        mockTodoRepository.Setup(s => s.DeleteAsync(It.IsAny<TodoEntity>()));
+        _ = mockTodoRepository.Setup(s => s.DeleteAsync(It.IsAny<TodoEntity>()));
 
         var service = new TodoService(mockTodoRepository.Object, mockTodoMapper.Object);
 

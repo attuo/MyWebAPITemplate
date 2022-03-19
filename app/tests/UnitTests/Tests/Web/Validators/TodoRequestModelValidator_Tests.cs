@@ -35,7 +35,7 @@ public class TodoRequestModelValidator_Tests
         ValidationResult result = Validator.Validate(model);
 
         // Assert
-        result.IsValid.Should().BeTrue();
+        _ = result.IsValid.Should().BeTrue();
     }
 
     /// <summary>
@@ -52,8 +52,8 @@ public class TodoRequestModelValidator_Tests
         ValidationResult result = Validator.Validate(model);
 
         // Assert
-        result.IsValid.Should().BeFalse();
-        result.Errors.Should().NotBeEmpty().And.HaveCount(1);
+        _ = result.IsValid.Should().BeFalse();
+        _ = result.Errors.Should().NotBeEmpty().And.HaveCount(1);
     }
 
     /// <summary>
@@ -70,8 +70,8 @@ public class TodoRequestModelValidator_Tests
         ValidationResult result = Validator.Validate(model);
 
         // Assert
-        result.IsValid.Should().BeFalse();
-        result.Errors.Should().NotBeEmpty().And.HaveCount(1);
+        _ = result.IsValid.Should().BeFalse();
+        _ = result.Errors.Should().NotBeEmpty().And.HaveCount(1);
         // TODO: Check the error message too.
     }
 }
