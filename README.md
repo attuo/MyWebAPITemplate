@@ -10,7 +10,7 @@ This is my opinionated, constantly work in progress, starter template, for build
 
 ### Technologies, frameworks and libraries
 - Programming language: C#
-- Framework: ASP.NET Core 5 (always the latest version)
+- Framework: ASP.NET Core 6 (always the latest version)
 - Database: SQL Server (also possible to use other databases)
 - ORM: Entity Framework
 - Testing: XUnit, Moq & FluentAssertions
