@@ -27,10 +27,9 @@ This is my opinionated, constantly work in progress, starter template, for build
 - [X] Model mapping
 - [X] Validations
 - [X] Comprehensive tests (functional, integration and unit tests)
-- [ ] Logging (work in progress)
-- [ ] Repository pattern (work in progress)
-- [ ] Specification pattern (work in progress)
-- [ ] Docker support (work in progress)
+- [X] Logging
+- [X] Repository pattern
+- [X] Docker support
 - [ ] ..and more in [backlog](https://github.com/attuo/MyWebAPITemplate/projects)
 
 ### Template folder structure
