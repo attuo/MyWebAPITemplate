@@ -16,8 +16,10 @@ public static class TestDatabaseSeed
     /// </summary>
     /// <param name="context">See <see cref="ApplicationDbContext"/>.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when method parameter is null.</exception>
     public static async Task ReinitializeDbForTests(ApplicationDbContext context)
     {
+        _ = context ?? throw new ArgumentNullException(nameof(context));
         await ClearDbForTests(context);
         await InitializeDbForTests(context);
     }

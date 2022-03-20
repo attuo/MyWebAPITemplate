@@ -17,7 +17,10 @@ public abstract class EndpointTestsBase : IClassFixture<TestFixture>
     /// <param name="fixture">See <see cref="TestFixture"/>.</param>
     protected EndpointTestsBase(TestFixture fixture)
     {
+        _ = fixture ?? throw new ArgumentNullException(nameof(fixture));
+
         Client = fixture
+
             .CreateClient(new WebApplicationFactoryClientOptions { BaseAddress = new Uri(BaseAddressUrl) });
     }
 

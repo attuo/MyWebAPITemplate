@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.Utils;
@@ -42,8 +41,7 @@ public class TestFixture : WebApplicationFactory<Program>
             using var scope = sp.CreateScope();
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<ApplicationDbContext>();
-            var logger = scopedServices
-                .GetRequiredService<ILogger<TestFixture>>();
+            var logger = scopedServices.GetService<Serilog.ILogger>();
 
             _ = db.Database.EnsureCreated();
 
@@ -53,7 +51,7 @@ public class TestFixture : WebApplicationFactory<Program>
             }
             catch (Exception ex)
             {
-                logger.LogError(
+                logger?.Error(
                     ex,
                     "An error occurred seeding the database with test messages. Error: {Message}",
                     ex.Message);

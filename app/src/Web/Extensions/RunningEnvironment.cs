@@ -1,9 +1,11 @@
-﻿namespace MyWebAPITemplate.Source.Web.Extensions;
+﻿using MyWebAPITemplate.Source.Web.Interfaces;
+
+namespace MyWebAPITemplate.Source.Web.Extensions;
 
 /// <summary>
 /// Smart enumeration class that contains all the environments of the system.
 /// </summary>
-public sealed class RunningEnvironment
+public sealed class RunningEnvironment : IRunningEnvironment
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RunningEnvironment"/> class.
@@ -17,6 +19,14 @@ public sealed class RunningEnvironment
         Name = name;
         AllEnvironments.Add(this);
     }
+
+    /// <summary>
+    /// Gets the order of the environment.
+    /// </summary>
+    public int Order { get; }
+
+    /// <inheritdoc/>
+    public string Name { get; }
 
     #region Environment definitions
 
@@ -54,16 +64,6 @@ public sealed class RunningEnvironment
 
     #endregion Environment definitions
 
-    /// <summary>
-    /// Gets the order of the environment.
-    /// </summary>
-    public int Order { get; }
-
-    /// <summary>
-    /// Gets the name of the environment.
-    /// </summary>
-    public string Name { get; }
-
     #region Methods
 
     /// <summary>
@@ -73,31 +73,25 @@ public sealed class RunningEnvironment
     /// <returns>True if exists.</returns>
     public static bool Exists(string name) =>
         AllEnvironments.Exists(c =>
-            c.Name.Equals(name, System.StringComparison.Ordinal));
+            c.Name.Equals(name, StringComparison.Ordinal));
 
     /// <summary>
     /// Gets an environment with given name, if one exists.
     /// </summary>
     /// <param name="name">Name of the environment.</param>
     /// <returns>Matching environment if found.</returns>
-    public static RunningEnvironment? Get(string name) =>
+    public static IRunningEnvironment? Get(string name) =>
         AllEnvironments.Find(c =>
-            c.Name.Equals(name, System.StringComparison.Ordinal));
+            c.Name.Equals(name, StringComparison.Ordinal));
 
-    /// <summary>
-    /// Checks whether the running environment is local.
-    /// </summary>
-    /// <returns>True if running on local environment.</returns>
+    /// <inheritdoc/>
     public bool IsLocalDevelopment()
-        => Name.Equals(Local.Name, System.StringComparison.Ordinal) ||
-           Name.Equals(LocalDocker.Name, System.StringComparison.Ordinal);
+        => Name.Equals(Local.Name, StringComparison.Ordinal) ||
+           Name.Equals(LocalDocker.Name, StringComparison.Ordinal);
 
-    /// <summary>
-    /// Checks whether the running environment is testing.
-    /// </summary>
-    /// <returns>True if running on testing environment.</returns>
+    /// <inheritdoc/>
     public bool IsTesting()
-        => Name.Equals(Testing.Name, System.StringComparison.Ordinal);
+        => Name.Equals(Testing.Name, StringComparison.Ordinal);
 
     #endregion Methods
 }

@@ -1,20 +1,21 @@
-﻿using Serilog;
+﻿using MyWebAPITemplate.Source.Web.Interfaces;
+using Serilog;
 
 namespace MyWebAPITemplate.Source.Web.Extensions;
 
 /// <summary>
-/// Extension methods for <see cref="IWebHostBuilder"/>.
+/// Extension methods for <see cref="IHostBuilder"/>.
 /// </summary>
-public static class WebHostBuilderExtensions
+public static class HostBuilderExtensions
 {
     /// <summary>
     /// Configures the Serilog to the system.
     /// </summary>
-    /// <param name="webHostBuilder">See <see cref="IWebHostBuilder"/>.</param>
+    /// <param name="hostBuilder">See <see cref="IHostBuilder"/>.</param>
     /// <param name="env">See <see cref="RunningEnvironment"/>.</param>
-    /// <returns>Same instance of see <see cref="IWebHostBuilder"/>.</returns>
-    public static IWebHostBuilder UseConfiguredSerilog(this IWebHostBuilder webHostBuilder, RunningEnvironment env)
-        => webHostBuilder
+    /// <returns>Same instance of see <see cref="IHostBuilder"/>.</returns>
+    public static IHostBuilder UseConfiguredSerilog(this IHostBuilder hostBuilder, IRunningEnvironment env)
+        => hostBuilder
             .UseSerilog((hostingContext, loggerConfiguration)
                 => loggerConfiguration
                     .ReadFrom.Configuration(hostingContext.Configuration)

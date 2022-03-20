@@ -35,6 +35,6 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // This will automatically find all the entity configurations from Infrastructure/Database/Configurations that inherit IEntityTypeConfiguration
-        _ = modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        _ = modelBuilder?.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

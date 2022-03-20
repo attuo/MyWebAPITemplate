@@ -10,6 +10,7 @@ using MyWebAPITemplate.Source.Core.Mappers;
 using MyWebAPITemplate.Source.Core.Services;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
+using MyWebAPITemplate.Source.Web.Interfaces;
 using MyWebAPITemplate.Source.Web.Interfaces.Mappers;
 using MyWebAPITemplate.Source.Web.Mappers;
 using MyWebAPITemplate.Source.Web.Models.RequestModels;
@@ -17,6 +18,8 @@ using MyWebAPITemplate.Source.Web.Options;
 using MyWebAPITemplate.Source.Web.Validators;
 
 namespace MyWebAPITemplate.Source.Web.Extensions;
+
+#pragma warning disable SA1202 // Elements should be ordered by access - Disabled because the code is divided by regions
 
 /// <summary>
 /// Contains all the service collection extension methods for configuring the system.
@@ -43,7 +46,8 @@ public static class ServiceCollectionExtensions
     /// When creating a new service in core project, remember to register it here.
     /// </summary>
     /// <param name="services">See <see cref="IServiceCollection"/>.</param>
-    private static void AddInternalServices(IServiceCollection services) => services.AddScoped<ITodoService, TodoService>();
+    private static void AddInternalServices(IServiceCollection services)
+        => services.AddScoped<ITodoService, TodoService>();
 
     ///// <summary>
     ///// Dependency injections for services from Infrastructure/Services.
@@ -124,8 +128,10 @@ public static class ServiceCollectionExtensions
     /// <param name="services">See <see cref="IServiceCollection"/>.</param>
     /// <param name="configuration">See <see cref="IConfiguration"/>.</param>
     /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when method parameter is null.</exception>
     public static IServiceCollection ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
     {
+        _ = configuration ?? throw new ArgumentNullException(nameof(configuration));
         ConfigureSQLServerDatabase(services, configuration);
         return services;
     }
@@ -251,8 +257,10 @@ public static class ServiceCollectionExtensions
     /// <param name="services">See <see cref="IServiceCollection"/>.</param>
     /// <param name="configuration">See <see cref="IConfiguration"/>.</param>
     /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when method parameter is null.</exception>
     public static IServiceCollection ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
     {
+        _ = configuration ?? throw new ArgumentNullException(nameof(configuration));
         AddOption<DatabaseOptions>(services, configuration, DatabaseOptions.OptionsName);
 
         return services;
@@ -285,8 +293,12 @@ public static class ServiceCollectionExtensions
     /// <param name="configuration">See <see cref="IConfiguration"/>.</param>
     /// <param name="env">See <see cref="RunningEnvironment"/>.</param>
     /// <returns>Same instance of <see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration, RunningEnvironment env)
+    /// <exception cref="ArgumentNullException">Thrown when method parameter is null.</exception>
+    public static IServiceCollection ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration, IRunningEnvironment env)
     {
+        _ = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        _ = env ?? throw new ArgumentNullException(nameof(env));
+
         _ = services.AddHealthChecks();
         if (env.IsLocalDevelopment())
         {
@@ -300,3 +312,4 @@ public static class ServiceCollectionExtensions
 
     #endregion Configure HealthChecks
 }
+#pragma warning restore SA1202 // Elements should be ordered by access

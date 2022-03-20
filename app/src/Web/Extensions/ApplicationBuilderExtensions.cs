@@ -1,5 +1,6 @@
 ﻿using Ardalis.ListStartupServices;
 using MyWebAPITemplate.Source.Web.Extensions;
+using MyWebAPITemplate.Source.Web.Interfaces;
 using MyWebAPITemplate.Source.Web.Middlewares;
 using Serilog;
 
@@ -17,16 +18,20 @@ public static class ApplicationBuilderExtensions
     /// Should be run first.
     /// </summary>
     /// <param name="app">See <see cref="IApplicationBuilder"/>.</param>
-    /// <param name="env">See <see cref="RunningEnvironment"/>.</param>
+    /// <param name="env">See <see cref="IRunningEnvironment"/>.</param>
     /// <returns>Same instance of <see cref="IApplicationBuilder"/>.</returns>
-    public static IApplicationBuilder ConfigureDevelopmentSettings(this IApplicationBuilder app, RunningEnvironment env)
-        => env.IsLocalDevelopment()
+    /// <exception cref="ArgumentNullException">Thrown when method parameter is null.</exception>
+    public static IApplicationBuilder ConfigureDevelopmentSettings(this IApplicationBuilder app, IRunningEnvironment env)
+    {
+        _ = env ?? throw new ArgumentNullException(nameof(env));
+        return env.IsLocalDevelopment()
             ? app
                 .UseDeveloperExceptionPage()
                 .UseMigrationsEndPoint()
                 .UseCors()
                 .UseShowAllServicesMiddleware()
             : app;
+    }
 
     /// <summary>
     /// Swagger configurations
@@ -37,7 +42,8 @@ public static class ApplicationBuilderExtensions
     public static IApplicationBuilder ConfigureSwagger(this IApplicationBuilder app)
         => app
             .UseSwagger()
-            .UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Template API V1"));
+            .UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Template API V1"))
+            .UseReDoc(c => c.RoutePrefix = "api-docs");
 
     /// <summary>
     /// Logger configurations.

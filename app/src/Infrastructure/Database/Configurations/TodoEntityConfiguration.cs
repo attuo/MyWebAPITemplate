@@ -14,7 +14,12 @@ public class TodoEntityConfiguration : IEntityTypeConfiguration<TodoEntity>
     /// Configure all entity's properties here that are set on database table.
     /// </summary>
     /// <param name="builder">See <see cref="EntityTypeBuilder"/>.</param>
-    public void Configure(EntityTypeBuilder<TodoEntity> builder) => SetProperties(builder);
+    /// <exception cref="ArgumentNullException">Null checks the method parameters.</exception>
+    public void Configure(EntityTypeBuilder<TodoEntity> builder)
+    {
+        _ = builder ?? throw new ArgumentNullException(nameof(builder));
+        SetProperties(builder);
+    }
 
     private static void SetProperties(EntityTypeBuilder<TodoEntity> builder)
     {

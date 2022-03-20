@@ -12,7 +12,7 @@ public partial class InitialMigration : Migration
     /// <inheritdoc/>
     protected override void Up(MigrationBuilder migrationBuilder)
     {
-        _ = migrationBuilder.CreateTable(
+        _ = migrationBuilder?.CreateTable(
             name: "Todos",
             columns: table => new
             {
@@ -26,7 +26,7 @@ public partial class InitialMigration : Migration
     /// <inheritdoc/>
     protected override void Down(MigrationBuilder migrationBuilder)
     {
-        _ = migrationBuilder.DropTable(
+        _ = migrationBuilder?.DropTable(
             name: "Todos");
     }
 }
