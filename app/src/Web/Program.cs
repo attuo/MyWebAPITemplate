@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Source.Web.Extensions;
+using MyWebAPITemplate.Source.Web.Interfaces;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
@@ -17,10 +18,11 @@ async Task Start()
         CheckRequiredEnvVariables(requiredEnvironmentVariables);
         var env = GetCurrentEnvironment(requiredEnvironmentVariables);
 
-        startupLogger.Information("Application starting");
+        startupLogger.Information("Application starting.");
         var builder = WebApplication.CreateBuilder(args);
         SetConfiguration(builder.Configuration, env);
-        SetWebHost(builder.WebHost, env);
+        SetHost(builder.Host, env);
+        SetWebHost(builder.WebHost);
         SetServices(builder.Services, builder.Configuration, env);
 
         var app = builder.Build();
@@ -28,7 +30,7 @@ async Task Start()
 
         await SeedDatabase(app.Services, env);
 
-        startupLogger.Information("Application starting to run");
+        startupLogger.Information("Application starting to run.");
         app.Run();
     }
     catch (Exception ex)
@@ -37,7 +39,7 @@ async Task Start()
         string type = ex.GetType().Name;
         if (type.Equals("StopTheHostException", StringComparison.Ordinal))
             throw;
-        startupLogger.Fatal(ex, "Application did not start successfully");
+        startupLogger.Fatal(ex, "Application did not start successfully.");
     }
     // {
     //    // This is commented out because the EF migration stops working with it
@@ -47,7 +49,7 @@ async Task Start()
     // }
 }
 
-static void SetConfiguration(IConfigurationBuilder configBuilder, RunningEnvironment env)
+static void SetConfiguration(IConfigurationBuilder configBuilder, IRunningEnvironment env)
     => configBuilder
         // .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", false, false)
@@ -55,12 +57,15 @@ static void SetConfiguration(IConfigurationBuilder configBuilder, RunningEnviron
         .AddJsonFile($"appsettings.{env.Name}.json", false, false)
         .AddEnvironmentVariables();
 
-static void SetWebHost(ConfigureWebHostBuilder configWebHostBuilder, RunningEnvironment env)
-    => configWebHostBuilder
-        .CaptureStartupErrors(true)
+static void SetHost(ConfigureHostBuilder configHostBuilder, IRunningEnvironment env)
+    => configHostBuilder
         .UseConfiguredSerilog(env);
 
-static void SetServices(IServiceCollection services, IConfiguration configuration, RunningEnvironment env)
+static void SetWebHost(ConfigureWebHostBuilder configWebHostBuilder)
+    => configWebHostBuilder
+        .CaptureStartupErrors(true);
+
+static void SetServices(IServiceCollection services, IConfiguration configuration, IRunningEnvironment env)
     => services
         .ConfigureDatabase(configuration)
         .ConfigureDevelopmentSettings()
@@ -75,7 +80,7 @@ static void SetServices(IServiceCollection services, IConfiguration configuratio
         .AddControllers()
         .AddFluentValidation(); // this must be called directly after AddControllers
 
-static void SetApplications(IApplicationBuilder app, RunningEnvironment env)
+static void SetApplications(IApplicationBuilder app, IRunningEnvironment env)
     => app
         .ConfigureDevelopmentSettings(env)
         .ConfigureSwagger()
@@ -85,40 +90,40 @@ static void SetApplications(IApplicationBuilder app, RunningEnvironment env)
 
 void CheckRequiredEnvVariables(string[] requiredEnvVars)
 {
-    startupLogger.Information("Checking required environment variables starting");
+    startupLogger.Information("Checking required environment variables starting.");
     var allEnvVars = Environment.GetEnvironmentVariables();
     foreach (var reqEnvVar in requiredEnvVars)
     {
         if (!allEnvVars.Contains(reqEnvVar))
         {
-            startupLogger.Error("Required environment variable is missing: {envVar}", reqEnvVar);
+            startupLogger.Error("Required environment variable is missing: {RequiredEnvironmentVariable}.", reqEnvVar);
             throw new ArgumentNullException(reqEnvVar);
         }
 
-        startupLogger.Information("Required environment variable found: {envVar}", reqEnvVar);
+        startupLogger.Information("Required environment variable found: {RequiredEnvironmentVariable}.", reqEnvVar);
     }
 }
 
-RunningEnvironment GetCurrentEnvironment(string[] envVars)
+IRunningEnvironment GetCurrentEnvironment(string[] envVars)
 {
-    startupLogger.Information("Checking running environment starting");
+    startupLogger.Information("Checking running environment starting.");
 
     var envs = Environment.GetEnvironmentVariables();
 
     var env = GetRunningEnvironment(envVars);
     if (env is null || !RunningEnvironment.Exists(env))
     {
-        startupLogger.Fatal($"Application environment '{env}' is not supported");
+        startupLogger.Fatal($"Application environment '{env}' is not supported.");
         throw new ArgumentNullException(env);
     }
 
-    startupLogger.Information("Checking running environment successful: {env}", env);
+    startupLogger.Information("Checking running environment successful: {Environment}.", env);
     return RunningEnvironment.Get(env)!;
 }
 
-async Task SeedDatabase(IServiceProvider serviceProvider, RunningEnvironment env)
+async Task SeedDatabase(IServiceProvider serviceProvider, IRunningEnvironment env)
 {
-    startupLogger.Information("Database seeding starting");
+    startupLogger.Information("Database seeding starting.");
     using var scope = serviceProvider.CreateScope();
     var scopedProvider = scope.ServiceProvider;
     try
@@ -128,7 +133,7 @@ async Task SeedDatabase(IServiceProvider serviceProvider, RunningEnvironment env
             var dbContext = scopedProvider.GetRequiredService<ApplicationDbContext>();
 
             await ApplicationDbContextSeed.SeedDevelopAsync(dbContext);
-            startupLogger.Information("Database seeding successful");
+            startupLogger.Information("Database seeding successful.");
         }
     }
     catch (Exception ex)
