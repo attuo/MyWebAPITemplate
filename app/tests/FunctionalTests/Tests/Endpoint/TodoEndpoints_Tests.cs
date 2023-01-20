@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Text;
+using AutoFixture;
 using FluentAssertions;
+using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Web.Models.ResponseModels;
 using MyWebAPITemplate.Tests.FunctionalTests.Utils;
 using MyWebAPITemplate.Tests.SharedComponents.Builders.Models;
@@ -18,12 +20,13 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     // TODO: Make the sequential and have no side effects from each other.
 
     private const string EndpointName = "api/Todos/";
+    private readonly Fixture _fixture = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TodoEndpoints_Tests"/> class.
     /// </summary>
-    /// <param name="fixture">See <see cref="TestFixture"/>.</param>
-    public TodoEndpoints_Tests(TestFixture fixture) : base(fixture)
+    /// <param name="factory">See <see cref="CustomFactory"/>.</param>
+    public TodoEndpoints_Tests(CustomFactory factory) : base(factory)
     {
     }
 
@@ -35,6 +38,9 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     public async Task Get_All_OK()
     {
         // Arrange
+        var entities = _fixture.CreateMany<TodoEntity>(2);
+        await DbContext.Todos.AddRangeAsync(entities);
+        await DbContext.SaveChangesAsync();
 
         // Act
         var response = await Client.GetAsync(EndpointName);

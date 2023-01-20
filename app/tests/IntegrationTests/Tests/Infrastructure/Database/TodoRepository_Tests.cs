@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
 using MyWebAPITemplate.Source.Core.Exceptions;
+using MyWebAPITemplate.Source.Infrastructure.Database;
+using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
 using MyWebAPITemplate.Tests.IntegrationTests.Utils;
 using MyWebAPITemplate.Tests.SharedComponents.Builders.Entities;
 using MyWebAPITemplate.Tests.SharedComponents.Ids;
@@ -10,8 +12,17 @@ namespace MyWebAPITemplate.Tests.IntegrationTests.Tests.Infrastructure.Database;
 /// <summary>
 /// All TodoRepository tests.
 /// </summary>
-public class TodoRepository_Tests : TestFixture
+[Collection("Test collection")]
+public class TodoRepository_Tests : IAsyncLifetime
 {
+    private readonly ApplicationDbContext _dbContext;
+    private readonly CustomFactory _factory;
+
+    public TodoRepository_Tests(CustomFactory factory)
+    {
+        _factory = factory;
+    }
+
     // TODO: Split these into separate classes to test each method in one file with happy and unhappy cases.
     // TODO: Share the repository instance in multiple tests.
 
@@ -23,7 +34,7 @@ public class TodoRepository_Tests : TestFixture
     public async Task ListAllAsync_Ok()
     {
         // Arrange
-        var repository = GetTodoRepository();
+        var repository = new TodoRepository(_factory.DbContext);
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
         _ = await repository.AddAsync(todo);
 
@@ -42,7 +53,7 @@ public class TodoRepository_Tests : TestFixture
     public async Task GetByIdAsync_Ok()
     {
         // Arrange
-        var repository = GetTodoRepository();
+        var repository = new TodoRepository(_dbContext);
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
         _ = await repository.AddAsync(todo);
 
@@ -62,7 +73,7 @@ public class TodoRepository_Tests : TestFixture
     public async Task GetByIdAsync_Throws_EntityNotFoundException()
     {
         // Arrange
-        var repository = GetTodoRepository();
+        var repository = new TodoRepository(_dbContext);
         var notFoundId = TestIds.NonUsageId;
 
         // Act
@@ -80,7 +91,7 @@ public class TodoRepository_Tests : TestFixture
     public async Task AddAsync_Ok()
     {
         // Arrange
-        var repository = GetTodoRepository();
+        var repository = new TodoRepository(_dbContext);
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
         _ = await repository.AddAsync(todo);
 
@@ -100,7 +111,7 @@ public class TodoRepository_Tests : TestFixture
     public async Task UpdateAsync_Ok()
     {
         // Arrange
-        var repository = GetTodoRepository();
+        var repository = new TodoRepository(_dbContext);
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
         _ = await repository.AddAsync(todo);
 
@@ -123,7 +134,7 @@ public class TodoRepository_Tests : TestFixture
     public async Task DeleteAsync_Ok()
     {
         // Arrange
-        var repository = GetTodoRepository();
+        var repository = new TodoRepository(_dbContext);
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
         _ = await repository.AddAsync(todo);
 
@@ -136,6 +147,9 @@ public class TodoRepository_Tests : TestFixture
         _ = firstResult.Should().NotBeNull();
         _ = await secondResult.Should().ThrowAsync<EntityNotFoundException>().WithMessage($"*{todo.Id}*");
     }
+
+    public Task InitializeAsync() => Task.CompletedTask;
+    public Task DisposeAsync() => _factory.ResetDatabaseAsync();
 
     // TODO: Add tests for non existing entities for updating and deleting.
 }

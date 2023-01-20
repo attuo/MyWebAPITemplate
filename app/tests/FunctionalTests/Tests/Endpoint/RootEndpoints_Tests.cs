@@ -13,8 +13,8 @@ public class RootEndpoints_Tests : EndpointTestsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="RootEndpoints_Tests"/> class.
     /// </summary>
-    /// <param name="fixture">See <see cref="TestFixture"/>.</param>
-    public RootEndpoints_Tests(TestFixture fixture) : base(fixture)
+    /// <param name="fixture">See <see cref="CustomFactory"/>.</param>
+    public RootEndpoints_Tests(CustomFactory fixture) : base(fixture)
     {
     }
 
