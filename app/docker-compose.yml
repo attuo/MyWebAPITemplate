@@ -21,3 +21,10 @@ services:
       - ACCEPT_EULA=Y
     ports:
       - "1450:1433"
+  seq:
+    image: datalust/seq:latest
+    container_name: seq
+    ports:
+      - 5341:80
+    environment:
+      ACCEPT_EULA: Y
