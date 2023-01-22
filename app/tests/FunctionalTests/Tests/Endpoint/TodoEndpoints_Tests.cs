@@ -2,6 +2,7 @@
 using System.Text;
 using AutoFixture;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Web.Models.ResponseModels;
 using MyWebAPITemplate.Tests.FunctionalTests.Utils;
@@ -61,16 +62,19 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     public async Task Get_One_OK()
     {
         // Arrange
-        Guid todoId = TestIds.NormalUsageId;
+        var entity = _fixture.Create<TodoEntity>();
+        await DbContext.Todos.AddRangeAsync(entity);
+        await DbContext.SaveChangesAsync();
 
         // Act
-        var response = await Client.GetAsync(EndpointName + todoId);
+        var response = await Client.GetAsync(EndpointName + entity.Id);
         var responseBody = await response.Content.ReadAsStringAsync();
         var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
 
         // Assert
         _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
         _ = responseTodo.Should().NotBeNull();
+        _ = responseTodo.Id.Should().Be(entity.Id);
     }
 
     /// <summary>
@@ -81,6 +85,9 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     public async Task Get_One_NotFound()
     {
         // Arrange
+        var entity = _fixture.Create<TodoEntity>();
+        await DbContext.Todos.AddRangeAsync(entity);
+        await DbContext.SaveChangesAsync();
         Guid todoId = TestIds.NonUsageId;
 
         // Act
@@ -120,14 +127,17 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     public async Task Update_One_OK()
     {
         // Arrange
-        Guid todoId = TestIds.NormalUsageId;
+        var entity = _fixture.Create<TodoEntity>();
+        await DbContext.Todos.AddRangeAsync(entity);
+        await DbContext.SaveChangesAsync();
+
         var model = TodoRequestModelBuilder.CreateValid();
         model.Description = "Changed description";
-        model.IsDone = true;
+        model.IsDone = !entity.IsDone;
         var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
         // Act
-        var response = await Client.PutAsync(EndpointName + todoId, content);
+        var response = await Client.PutAsync(EndpointName + entity.Id, content);
         var responseBody = await response.Content.ReadAsStringAsync();
         var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
 
@@ -147,6 +157,10 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     public async Task Update_One_NotFound()
     {
         // Arrange
+        var entity = _fixture.Create<TodoEntity>();
+        await DbContext.Todos.AddRangeAsync(entity);
+        await DbContext.SaveChangesAsync();
+
         Guid todoId = TestIds.NonUsageId;
         var model = TodoRequestModelBuilder.CreateValid();
         var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
@@ -166,13 +180,17 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     public async Task Delete_One_OK()
     {
         // Arrange
-        Guid todoId = TestIds.OtherUsageId;
+        var entity = _fixture.Create<TodoEntity>();
+        await DbContext.Todos.AddRangeAsync(entity);
+        await DbContext.SaveChangesAsync();
 
         // Act
-        var response = await Client.DeleteAsync(EndpointName + todoId);
+        var response = await Client.DeleteAsync(EndpointName + entity.Id);
 
         // Assert
         _ = response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        var result = await DbContext.Todos.FirstOrDefaultAsync(c => c.Id == entity.Id);
+        _ = result.Should().BeNull();
     }
 
     /// <summary>
@@ -183,6 +201,9 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     public async Task Delete_One_NotFound()
     {
         // Arrange
+        var entity = _fixture.Create<TodoEntity>();
+        await DbContext.Todos.AddRangeAsync(entity);
+        await DbContext.SaveChangesAsync();
         Guid todoId = TestIds.NonUsageId;
 
         // Act

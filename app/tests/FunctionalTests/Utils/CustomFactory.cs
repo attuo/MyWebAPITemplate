@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyWebAPITemplate.Source.Infrastructure.Database;
@@ -29,8 +30,6 @@ public class CustomFactory : WebApplicationFactory<Program>, IAsyncLifetime
         _respawner = default!;
     }
 
-    public ApplicationDbContext? DbContext { get; set; }
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         _ = builder.UseEnvironment("Testing");
@@ -41,13 +40,6 @@ public class CustomFactory : WebApplicationFactory<Program>, IAsyncLifetime
             services.RemoveDbContext<ApplicationDbContext>();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_connectionString));
             services.EnsureDbCreated<ApplicationDbContext>();
-
-            // Build the service provider.
-            var serviceProvider = services.BuildServiceProvider();
-            // Create a scope to obtain a reference to the database
-            // context (ApplicationDbContext).
-            using var scope = serviceProvider.CreateScope();
-            DbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
             builder.UseEnvironment(Environments.Development);
         });
@@ -60,14 +52,23 @@ public class CustomFactory : WebApplicationFactory<Program>, IAsyncLifetime
 
         _dbConnection = new SqlConnection(_connectionString);
         await _dbConnection.OpenAsync();
-        _respawner = await Respawner.CreateAsync(_dbConnection, new RespawnerOptions { DbAdapter = DbAdapter.SqlServer });
+        _respawner = await Respawner.CreateAsync(_dbConnection,
+            new RespawnerOptions
+            {
+                DbAdapter = DbAdapter.SqlServer,
+                SchemasToInclude = new[] { "dbo" }
+            });
     }
 
     public new async Task DisposeAsync() => await _dbContainer.DisposeAsync();
 
-    public async Task ResetDatabaseAsync()
+    public async Task ResetDatabaseAsync() => await _respawner.ResetAsync(_dbConnection);
+
+    public ApplicationDbContext CreateDbContext()
     {
-        await _respawner.ResetAsync(_dbConnection);
+        var dbOptions = new DbContextOptionsBuilder<ApplicationDbContext>();
+        dbOptions.UseSqlServer(_connectionString);
+        return new ApplicationDbContext(dbOptions.Options);
     }
 
     public static TestcontainerDatabase CreateTestContainerDatabase()

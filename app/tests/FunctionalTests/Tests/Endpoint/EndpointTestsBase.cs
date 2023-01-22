@@ -21,8 +21,8 @@ public abstract class EndpointTestsBase : IAsyncLifetime
     protected EndpointTestsBase(CustomFactory factory)
     {
         _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-        DbContext = factory.DbContext;
         Client = _factory.CreateClient(new WebApplicationFactoryClientOptions { BaseAddress = new Uri(BASE_ADDRESS_URL) });
+        DbContext = _factory.CreateDbContext();
     }
 
     public ApplicationDbContext DbContext { get; init; }
