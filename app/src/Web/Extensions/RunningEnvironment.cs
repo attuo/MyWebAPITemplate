@@ -50,7 +50,7 @@ public sealed class RunningEnvironment : IRunningEnvironment
     /// Gets a testing development, which represents running the system with a test configurations.
     /// For example automated testing purposes.
     /// </summary>
-    private static RunningEnvironment Testing { get; } = new RunningEnvironment(3, nameof(Testing));
+    public static RunningEnvironment Testing { get; } = new RunningEnvironment(3, nameof(Testing));
 
     /// <summary>
     /// Gets a QA development, which represents running the system in a remote QA server.

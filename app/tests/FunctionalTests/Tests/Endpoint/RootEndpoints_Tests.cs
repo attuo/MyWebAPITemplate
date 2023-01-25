@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using FluentAssertions;
-using MyWebAPITemplate.Tests.FunctionalTests.Utils;
+using MyWebAPITemplate.Tests.SharedComponents.Factories;
 using Xunit;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.Tests.Endpoint;
@@ -13,8 +13,8 @@ public class RootEndpoints_Tests : EndpointTestsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="RootEndpoints_Tests"/> class.
     /// </summary>
-    /// <param name="fixture">See <see cref="CustomFactory"/>.</param>
-    public RootEndpoints_Tests(CustomFactory fixture) : base(fixture)
+    /// <param name="fixture">See <see cref="InitializationFactory"/>.</param>
+    public RootEndpoints_Tests(InitializationFactory fixture) : base(fixture)
     {
     }
 

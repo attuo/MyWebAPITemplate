@@ -2,8 +2,8 @@
 using MyWebAPITemplate.Source.Core.Exceptions;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
-using MyWebAPITemplate.Tests.IntegrationTests.Utils;
 using MyWebAPITemplate.Tests.SharedComponents.Builders.Entities;
+using MyWebAPITemplate.Tests.SharedComponents.Factories;
 using MyWebAPITemplate.Tests.SharedComponents.Ids;
 using Xunit;
 
@@ -16,9 +16,9 @@ namespace MyWebAPITemplate.Tests.IntegrationTests.Tests.Infrastructure.Database;
 public class TodoRepository_Tests : IAsyncLifetime
 {
     private readonly ApplicationDbContext _dbContext;
-    private readonly CustomFactory _factory;
+    private readonly InitializationFactory _factory;
 
-    public TodoRepository_Tests(CustomFactory factory)
+    public TodoRepository_Tests(InitializationFactory factory)
     {
         _factory = factory;
     }
@@ -34,7 +34,7 @@ public class TodoRepository_Tests : IAsyncLifetime
     public async Task ListAllAsync_Ok()
     {
         // Arrange
-        var repository = new TodoRepository(_factory.DbContext);
+        var repository = new TodoRepository(_factory.CreateDbContext());
         var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
         _ = await repository.AddAsync(todo);
 

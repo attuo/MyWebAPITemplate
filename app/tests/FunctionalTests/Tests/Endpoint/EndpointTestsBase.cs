@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using MyWebAPITemplate.Source.Infrastructure.Database;
-using MyWebAPITemplate.Tests.FunctionalTests.Utils;
+using MyWebAPITemplate.Tests.SharedComponents.Factories;
 using Xunit;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.Tests.Endpoint;
@@ -12,13 +12,13 @@ namespace MyWebAPITemplate.Tests.FunctionalTests.Tests.Endpoint;
 public abstract class EndpointTestsBase : IAsyncLifetime
 {
     private const string BASE_ADDRESS_URL = "https://localhost:5001/"; // TODO: This should not be hard coded
-    private readonly CustomFactory _factory;
+    private readonly InitializationFactory _factory;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EndpointTestsBase"/> class.
     /// </summary>
-    /// <param name="factory">See <see cref="CustomFactory"/>.</param>
-    protected EndpointTestsBase(CustomFactory factory)
+    /// <param name="factory">See <see cref="InitializationFactory"/>.</param>
+    protected EndpointTestsBase(InitializationFactory factory)
     {
         _factory = factory ?? throw new ArgumentNullException(nameof(factory));
         Client = _factory.CreateClient(new WebApplicationFactoryClientOptions { BaseAddress = new Uri(BASE_ADDRESS_URL) });
@@ -34,5 +34,5 @@ public abstract class EndpointTestsBase : IAsyncLifetime
 
     public Task DisposeAsync() => Task.CompletedTask;
 
-    public Task InitializeAsync() => _factory.ResetDatabaseAsync();
+    public async Task InitializeAsync() => await _factory.ResetDatabaseAsync();
 }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MyWebAPITemplate.Tests.FunctionalTests.Utils;
+namespace MyWebAPITemplate.Tests.SharedComponents.Factories;
 public static class ServiceCollectionExtensions
 {
     public static void RemoveDbContext<T>(this IServiceCollection services) where T : DbContext
@@ -24,6 +19,6 @@ public static class ServiceCollectionExtensions
         var scopedServices = scope.ServiceProvider;
         var context = scopedServices.GetRequiredService<T>();
         context.Database.EnsureCreated();
+        //context.Database.Migrate();
     }
 }
-

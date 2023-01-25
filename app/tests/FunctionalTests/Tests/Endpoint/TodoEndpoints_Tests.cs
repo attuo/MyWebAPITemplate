@@ -5,8 +5,8 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Web.Models.ResponseModels;
-using MyWebAPITemplate.Tests.FunctionalTests.Utils;
 using MyWebAPITemplate.Tests.SharedComponents.Builders.Models;
+using MyWebAPITemplate.Tests.SharedComponents.Factories;
 using MyWebAPITemplate.Tests.SharedComponents.Ids;
 using Newtonsoft.Json;
 using Xunit;
@@ -26,8 +26,8 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="TodoEndpoints_Tests"/> class.
     /// </summary>
-    /// <param name="factory">See <see cref="CustomFactory"/>.</param>
-    public TodoEndpoints_Tests(CustomFactory factory) : base(factory)
+    /// <param name="factory">See <see cref="InitializationFactory"/>.</param>
+    public TodoEndpoints_Tests(InitializationFactory factory) : base(factory)
     {
     }
 
@@ -117,6 +117,8 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
         _ = responseTodo.Should().NotBeNull();
         _ = responseTodo!.Id.Should().NotBeEmpty();
+        var result = await DbContext.Todos.FirstOrDefaultAsync(c => c.Id == responseTodo.Id);
+        _ = result.Should().NotBeNull();
     }
 
     /// <summary>
@@ -144,9 +146,10 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         // Assert
         _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
         _ = responseTodo.Should().NotBeNull();
-
         _ = responseTodo!.Description.Should().Be(model.Description);
         _ = responseTodo!.IsDone.Should().Be(model.IsDone);
+        var result = await DbContext.Todos.FirstOrDefaultAsync(c => c.Id == responseTodo.Id);
+        _ = result.Should().NotBeNull();
     }
 
     /// <summary>
