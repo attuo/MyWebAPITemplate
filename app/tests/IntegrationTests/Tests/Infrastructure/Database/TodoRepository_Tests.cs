@@ -1,7 +1,10 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
+using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Core.Exceptions;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
+using MyWebAPITemplate.Tests.FunctionalTests.Tests.Endpoint;
 using MyWebAPITemplate.Tests.SharedComponents.Builders.Entities;
 using MyWebAPITemplate.Tests.SharedComponents.Factories;
 using MyWebAPITemplate.Tests.SharedComponents.Ids;
@@ -13,14 +16,18 @@ namespace MyWebAPITemplate.Tests.IntegrationTests.Tests.Infrastructure.Database;
 /// All TodoRepository tests.
 /// </summary>
 [Collection("Test collection")]
-public class TodoRepository_Tests : IAsyncLifetime
+public class TodoRepository_Tests : DatabaseTestsBase
 {
-    private readonly ApplicationDbContext _dbContext;
-    private readonly InitializationFactory _factory;
+    private readonly Fixture _fixture = new();
+    private readonly TodoRepository _sut;
 
-    public TodoRepository_Tests(InitializationFactory factory)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TodoRepository_Tests"/> class.
+    /// </summary>
+    /// <param name="factory">See <see cref="InitializationFactory"/>.</param>
+    public TodoRepository_Tests(InitializationFactory factory) : base(factory)
     {
-        _factory = factory;
+        _sut = new TodoRepository(DbContext);
     }
 
     // TODO: Split these into separate classes to test each method in one file with happy and unhappy cases.
@@ -34,15 +41,15 @@ public class TodoRepository_Tests : IAsyncLifetime
     public async Task ListAllAsync_Ok()
     {
         // Arrange
-        var repository = new TodoRepository(_factory.CreateDbContext());
-        var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
-        _ = await repository.AddAsync(todo);
+        var entities = _fixture.CreateMany<TodoEntity>(2);
+        await DbContext.Todos.AddRangeAsync(entities);
+        await DbContext.SaveChangesAsync();
 
         // Act
-        var items = await repository.ListAllAsync();
+        var items = await _sut.ListAllAsync();
 
         // Assert
-        _ = items.Should().HaveCount(1);
+        _ = items.Should().HaveCount(2);
     }
 
     /// <summary>
@@ -53,16 +60,16 @@ public class TodoRepository_Tests : IAsyncLifetime
     public async Task GetByIdAsync_Ok()
     {
         // Arrange
-        var repository = new TodoRepository(_dbContext);
-        var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
-        _ = await repository.AddAsync(todo);
+        var entity = _fixture.Create<TodoEntity>();
+        await DbContext.Todos.AddRangeAsync(entity);
+        await DbContext.SaveChangesAsync();
 
         // Act
-        var item = await repository.GetByIdAsync(todo.Id);
+        var item = await _sut.GetByIdAsync(entity.Id);
 
         // Assert
         _ = item.Should().NotBeNull();
-        _ = item.Id.Should().Be(todo.Id);
+        _ = item.Id.Should().Be(entity.Id);
     }
 
     /// <summary>
@@ -73,11 +80,10 @@ public class TodoRepository_Tests : IAsyncLifetime
     public async Task GetByIdAsync_Throws_EntityNotFoundException()
     {
         // Arrange
-        var repository = new TodoRepository(_dbContext);
         var notFoundId = TestIds.NonUsageId;
 
         // Act
-        Func<Task> act = async () => await repository.GetByIdAsync(notFoundId);
+        Func<Task> act = async () => await _sut.GetByIdAsync(notFoundId);
 
         // Assert
         _ = await act.Should().ThrowAsync<EntityNotFoundException>().WithMessage($"*{notFoundId}*");
@@ -91,16 +97,16 @@ public class TodoRepository_Tests : IAsyncLifetime
     public async Task AddAsync_Ok()
     {
         // Arrange
-        var repository = new TodoRepository(_dbContext);
-        var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
-        _ = await repository.AddAsync(todo);
+        var entity = _fixture.Create<TodoEntity>();
 
         // Act
-        var item = await repository.GetByIdAsync(todo.Id);
+        var item = await _sut.AddAsync(entity);
 
         // Assert
         _ = item.Should().NotBeNull();
-        _ = item.Id.Should().Be(todo.Id);
+        _ = item.Id.Should().Be(item.Id);
+        var itemResult = DbContext.Todos.FirstOrDefault(c => c.Id == item.Id);
+        _ = itemResult.Should().NotBeNull();
     }
 
     /// <summary>
@@ -111,19 +117,19 @@ public class TodoRepository_Tests : IAsyncLifetime
     public async Task UpdateAsync_Ok()
     {
         // Arrange
-        var repository = new TodoRepository(_dbContext);
-        var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
-        _ = await repository.AddAsync(todo);
+        var entity = _fixture.Create<TodoEntity>();
+        await DbContext.Todos.AddRangeAsync(entity);
+        await DbContext.SaveChangesAsync();
 
         // Act
-        todo.Description = "test1";
-        await repository.UpdateAsync(todo);
-        var result = await repository.GetByIdAsync(todo.Id);
+        entity.Description = _fixture.Create<string>();
+        await _sut.UpdateAsync(entity);
+        var result = await _sut.GetByIdAsync(entity.Id);
 
         // Assert
         _ = result.Should().NotBeNull();
-        _ = result.Id.Should().Be(todo.Id);
-        _ = result.Description.Should().Be(todo.Description);
+        _ = result.Id.Should().Be(entity.Id);
+        _ = result.Description.Should().Be(entity.Description);
     }
 
     /// <summary>
@@ -134,22 +140,19 @@ public class TodoRepository_Tests : IAsyncLifetime
     public async Task DeleteAsync_Ok()
     {
         // Arrange
-        var repository = new TodoRepository(_dbContext);
-        var todo = TodoEntityBuilder.CreateValid(TestIds.NormalUsageId);
-        _ = await repository.AddAsync(todo);
+        var entity = _fixture.Create<TodoEntity>();
+        await DbContext.Todos.AddRangeAsync(entity);
+        await DbContext.SaveChangesAsync();
 
         // Act
-        var firstResult = await repository.GetByIdAsync(todo.Id);
-        await repository.DeleteAsync(todo);
-        Func<Task> secondResult = async () => await repository.GetByIdAsync(todo.Id);
+        var firstResult = await _sut.GetByIdAsync(entity.Id);
+        await _sut.DeleteAsync(entity);
+        Func<Task> secondResult = async () => await _sut.GetByIdAsync(entity.Id);
 
         // Assert
         _ = firstResult.Should().NotBeNull();
-        _ = await secondResult.Should().ThrowAsync<EntityNotFoundException>().WithMessage($"*{todo.Id}*");
+        _ = await secondResult.Should().ThrowAsync<EntityNotFoundException>().WithMessage($"*{entity.Id}*");
     }
-
-    public Task InitializeAsync() => Task.CompletedTask;
-    public Task DisposeAsync() => _factory.ResetDatabaseAsync();
 
     // TODO: Add tests for non existing entities for updating and deleting.
 }
