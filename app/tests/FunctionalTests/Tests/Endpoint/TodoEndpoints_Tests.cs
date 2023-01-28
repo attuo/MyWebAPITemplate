@@ -1,14 +1,12 @@
 ﻿using System.Net;
-using System.Text;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using MyWebAPITemplate.Source.Core.Entities;
+using MyWebAPITemplate.Source.Web.Models.RequestModels;
 using MyWebAPITemplate.Source.Web.Models.ResponseModels;
-using MyWebAPITemplate.Tests.SharedComponents.Builders.Models;
 using MyWebAPITemplate.Tests.SharedComponents.Factories;
 using MyWebAPITemplate.Tests.SharedComponents.Ids;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace MyWebAPITemplate.Tests.FunctionalTests.Tests.Endpoint;
@@ -18,9 +16,6 @@ namespace MyWebAPITemplate.Tests.FunctionalTests.Tests.Endpoint;
 /// </summary>
 public class TodoEndpoints_Tests : EndpointTestsBase
 {
-    // TODO: Make the sequential and have no side effects from each other.
-
-    private const string EndpointName = "api/Todos/";
     private readonly Fixture _fixture = new();
 
     /// <summary>
@@ -29,6 +24,7 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     /// <param name="factory">See <see cref="InitializationFactory"/>.</param>
     public TodoEndpoints_Tests(InitializationFactory factory) : base(factory)
     {
+        HttpApiClient.ResourceName = "api/Todos";
     }
 
     /// <summary>
@@ -44,14 +40,12 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        var response = await Client.GetAsync(EndpointName);
-        var responseBody = await response.Content.ReadAsStringAsync();
-        var responseTodos = JsonConvert.DeserializeObject<List<TodoResponseModel>>(responseBody);
+        var response = await HttpApiClient.Get<List<TodoResponseModel>>();
 
         // Assert
         _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
         // TODO: Make the tests to be independent. Currently this test also get affected by the create todo test
-        _ = responseTodos.Should().HaveCount(2);
+        _ = response.ResponseModel.Should().HaveCount(2);
     }
 
     /// <summary>
@@ -67,14 +61,12 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        var response = await Client.GetAsync(EndpointName + entity.Id);
-        var responseBody = await response.Content.ReadAsStringAsync();
-        var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
+        var response = await HttpApiClient.Get<TodoResponseModel>(entity.Id.ToString());
 
         // Assert
         _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
-        _ = responseTodo.Should().NotBeNull();
-        _ = responseTodo.Id.Should().Be(entity.Id);
+        _ = response.ResponseModel.Should().NotBeNull();
+        _ = response.ResponseModel!.Id.Should().Be(entity.Id);
     }
 
     /// <summary>
@@ -88,10 +80,10 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var entity = _fixture.Create<TodoEntity>();
         await DbContext.Todos.AddRangeAsync(entity);
         await DbContext.SaveChangesAsync();
-        Guid todoId = TestIds.NonUsageId;
+        string nonExistingTodoId = TestIds.NonUsageId.ToString();
 
         // Act
-        var response = await Client.GetAsync(EndpointName + todoId);
+        var response = await HttpApiClient.Get<TodoResponseModel>(nonExistingTodoId);
 
         // Assert
         _ = response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -105,19 +97,16 @@ public class TodoEndpoints_Tests : EndpointTestsBase
     public async Task Create_One_OK()
     {
         // Arrange
-        var model = TodoRequestModelBuilder.CreateValid();
-        var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+        var requestModel = _fixture.Create<TodoRequestModel>();
 
         // Act
-        var response = await Client.PostAsync(EndpointName, content);
-        var responseBody = await response.Content.ReadAsStringAsync();
-        var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
+        var response = await HttpApiClient.Post<TodoRequestModel, TodoResponseModel>(requestModel);
 
         // Assert
         _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
-        _ = responseTodo.Should().NotBeNull();
-        _ = responseTodo!.Id.Should().NotBeEmpty();
-        var result = await DbContext.Todos.FirstOrDefaultAsync(c => c.Id == responseTodo.Id);
+        _ = response.ResponseModel.Should().NotBeNull();
+        _ = response.ResponseModel!.Id.Should().NotBeEmpty();
+        var result = await DbContext.Todos.FirstOrDefaultAsync(c => c.Id == response.ResponseModel.Id);
         _ = result.Should().NotBeNull();
     }
 
@@ -132,23 +121,17 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var entity = _fixture.Create<TodoEntity>();
         await DbContext.Todos.AddRangeAsync(entity);
         await DbContext.SaveChangesAsync();
-
-        var model = TodoRequestModelBuilder.CreateValid();
-        model.Description = "Changed description";
-        model.IsDone = !entity.IsDone;
-        var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+        var requestModel = _fixture.Create<TodoRequestModel>();
 
         // Act
-        var response = await Client.PutAsync(EndpointName + entity.Id, content);
-        var responseBody = await response.Content.ReadAsStringAsync();
-        var responseTodo = JsonConvert.DeserializeObject<TodoResponseModel>(responseBody);
+        var response = await HttpApiClient.Put<TodoRequestModel, TodoResponseModel>(requestModel, entity.Id.ToString());
 
         // Assert
         _ = response.StatusCode.Should().Be(HttpStatusCode.OK);
-        _ = responseTodo.Should().NotBeNull();
-        _ = responseTodo!.Description.Should().Be(model.Description);
-        _ = responseTodo!.IsDone.Should().Be(model.IsDone);
-        var result = await DbContext.Todos.FirstOrDefaultAsync(c => c.Id == responseTodo.Id);
+        _ = response.ResponseModel.Should().NotBeNull();
+        _ = response.ResponseModel!.Description.Should().Be(requestModel.Description);
+        _ = response.ResponseModel!.IsDone.Should().Be(requestModel.IsDone);
+        var result = await DbContext.Todos.FirstOrDefaultAsync(c => c.Id == response.ResponseModel.Id);
         _ = result.Should().NotBeNull();
     }
 
@@ -163,13 +146,11 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var entity = _fixture.Create<TodoEntity>();
         await DbContext.Todos.AddRangeAsync(entity);
         await DbContext.SaveChangesAsync();
-
-        Guid todoId = TestIds.NonUsageId;
-        var model = TodoRequestModelBuilder.CreateValid();
-        var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+        string nonExistingTodoId = TestIds.NonUsageId.ToString();
+        var requestModel = _fixture.Create<TodoRequestModel>();
 
         // Act
-        var response = await Client.PutAsync(EndpointName + todoId, content);
+        var response = await HttpApiClient.Put<TodoRequestModel, TodoResponseModel>(requestModel, nonExistingTodoId);
 
         // Assert
         _ = response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -188,10 +169,10 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        var response = await Client.DeleteAsync(EndpointName + entity.Id);
+        var response = await HttpApiClient.Delete(entity.Id.ToString());
 
         // Assert
-        _ = response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        _ = response.Should().Be(HttpStatusCode.NoContent);
         var result = await DbContext.Todos.FirstOrDefaultAsync(c => c.Id == entity.Id);
         _ = result.Should().BeNull();
     }
@@ -207,12 +188,12 @@ public class TodoEndpoints_Tests : EndpointTestsBase
         var entity = _fixture.Create<TodoEntity>();
         await DbContext.Todos.AddRangeAsync(entity);
         await DbContext.SaveChangesAsync();
-        Guid todoId = TestIds.NonUsageId;
+        string nonExistingTodoId = TestIds.NonUsageId.ToString();
 
         // Act
-        var response = await Client.DeleteAsync(EndpointName + todoId);
+        var response = await HttpApiClient.Delete(nonExistingTodoId);
 
         // Assert
-        _ = response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        _ = response.Should().Be(HttpStatusCode.NotFound);
     }
 }

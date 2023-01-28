@@ -62,12 +62,12 @@ public class InitializationFactory : WebApplicationFactory<Program>, IAsyncLifet
     public ApplicationDbContext CreateDbContext()
         => new(new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer(_connectionString).Options);
 
-    public static TestcontainerDatabase CreateTestContainerDatabase()
+    private static TestcontainerDatabase CreateTestContainerDatabase()
         => new TestcontainersBuilder<MsSqlTestcontainer>()
             .WithDatabase(new MsSqlTestcontainerConfiguration() { Password = "TestPassword1!" })
             .Build();
 
-    public static string CreateConnectionString(TestcontainerDatabase dbContainer)
+    private static string CreateConnectionString(TestcontainerDatabase dbContainer)
         => new SqlConnectionStringBuilder(dbContainer.ConnectionString) { TrustServerCertificate = true }
             .ConnectionString;
 }

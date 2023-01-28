@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using MyWebAPITemplate.Source.Infrastructure.Database;
+using MyWebAPITemplate.Tests.FunctionalTests.Utils;
 using MyWebAPITemplate.Tests.SharedComponents.Factories;
 using Xunit;
 
@@ -21,18 +22,18 @@ public abstract class EndpointTestsBase : IAsyncLifetime
     protected EndpointTestsBase(InitializationFactory factory)
     {
         _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-        Client = _factory.CreateClient(new WebApplicationFactoryClientOptions { BaseAddress = new Uri(BASE_ADDRESS_URL) });
+        HttpApiClient = new HttpApiClient(_factory.CreateClient(new WebApplicationFactoryClientOptions { BaseAddress = new Uri(BASE_ADDRESS_URL) }));
         DbContext = _factory.CreateDbContext();
     }
-
-    public ApplicationDbContext DbContext { get; init; }
 
     /// <summary>
     /// Gets shared HttpClient for the test class to use.
     /// </summary>
-    public HttpClient Client { get; init; }
+    public HttpApiClient HttpApiClient { get; init; }
 
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ApplicationDbContext DbContext { get; init; }
 
     public async Task InitializeAsync() => await _factory.ResetDatabaseAsync();
+
+    public Task DisposeAsync() => Task.CompletedTask;
 }

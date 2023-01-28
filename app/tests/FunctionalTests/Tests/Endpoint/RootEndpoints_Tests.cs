@@ -28,9 +28,9 @@ public class RootEndpoints_Tests : EndpointTestsBase
         // Arrange
 
         // Act
-        var response = await Client.GetAsync("/");
+        var response = await HttpApiClient.Get();
 
         // Assert
-        _ = response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        _ = response.Should().Be(HttpStatusCode.NotFound);
     }
 }

@@ -2,10 +2,8 @@
 using FluentAssertions;
 using MyWebAPITemplate.Source.Core.Entities;
 using MyWebAPITemplate.Source.Core.Exceptions;
-using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Source.Infrastructure.Database.Repositories;
 using MyWebAPITemplate.Tests.FunctionalTests.Tests.Endpoint;
-using MyWebAPITemplate.Tests.SharedComponents.Builders.Entities;
 using MyWebAPITemplate.Tests.SharedComponents.Factories;
 using MyWebAPITemplate.Tests.SharedComponents.Ids;
 using Xunit;
