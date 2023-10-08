@@ -1,6 +1,7 @@
 ﻿using System.Net;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using MyWebAPITemplate.Source.Core.Exceptions;
-using Newtonsoft.Json;
 using Serilog;
 
 namespace MyWebAPITemplate.Source.Web.Middlewares;
@@ -85,7 +86,7 @@ public class GlobalErrorHandlingMiddleware
         var errorCode = DetermineStatusCode(ex, _logger);
 
         // TODO: Choose what kind of error messages to be sent when in production.
-        var result = JsonConvert.SerializeObject(new { error = ex.ToString() });
+        var result = JsonSerializer.Serialize(new { error = ex.ToString() });
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)errorCode;
         await context.Response.WriteAsync(result);

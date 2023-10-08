@@ -11,13 +11,14 @@ using Microsoft.Extensions.DependencyInjection;
 using MyWebAPITemplate.Source.Infrastructure.Database;
 using MyWebAPITemplate.Source.Web.Extensions;
 using Respawn;
+using Testcontainers.MsSql;
 using Xunit;
 
 namespace MyWebAPITemplate.Tests.SharedComponents.Factories;
 
 public class InitializationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
-    private readonly TestcontainerDatabase _dbContainer = CreateTestContainerDatabase();
+    private readonly MsSqlContainer _dbContainer = CreateTestContainerDatabase();
     private string _connectionString;
     private DbConnection _dbConnection;
     private Respawner _respawner;
@@ -62,12 +63,17 @@ public class InitializationFactory : WebApplicationFactory<Program>, IAsyncLifet
     public ApplicationDbContext CreateDbContext()
         => new(new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer(_connectionString).Options);
 
-    private static TestcontainerDatabase CreateTestContainerDatabase()
-        => new TestcontainersBuilder<MsSqlTestcontainer>()
-            .WithDatabase(new MsSqlTestcontainerConfiguration() { Password = "TestPassword1!" })
-            .Build();
+    //private static TestcontainerDatabase CreateTestContainerDatabase()
+    //    => new TestcontainersBuilder<MsSqlTestcontainer>()
+    //        .WithDatabase(new MsSqlTestcontainerConfiguration() { Password = "TestPassword1!" })
+    //        .Build();
 
-    private static string CreateConnectionString(TestcontainerDatabase dbContainer)
-        => new SqlConnectionStringBuilder(dbContainer.ConnectionString) { TrustServerCertificate = true }
+    private static MsSqlContainer CreateTestContainerDatabase()
+    {
+        return new MsSqlBuilder().WithPassword("P@ssword1!").Build();
+    }
+
+    private static string CreateConnectionString(MsSqlContainer dbContainer)
+        => new SqlConnectionStringBuilder(dbContainer.GetConnectionString()) { TrustServerCertificate = true }
             .ConnectionString;
 }
